@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "metadata" / "release_manifest.csv"
 SEARCH_ROOTS = ["config", "src", "tests", "report", "results", "data/final", "data/interim"]
-TOP_LEVEL = ["README.md", "environment.yml", "pytest.ini", ".gitignore"]
+TOP_LEVEL = ["README.md", "environment.yml", "pytest.ini", ".gitignore", ".gitmodules"]
 EXCLUDED_PARTS = {"__pycache__", ".pytest_cache", "logs", "qa"}
 EXCLUDED_FILES = {MANIFEST.resolve()}
 

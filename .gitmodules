@@ -1,0 +1,3 @@
+[submodule "metadata/software/GLORI-tools"]
+	path = metadata/software/GLORI-tools
+	url = https://github.com/liucongcas/GLORI-tools.git

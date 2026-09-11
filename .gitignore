@@ -1,7 +1,8 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
-results/logs/mplconfig/
+results/logs/
+results/predictions/
 *.tmp
 *.bak
 
