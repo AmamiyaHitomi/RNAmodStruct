@@ -1,0 +1,59 @@
+stage: 7
+dataset: HEK293T
+input: data/final/06_hek293t_main_analysis_dataset.csv.gz
+analysis_population: detected_in_both_GLORI_replicates_and_valid_flank10_icshape
+
+primary_model:
+  family: ordinary_least_squares
+  outcome: combined_ratio
+  predictor: reactivity_mean_flank10
+  coefficient_scale: raw_and_per_predictor_SD
+  cluster: analysis_gene
+  cluster_robust_covariance: CR1
+  cluster_bootstrap_replicates: 1000
+  bootstrap_seed: 20260910
+  confidence_level: 0.95
+  covariates:
+    continuous_z_scored:
+      - gc_fraction_21
+      - transcript_position_fraction
+      - log1p_icshape_abundance_rpkm
+      - log1p_combined_agcov
+      - coverage_flank10
+      - distance_to_stop_codon_tx
+      - distance_to_nearest_splice_edge_tx
+    missing_indicators:
+      - distance_to_stop_codon_tx
+      - distance_to_nearest_splice_edge_tx
+    categorical:
+      - drach_subtype
+      - transcript_region
+
+nonlinearity_diagnostic:
+  restricted_cubic_spline_df: 3
+  decision_role: sensitivity_only
+
+sensitivity_family:
+  multiple_testing: Benjamini-Hochberg
+  analyses:
+    - exclude_relative_positions_minus2_to_plus2
+    - complete_flank10_coverage_only
+    - GLORI_replicate_1_outcome
+    - GLORI_replicate_2_outcome
+    - equal_weight_per_gene
+    - single_isoform_sites_only
+    - canonical_DRACH_sites_only
+  exclude_minus2_plus2_minimum_valid_fraction_each_side: 0.70
+
+descriptive_profiles:
+  ratio_groups: 4
+  boundary_method: empirical_quartiles_computed_once_from_primary_population
+  window: relative_positions_minus50_to_plus50
+  interval: pointwise_gene_cluster_bootstrap_95CI
+  bootstrap_replicates: 500
+  bootstrap_seed: 20260911
+
+interpretation:
+  design: observational_cross_study_data_integration
+  permitted_language: association
+  prohibited_language: causal_effect

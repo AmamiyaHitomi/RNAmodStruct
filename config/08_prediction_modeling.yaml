@@ -1,0 +1,70 @@
+stage: 8
+dataset: HEK293T
+input: data/final/06_hek293t_main_analysis_dataset.csv.gz
+population: model_dataset_included_equals_true
+
+split:
+  unit: connected_components_of_analysis_gene_and_identical_201nt_sequence
+  test_fraction: 0.20
+  development_cv: GroupKFold
+  development_folds: 5
+  random_seed: 20260910
+
+outcome: combined_ratio
+prediction_clip: [0.0, 1.0]
+
+common_covariates:
+  continuous:
+    - gc_fraction_21
+    - transcript_position_fraction
+    - log1p_icshape_abundance_rpkm
+    - log1p_combined_agcov
+    - coverage_flank10
+    - distance_to_stop_codon_tx
+    - distance_to_nearest_splice_edge_tx
+  missing_indicators:
+    - distance_to_stop_codon_tx
+    - distance_to_nearest_splice_edge_tx
+  categorical:
+    - drach_subtype
+    - transcript_region
+
+sequence_features:
+  one_hot_alphabet: [A, C, G, T]
+  one_hot_length: 201
+  kmer_length: 3
+  kmer_normalization: fraction_of_199_overlapping_kmers
+  scaling: training_fold_z_score_for_3mer_frequencies
+
+experimental_structure_features:
+  - reactivity_mean_flank10
+experimental_structure_scaling: training_fold_z_score
+
+predicted_structure_input: data/final/08a_hek293t_predicted_structure_features.csv.gz
+predicted_structure_scaling: training_fold_z_score
+
+model_matrix:
+  M0: common_covariates
+  M1: common_covariates_plus_sequence
+  M2: common_covariates_plus_sequence_plus_predicted_structure
+  M3: common_covariates_plus_sequence_plus_experimental_structure
+  M4: common_covariates_plus_sequence_plus_predicted_structure_plus_experimental_structure
+
+learner:
+  family: Ridge
+  alpha_candidates: [0.01, 0.1, 1.0, 10.0, 30.0, 100.0, 300.0, 1000.0, 3000.0]
+  selection_metric: mean_development_cv_MAE
+  primary_comparison: M4_minus_M2
+  reject_boundary_optimum: true
+
+test_evaluation:
+  primary_metric: delta_MAE_equals_MAE_M2_minus_MAE_M4
+  secondary_metrics: [MAE, RMSE, Spearman, R2]
+  paired_group_bootstrap_replicates: 2000
+  bootstrap_seed: 20260912
+  confidence_level: 0.95
+
+interpretation:
+  M3_vs_M1_role: secondary_experimental_structure_increment_without_predicted_structure
+  M4_vs_M2_status: primary_complete_model_matrix_comparison
+  permitted_claim: predictive_increment_conditioned_on_sequence_and_computational_structure

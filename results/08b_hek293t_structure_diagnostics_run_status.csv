@@ -1,0 +1,2 @@
+stage,status,started_utc,finished_utc,analysis_scope,sites,genes,joint_groups,blocks_compared,selected_block,selected_block_cv_mae,alpha_grid_min,alpha_grid_max,alpha_boundary_check,best_nonnull_block,replicate_mae
+08B,PASS,2026-09-11T04:24:41.759797+00:00,2026-09-11T04:27:02.180864+00:00,development_only,3271,922,919,5,R_none,0.2045149035277214,0.01,3000.0,PASS,R_core,0.026510556404769185

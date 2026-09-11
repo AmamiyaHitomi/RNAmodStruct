@@ -1,0 +1,20 @@
+section,metric,value,notes
+glori_replicates,rep1_unique_sites,137662,"Exact (Chr, Sites, Strand) keys"
+glori_replicates,rep2_unique_sites,140705,"Exact (Chr, Sites, Strand) keys"
+glori_replicates,replicate_union_sites,164761,Exact genomic-site union
+coordinate_mapping,matched_union_sites,86932,At least one exact HeLa icSHAPE transcript position
+coordinate_mapping,matched_transcript_rows,253714,One genomic site can map to multiple isoforms
+coordinate_mapping,independent_glori_genes,7490,Non-ELSE GLORI gene labels among matched sites
+structure_coverage,sites_with_valid_flank10_window,31930,Both ±10 sides separately ≥ 70%; center excluded
+structure_coverage,site_valid_window_fraction,0.36729858,At least one qualifying transcript window per genomic site
+structure_coverage,valid_transcript_windows,109755,Transcript-level qualifying windows
+structure_coverage,transcript_window_valid_fraction,0.43259339,Transcript-level denominator
+structure_coverage,center_reactivity_available_rows,119819,Transcript mappings with a non-missing center score
+structure_coverage,mean_flank10_coverage,0.48813111,Only full-length ±10 windows
+structure_coverage,median_flank10_coverage,0.45,Across mapped transcript rows
+validation,grch38_center_base_failures,0,Expected A on + and T on -
+reference,eligible_icshape_transcripts,60350,"Exact length agreement in icSHAPE, cDNA and GTF"
+mapping_status,matched_transcript_position,86932,GLORI union-site count
+mapping_status,no_icshape_exon,77829,GLORI union-site count
+transcript_exclusion,no_cdna_sequence,1226,icSHAPE transcript count
+transcript_exclusion,no_gtf_transcript,3040,icSHAPE transcript count

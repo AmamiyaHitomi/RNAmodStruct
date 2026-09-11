@@ -1,0 +1,48 @@
+RNAmodStruct environment audit
+Checked at: 2026-09-10 (Asia/Shanghai)
+Initial audit was read-only. The requested packages were installed and verified later on 2026-09-10.
+
+[Runtime]
+Python executable: E:\ancd\envs\my_pytorch\python.exe
+Python: 3.13.15 (conda-forge, 64-bit)
+Platform: Windows 11 (10.0.26200)
+pip: 26.2.1
+
+[Installed and importable]
+numpy: 2.5.2
+pandas: 3.0.5
+scipy: 1.18.1
+scikit-learn: 1.9.0
+matplotlib: 3.11.1
+joblib: 1.5.3
+psutil: 7.2.2
+torch: 2.13.0+cu130
+statsmodels: 0.15.0
+seaborn: 0.13.2
+PyYAML: 6.0.3 (import name: yaml)
+pyarrow: 25.0.1
+biopython: 1.88 (import name: Bio)
+patsy: 1.0.3
+pytest: 9.1.1
+ViennaRNA: 2.7.2 (import name: RNA)
+
+[Installation verification]
+All eight requested packages passed an import test.
+pip check: No broken requirements found.
+pytest entry-point note: E:\ancd\envs\my_pytorch\Scripts is not on PATH; use
+E:\ancd\envs\my_pytorch\python.exe -m pytest to avoid relying on PATH.
+
+[PyTorch accelerator check]
+torch.cuda.is_available(): True
+torch.version.cuda: 13.0
+torch.cuda.device_count(): 1
+
+[Import note]
+matplotlib imported successfully, but the sandboxed audit process could not write its default cache under
+C:\Users\ROG\AppData\Local\matplotlib and therefore used a temporary cache. This is not evidence that
+matplotlib itself is broken. For reproducible project runs, MPLCONFIGDIR can be pointed to a writable
+project-local cache directory if the warning recurs.
+
+[Readiness assessment]
+Ready for tabular parsing, numerical/statistical analysis, plotting, YAML configuration, Parquet I/O,
+sequence utilities, automated tests, Ridge/GroupKFold modelling, and ViennaRNA Python-based folding.

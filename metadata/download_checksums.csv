@@ -1,0 +1,9 @@
+file,bytes,sha256,container_check,status,checked_at
+GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz,9268167,4fd439daad58556b5cc5668fedea8d8c0f18e15722927eb2724400c0dfbc47c9,gzip CRC and full-stream read passed,VERIFIED,2026-09-10
+GSM6432590_293T-mRNA-1_35bp_m2.totalm6A.FDR.csv.gz,8031589,1fae5354e18b660046ab5c1841fdfaf059e213e1cf2542f597b60d994da85911,gzip CRC and full-stream read passed,VERIFIED,2026-09-10
+GSM6432591_293T-mRNA-2_35bp_m2.totalm6A.FDR.csv.gz,8062076,7a9b0dd69d9d6e2db737387f87d18ef3fc8050a7ec575e8c0c566024f4dba638,gzip CRC and full-stream read passed,VERIFIED,2026-09-10
+GSE145805_RAW.tar,445030400,9ac29c12c9c6828d88ca0d461a8f7a465231a6f60d830da81c6cd0ff60342f75,TAR member listing passed,VERIFIED,2026-09-10
+GSM6432595_Hela-1_35bp_m2.totalm6A.FDR.csv.gz,5235020,9a07223b9afc411483059824444d07cfd0fa9de0b4d63cada3d9f121a55f675c,gzip CRC and full-stream read passed,VERIFIED,2026-09-10
+GSM6432596_Hela-2_35bp_m2.totalm6A.FDR.csv.gz,5344140,f477219ea8d09a36718ecda9fc53a68e6831eb94a5fff6effabd8d73cf7e58bc,gzip CRC and full-stream read passed,VERIFIED,2026-09-10
+GSE145805_RAW.tar::GSM4333258_HeLa.out.txt.gz,74764302,82e9cf6caee0eaf6a51d699036dc90d09edb4ed4fe365a7905b886748f331e15,nested gzip full-stream read passed,VERIFIED,2026-09-10
+

@@ -1,0 +1,5 @@
+mapping_status,sites,fraction_of_union
+center_not_transcript_A,1,3.95e-06
+liftover_ambiguous,722,0.00285277
+liftover_unmapped,939,0.00371019
+no_icshape_exon,230866,0.91220015

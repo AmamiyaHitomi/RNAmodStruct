@@ -1,0 +1,14 @@
+metric,value,interpretation
+n_sites,25996,Primary population
+n_genes,4829,Cluster count
+r_squared_linear,0.15704402448071786,"Descriptive fit, not causal variance explained"
+adjusted_r_squared_linear,0.15607007188046462,Descriptive fit
+residual_skewness,0.5231249554029161,OLS residual diagnostic
+residual_excess_kurtosis,-0.6151014332109255,OLS residual diagnostic
+breusch_pagan_p,0.0,Heteroscedasticity diagnostic; inference uses cluster-robust covariance
+ramsey_reset_p,1.114330188625543e-19,Quadratic functional-form diagnostic
+predictions_below_zero,0,Bounded-outcome limitation
+predictions_above_one,0,Bounded-outcome limitation
+spline_r_squared,0.1572612190282302,Prespecified 3-df spline sensitivity
+spline_joint_wald_p,4.843957063591175e-09,"Joint association of spline terms, not a linearity test"
+spline_minus_linear_AIC,-2.6989464926882647,Negative favors spline descriptively

@@ -1,0 +1,4 @@
+split,sites,genes,joint_groups,unique_sequences,outcome_mean,outcome_sd,gene_overlap,sequence_overlap,joint_group_overlap
+development,3271,922,919,3267,0.39365163066951997,0.2656269144261532,,,
+test,825,286,286,825,0.38624502670303035,0.26794811305539973,,,
+overlap_audit,,,,,,,0,0,0

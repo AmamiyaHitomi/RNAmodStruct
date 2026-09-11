@@ -1,0 +1,15 @@
+category,metric,value,n,notes
+dataset,site_level_rows,20559,20559,One selected representative transcript per mapped genomic site
+dataset,all_isoform_rows,33962,33962,All mapping-compatible transcript isoforms
+dataset,main_analysis_rows,4409,4409,Both replicates plus valid ±10 structure window
+dataset,model_ready_rows,4096,4409,Main rows with full 201-nt sequence
+dataset,main_analysis_genes,1324,4409,Analysis gene assignment
+isoforms,sites_with_multiple_isoforms,7266,20559,Multiplicity preserved in all-isoform table
+isoforms,maximum_isoform_count,19,20559,Per genomic site
+gene_clustering,maximum_sites_per_gene,38,1324,Main dataset
+main_inclusion,included,4409,20559,Representative site-level rows
+main_inclusion,insufficient_icshape_flank10_coverage,11752,20559,Representative site-level rows
+main_inclusion,not_detected_in_both_replicates,4398,20559,Representative site-level rows
+replicate_qc,pearson_ratio,0.9879401606832551,4409,Ratio rep1 versus rep2 in main dataset
+replicate_qc,spearman_ratio,0.9728324802752158,4409,Ratio rep1 versus rep2 in main dataset
+replicate_qc,median_absolute_ratio_difference,0.015489999999999893,4409,Absolute replicate difference

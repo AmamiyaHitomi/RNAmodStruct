@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+results/logs/mplconfig/
+*.tmp
+*.bak
+
+# Large immutable/downloaded and regenerated artifacts are tracked by SHA-256 manifests.
+data/raw_processed/
+data/reference/
+data/interim/
+data/final/
+results/models/

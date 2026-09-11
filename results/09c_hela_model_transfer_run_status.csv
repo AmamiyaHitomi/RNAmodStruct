@@ -1,0 +1,2 @@
+stage,status,started_utc,finished_utc,all_sites,strict_sites,all_genes,strict_genes,models_transferred,development_overlap_excluded,primary_delta_mae_all_percentage_points,primary_delta_mae_strict_percentage_points
+09C,PASS,2026-09-11T04:27:31.052737+00:00,2026-09-11T04:28:17.603216+00:00,24960,22256,4687,4048,5,2704,-0.06412608786372787,-0.06266633945185562

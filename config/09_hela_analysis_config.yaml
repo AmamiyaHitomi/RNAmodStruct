@@ -1,0 +1,56 @@
+stage: 9
+dataset: HeLa
+reference:
+  icshape_transcriptome: Ensembl_GRCh38_release_88
+  analysis_genome: GRCh38
+  coordinate_path: transcript_1based_to_GRCh38_GTF_direct
+  icshape_id_style: versioned_transcript_id_with_version_suffix
+
+glori:
+  primary_response: combined_ratio
+  primary_site_set: detected_in_both_replicates
+  combined_ratio_formula: (Acov_rep1 + Acov_rep2) / (AGcov_rep1 + AGcov_rep2)
+  source_site_filter: deposited_FDR_filtered_tables
+  additional_agcov_filter: null
+  sensitivity_response: replicate_specific_Ratio_and_NormeRatio
+
+structure:
+  main_window_each_side_nt: 10
+  exclude_center_from_main_window: true
+  minimum_valid_fraction_each_side: 0.70
+  display_window_each_side_nt: 50
+  missing_tokens: [NULL, NA, N/A, NaN, nan, '.', '-999']
+  missing_values_are_zero: false
+
+sequence:
+  model_window_nt: 201
+  require_full_model_window: true
+  pad_incomplete_model_windows: false
+  local_gc_window_nt: 21
+  motif_definition: DRACH_equals_DRACh_with_center_A
+
+annotation:
+  transcript_region_source: Ensembl_GRCh38_release_88_GTF_CDS_bounds
+  stop_distance_definition: transcript_position_minus_first_stop_codon_base
+  splice_distance_definition: minimum_transcript_distance_to_internal_exon_edge
+
+isoform_selection:
+  unit: genomic_site
+  ranking:
+    - main_window_valid_descending
+    - valid_reactivity_count_m50_p50_descending
+    - glori_gene_matches_transcript_gene_descending
+    - transcript_id_ascending
+  retain_all_isoforms_for_sensitivity: true
+
+gene_assignment:
+  priority:
+    - non_ELSE_GLORI_gene
+    - Ensembl_transcript_gene_name
+    - Ensembl_gene_id
+
+exclusions:
+  exact_sites: []
+  rationale: none_prespecified_for_HeLa
+
+random_seed: 20260910

@@ -1,0 +1,29 @@
+stage: 09A
+dataset: HeLa
+input: data/final/09_hela_main_analysis_dataset.csv.gz
+population: model_dataset_included_equals_true
+sequence_column: sequence_window_201
+sequence_length_nt: 201
+
+software:
+  engine: ViennaRNA_Python_bindings
+  required_version: 2.7.2
+  temperature_celsius: 37.0
+  dangles: 2
+  no_lonely_pairs: false
+  partition_function: true
+
+features:
+  - mfe_per_nt
+  - ensemble_free_energy_per_nt
+  - ensemble_diversity
+  - mean_pairing_state_entropy
+  - predicted_unpaired_probability_positions_minus100_to_plus100
+  - predicted_unpaired_mean_up10
+  - predicted_unpaired_mean_down10
+  - predicted_unpaired_mean_flank10
+  - predicted_unpaired_mean_far
+
+probability_definition: one_minus_sum_of_base_pair_probabilities_for_each_nucleotide
+entropy_definition: mean_binary_entropy_of_paired_vs_unpaired_state_natural_log
+far_definition: positions_minus50_to_minus11_and_plus11_to_plus50

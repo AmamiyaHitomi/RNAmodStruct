@@ -1,0 +1,2 @@
+status,started_at,finished_at,glori_union_sites,matched_sites,center_base_failures,parameters
+PASS,2026-09-10T19:59:46,2026-09-10T20:00:30,253087,20559,0,"{""min_flank_coverage"": 0.7}"

@@ -1,0 +1,20 @@
+stage: 09C
+dataset: HeLa
+input: data/final/09_hela_main_analysis_dataset.csv.gz
+predicted_structure_input: data/final/09a_hela_predicted_structure_features.csv.gz
+frozen_models_dir: results/models
+frozen_model_prefix: 08_hek293t
+frozen_model_names: [M0, M1, M2, M3, M4]
+development_assignment_input: results/tables/08_hek293t_group_assignments.csv
+outcome: combined_ratio
+prediction_clip: [0.0, 1.0]
+primary_comparison: M3_minus_M1
+secondary_comparisons: [M4_minus_M2, M2_minus_M1, M4_minus_M1]
+strict_subset:
+  definition: exclude_HeLa_sites_whose_gene_or_201nt_sequence_overlaps_HEK293T_development_set
+  overlap_units: [analysis_gene, sequence_window_201_sha256]
+paired_group_bootstrap_replicates: 2000
+bootstrap_seed: 20260912
+interpretation:
+  design: frozen_HEK293T_preprocessing_and_parameters_directly_applied_to_HeLa
+  permitted_claim: predictive_transfer_without_HeLa_label_used_for_parameter_or_feature_selection

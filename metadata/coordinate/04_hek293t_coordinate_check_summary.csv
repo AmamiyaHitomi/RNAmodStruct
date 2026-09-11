@@ -1,0 +1,2 @@
+status,started_at,finished_at,eligible_transcripts,measured_a_positions_scanned,selected_checks,unique_mapped_checks,glori_matched_checks,failed_assertions,stratum_counts
+PASS,2026-09-10T19:50:43,2026-09-10T19:51:57,9914,1396880,30,30,12,0,"{'+|exon_internal|match': 3, '+|exon_internal|no_match': 9, '+|splice_boundary|match': 3, '+|splice_boundary|no_match': 3, '-|exon_internal|match': 3, '-|exon_internal|no_match': 3, '-|splice_boundary|match': 3, '-|splice_boundary|no_match': 3}"

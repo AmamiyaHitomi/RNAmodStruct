@@ -1,0 +1,2 @@
+status,started_at,finished_at,file_failures,malformed_rows,formula_failures
+PASS,2026-09-10T19:45:59,2026-09-10T19:47:58,0,0,0

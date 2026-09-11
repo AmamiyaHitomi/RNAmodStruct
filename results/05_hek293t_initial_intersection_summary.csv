@@ -1,0 +1,29 @@
+section,metric,value,notes
+glori_replicates,rep1_unique_sites,214715,"Exact (Chr, Sites, Strand) keys"
+glori_replicates,rep2_unique_sites,215021,"Exact (Chr, Sites, Strand) keys"
+glori_replicates,replicate_common_sites,176649,Exact genomic-site overlap
+glori_replicates,replicate_union_sites,253087,Exact genomic-site union
+coordinate_mapping,matched_union_sites,20559,At least one exact HEK293T icSHAPE transcript position
+coordinate_mapping,matched_rep1_sites,18276,Replicate-1 sites with at least one icSHAPE transcript position
+coordinate_mapping,matched_rep2_sites,18444,Replicate-2 sites with at least one icSHAPE transcript position
+coordinate_mapping,matched_common_sites,16161,Replicate-common sites with at least one icSHAPE transcript position
+coordinate_mapping,matched_transcript_rows,33962,One genomic site can map to multiple isoforms
+coordinate_mapping,independent_glori_genes,2593,Non-ELSE GLORI gene labels among matched sites
+structure_coverage,sites_with_valid_flank10_window,5415,Both ±10 sides separately ≥ 70%; center excluded
+structure_coverage,site_valid_window_fraction,0.2633883,At least one qualifying transcript window per genomic site
+structure_coverage,valid_transcript_windows,9547,Transcript-level qualifying windows
+structure_coverage,transcript_window_valid_fraction,0.2811083,Transcript-level denominator
+structure_coverage,rep1_sites_with_valid_flank10_window,4890,At least one qualifying transcript window
+structure_coverage,rep2_sites_with_valid_flank10_window,4934,At least one qualifying transcript window
+structure_coverage,center_reactivity_available_rows,10959,Transcript mappings with a non-missing center score
+structure_coverage,center_reactivity_available_fraction,0.32268418,Transcript-level denominator
+structure_coverage,mean_flank10_coverage,0.33273013,Only full-length ±10 windows
+structure_coverage,median_flank10_coverage,0.0,Across mapped transcript rows
+validation,grch38_center_base_failures,0,Expected A on + and T on -
+reference,eligible_icshape_transcripts,9914,"Exact length agreement in icSHAPE, cDNA and GTF"
+mapping_status,center_not_transcript_A,1,GLORI union-site count
+mapping_status,liftover_ambiguous,722,GLORI union-site count
+mapping_status,liftover_unmapped,939,GLORI union-site count
+mapping_status,matched_transcript_position,20559,GLORI union-site count
+mapping_status,no_icshape_exon,230866,GLORI union-site count
+transcript_exclusion,no_cdna_sequence,250,icSHAPE transcript count

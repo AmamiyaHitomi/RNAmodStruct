@@ -1,0 +1,6 @@
+step,stage,sites,retained_from_previous,rule
+1,GLORI union,253087,,Exact genomic-site union
+2,Matched to icSHAPE transcript,20559,0.08123294,At least one exact transcript-oriented A mapping
+3,Detected in both GLORI replicates,16161,0.78607909,Primary replicate rule
+4,Main structure dataset,4409,0.27281728,Representative isoform has ≥70% valid values on each ±10 side
+5,Model-ready 201-nt sequence,4096,0.92900885,Full unpadded 201-nt transcript sequence

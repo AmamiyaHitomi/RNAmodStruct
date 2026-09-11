@@ -1,0 +1,33 @@
+stage: 08B
+dataset: HEK293T
+analysis_scope: development_only
+group_assignments: results/tables/08_hek293t_group_assignments.csv
+random_seed: 20260910
+development_folds: 5
+
+outcome: combined_ratio
+learner: Ridge
+alpha_candidates: [0.01, 0.1, 1.0, 10.0, 30.0, 100.0, 300.0, 1000.0, 3000.0]
+reject_boundary_optimum: true
+prediction_clip: [0.0, 1.0]
+
+experimental_structure_blocks:
+  R_none: sequence_baseline
+  R_core: reactivity_mean_flank10
+  R_directional:
+    - reactivity_mean_up10
+    - reactivity_mean_down10
+    - up10_minus_down10
+  R_profile_no_center: positions_minus50_to_minus1_and_plus1_to_plus50_plus_missing_masks
+  R_profile_all: positions_minus50_to_plus50_plus_missing_masks
+
+selection_candidates: [R_none, R_core, R_directional, R_profile_no_center]
+sensitivity_only: [R_profile_all]
+selection_metric: mean_group_cv_MAE
+
+replicate_agreement:
+  variables: [ratio_rep1, ratio_rep2]
+  depth: combined_agcov
+  depth_thresholds: [10, 20, 50, 100, 500, 1000]
+  quantile_groups: 4
+  interpretation: measurement_variability_reference_not_a_formal_noise_ceiling
