@@ -1,0 +1,26 @@
+stage: 14
+analysis: predicted_structure_entropy_association
+datasets:
+  HEK293T:
+    input: data/final/06_hek293t_main_analysis_dataset.csv.gz
+    predicted: data/final/08a_hek293t_predicted_structure_features.csv.gz
+    role: definition
+  HeLa:
+    input: data/final/09_hela_main_analysis_dataset.csv.gz
+    predicted: data/final/09a_hela_predicted_structure_features.csv.gz
+    role: frozen_external_replication
+outcome: combined_ratio
+primary_predictor: mean_pairing_state_entropy
+predicted_structure_family:
+  - mfe_per_nt
+  - ensemble_free_energy_per_nt
+  - ensemble_diversity
+  - mean_pairing_state_entropy
+  - predicted_unpaired_mean_up10
+  - predicted_unpaired_mean_down10
+  - predicted_unpaired_mean_flank10
+  - predicted_unpaired_mean_far
+models: [unadjusted, covariate_adjusted, covariate_adjusted_plus_R_flank10]
+multiple_testing: benjamini_hochberg_within_dataset_and_model
+cluster: analysis_gene
+interpretation: exploratory_nonmechanistic_association

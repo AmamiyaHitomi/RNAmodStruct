@@ -1,0 +1,2 @@
+stage,status,required_stages_passed,exit_gates_passed,exit_gates_total,finished_utc
+22,PASS,4,4,4,2026-09-13T09:34:20.293455+00:00

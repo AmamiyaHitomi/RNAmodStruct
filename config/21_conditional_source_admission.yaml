@@ -1,0 +1,26 @@
+stage: 21
+phase: 2
+analysis_role: exploratory_conditional_admission
+input_audit: results/tables/18_public_data_audit.csv
+candidates:
+  human_rna_map:
+    required_cell_line: U2OS
+    structure_technology: DMS-TRAM-seq
+    required_modification_measurement: matched-condition quantitative m6A
+    raw_structure_pooling_allowed: false
+  pars_gse50676:
+    required_cell_line: GM12878/GM12891/GM12892
+    structure_technology: PARS
+    required_modification_measurement: matched-condition quantitative m6A
+    raw_structure_pooling_allowed: false
+admission_gates:
+  - authoritative_source_recorded
+  - cell_condition_identified
+  - coordinate_reference_resolved
+  - quantitative_structure_semantics_identified
+  - matched_quantitative_m6a_available
+  - no_cross_technology_raw_value_pooling
+outputs:
+  decisions: results/tables/21_conditional_source_admission.csv
+  status: results/status/21_conditional_source_admission_run_status.csv
+  report: results/reports/21_conditional_source_admission_report.md

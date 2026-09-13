@@ -1,0 +1,7 @@
+source,target,edge,status
+STM2457,METTL3_activity,inhibits,design_intended
+METTL3_activity,m6A_level,increases,validated_by_meRIP_qPCR
+m6A_level,RNA_structure,candidate_effect,target_estimand
+STM2457,RNA_structure,off_target_path,uncontrolled
+RNA_abundance,observed_transcripts,selection_path,uncontrolled
+RBP_occupancy,RNA_structure,alternative_mediator,uncontrolled

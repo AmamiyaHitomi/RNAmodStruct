@@ -1,0 +1,6 @@
+record_id,file,bytes_reported,url,local_file,local_status
+m5c_gse140995,GSE140995_transcriptome-wide_sites.xlsx,337101,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE140nnn/GSE140995/suppl/GSE140995_transcriptome-wide_sites.xlsx,data/raw_processed/GSE140995_transcriptome-wide_sites.xlsx,DOWNLOADED_VERIFIED
+m7g_gse112276,GSE112276_HeLa_HighFC.txt.gz,173158,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112276/suppl/GSE112276_HeLa_HighFC.txt.gz,data/raw_processed/GSE112276_HeLa_HighFC.txt.gz,DOWNLOADED_VERIFIED
+m7g_gse112276,GSE112276_HEK293T_HighFC.txt.gz,180326,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112276/suppl/GSE112276_HEK293T_HighFC.txt.gz,data/raw_processed/GSE112276_HEK293T_HighFC.txt.gz,DOWNLOADED_VERIFIED
+nm_gse90164,GSE90164_HeLamRNA.Nm.genome.bed.txt.gz,34612,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE90nnn/GSE90164/suppl/GSE90164_HeLamRNA.Nm.genome.bed.txt.gz,data/raw_processed/GSE90164_HeLamRNA.Nm.genome.bed.txt.gz,DOWNLOADED_VERIFIED
+nm_gse90164,GSE90164_HEKmRNA.Nm.genome.bed.txt.gz,10445,https://ftp.ncbi.nlm.nih.gov/geo/series/GSE90nnn/GSE90164/suppl/GSE90164_HEKmRNA.Nm.genome.bed.txt.gz,data/raw_processed/GSE90164_HEKmRNA.Nm.genome.bed.txt.gz,DOWNLOADED_VERIFIED

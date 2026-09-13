@@ -1,0 +1,6 @@
+claim_id,topic,permitted_statement,forbidden_statement,causal_claim_permitted,exact_zero_claim_permitted,evidence_tier
+P3_C1,HeLa_m5C_structure,"Within the audited HeLa data, the adjusted m5C estimate was small and its confidence interval included zero.",RNA structure has no relationship with m5C.,False,False,primary_observational
+P3_C2,HeLa_m7G_structure,No clear interval-level association between peak structure and m7G enrichment was detected.,Single-nucleotide m7G structure effects were tested or ruled out.,False,False,primary_observational_interval
+P3_C3,HeLa_Nm_structure,Nm sites and matched same-transcript same-base controls showed a small difference with an interval crossing zero.,Nm does not affect or depend on RNA structure.,False,False,primary_observational_matched
+P3_C4,HEK_sensitivity_tracks,HEK Nm is a near-cell-label sensitivity and HEK293T m7G is descriptive because n=18.,HEK and HEK293T provide independent confirmatory replication for both modifications.,False,False,sensitivity_or_descriptive
+P3_C5,cross_modification_synthesis,"Across separate technology-specific analyses, all estimated directions were small and negative with uncertainty spanning zero.",A pooled universal multi-modification effect size was estimated.,False,False,narrative_synthesis_no_raw_pooling

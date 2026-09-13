@@ -1,0 +1,46 @@
+stage: 25
+phase: 3
+analysis_role: technology_stratified_structure_feature_extraction
+checked_date: 2026-09-12
+
+structure:
+  flank_each_side_nt: 10
+  display_flank_each_side_nt: 50
+  minimum_valid_fraction_each_side: 0.70
+  minimum_peak_valid_fraction: 0.70
+  exclude_point_center_from_flank_mean: true
+
+coordinate_sensitivity:
+  nm_offsets_nt: [-1, 0, 1]
+  minimum_valid_count_stability_ratio: 0.90
+
+admission:
+  minimum_main_records_per_modification: 20
+  minimum_distinct_modifications_for_stage26: 2
+  prohibit_cross_modification_raw_value_pooling: true
+
+references:
+  gtf_hg38: data/reference/ensembl/release-88_GRCh38/Homo_sapiens.GRCh38.88.gtf.gz
+  hek293t_structure: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz
+  hela_structure_tar: data/raw_processed/GSE145805_RAW.tar
+  hela_structure_member: GSM4333258_HeLa.out.txt.gz
+
+inputs:
+  m5c_hela: data/interim/24_m5c_hela_sites.csv.gz
+  m7g_hela: data/interim/24_m7g_hela_peaks.csv.gz
+  m7g_hek293t: data/interim/24_m7g_hek293t_peaks.csv.gz
+  nm_hela: data/interim/24_nm_hela_sites_hg38.csv.gz
+  nm_hek: data/interim/24_nm_hek293t_sites_hg38.csv.gz
+
+outputs:
+  m5c_hela: data/final/25_m5c_hela_structure_dataset.csv.gz
+  m7g_hela: data/final/25_m7g_hela_structure_dataset.csv.gz
+  m7g_hek293t: data/final/25_m7g_hek293t_structure_dataset.csv.gz
+  nm_hela: data/final/25_nm_hela_structure_dataset.csv.gz
+  nm_hek: data/final/25_nm_hek293t_structure_dataset.csv.gz
+  attrition: results/tables/25_multimodification_structure_attrition.csv
+  nm_sensitivity: results/tables/25_nm_coordinate_sensitivity.csv
+  manifest: metadata/manifests/release/phase3_stage25_manifest.csv
+  status: results/status/25_multimodification_structure_features_run_status.csv
+  report: results/reports/25_multimodification_structure_features_report.md
+  log: results/logs/25_extract_multimodification_structure_features.log

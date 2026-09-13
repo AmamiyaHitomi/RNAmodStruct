@@ -1,0 +1,12 @@
+fallacy,verdict,detail
+significance_without_effect_size,PASS,All association summaries include beta/SD and 95% CI.
+confidence_interval_omission,PASS,"Stages 12, 14 and 15 retain uncertainty intervals."
+multiple_testing,PASS,Stage 14 applies BH within dataset/specification families.
+cluster_dependence,PASS,Association inference clusters by gene; conditional inference also uses grouped sign flips.
+train_test_leakage,PASS,Nuisance fitting and tuning use connected gene/sequence groups; HeLa is not used for tuning.
+causal_overreach,CAUTION,All outputs are explicitly observational/exploratory and prohibit causal language.
+posthoc_hypothesis,CAUTION,The entire restart phase occurs after the frozen main result was known.
+two_study_heterogeneity,CAUTION,"Q, I2 and tau2 are reported, but only two cell lines make them unstable."
+isoform_abundance_overinterpretation,PASS,"Equal/coverage weights are labelled sensitivity weights, not abundance."
+selection_and_missingness,CAUTION,Complete 401-nt and structure-coverage filters select a reduced population.
+prediction_as_mechanism,PASS,Permutation importance/SHAP boundaries are explicitly non-causal.

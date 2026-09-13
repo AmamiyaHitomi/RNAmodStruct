@@ -1,0 +1,64 @@
+stage: 26
+phase: 3
+analysis_role: technology_and_cell_stratified_association_analysis
+checked_date: 2026-09-12
+random_seed: 20260912
+
+continuous_models:
+  m5c_hela:
+    outcome: methy_rate_mean
+    predictor: reactivity_mean_flank10
+    covariates: [mean_log1p_coverage, transcript_position_fraction, log1p_transcript_length]
+    cluster: transcript_gene_id
+    evidence_tier: primary
+  m7g_hela:
+    outcome: log2_fold_enrichment
+    predictor: reactivity_mean_peak
+    covariates: [log2_interval_width, peak_position_fraction, log1p_transcript_length]
+    cluster: transcript_gene_id
+    evidence_tier: primary
+
+nm_matching:
+  minimum_distance_nt: 50
+  flank_each_side_nt: 10
+  minimum_valid_fraction_each_side: 0.70
+  controls_per_site: 1
+  cluster_bootstrap_replicates: 2000
+  cluster_sign_permutations: 5000
+  hela_evidence_tier: primary
+  hek_evidence_tier: near_cell_match_sensitivity
+
+multiple_testing:
+  family: three_hela_primary_tests
+  method: fdr_bh
+
+admission:
+  minimum_primary_analyses_completed: 3
+  minimum_matched_pairs: 100
+  prohibit_cross_modification_raw_value_pooling: true
+
+references:
+  hela_cdna: data/reference/ensembl/release-88_GRCh38/Homo_sapiens.GRCh38.cdna.all.fa.gz
+  hek_cdna: data/reference/ensembl/release-74_GRCh37/Homo_sapiens.GRCh37.74.cdna.all.fa.gz
+  hela_structure_tar: data/raw_processed/GSE145805_RAW.tar
+  hela_structure_member: GSM4333258_HeLa.out.txt.gz
+  hek_structure: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz
+
+inputs:
+  m5c_hela: data/final/25_m5c_hela_structure_dataset.csv.gz
+  m7g_hela: data/final/25_m7g_hela_structure_dataset.csv.gz
+  m7g_hek293t: data/final/25_m7g_hek293t_structure_dataset.csv.gz
+  nm_hela: data/final/25_nm_hela_structure_dataset.csv.gz
+  nm_hek: data/final/25_nm_hek293t_structure_dataset.csv.gz
+
+outputs:
+  primary_associations: results/tables/26_stratified_primary_associations.csv
+  m5c_replicate_sensitivity: results/tables/26_m5c_replicate_sensitivity.csv
+  nm_matched_pairs: data/final/26_nm_matched_structure_pairs.csv.gz
+  nm_matching_qc: results/tables/26_nm_matching_qc.csv
+  model_diagnostics: results/tables/26_stratified_model_diagnostics.csv
+  descriptive_tracks: results/tables/26_descriptive_low_n_tracks.csv
+  manifest: metadata/manifests/release/phase3_stage26_manifest.csv
+  status: results/status/26_stratified_multimodification_associations_run_status.csv
+  report: results/reports/26_stratified_multimodification_associations_report.md
+  log: results/logs/26_stratified_multimodification_associations.log

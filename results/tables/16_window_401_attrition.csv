@@ -1,0 +1,13 @@
+dataset,reason,sites
+HEK293T,source_model_population,4096
+HEK293T,retained_complete_401,2143
+HEK293T,missing_transcript_sequence,0
+HEK293T,incomplete_401nt_sequence,519
+HEK293T,missing_icshape_transcript,0
+HEK293T,insufficient_401nt_reactivity,1434
+HeLa,source_model_population,24960
+HeLa,retained_complete_401,16818
+HeLa,missing_transcript_sequence,0
+HeLa,incomplete_401nt_sequence,2181
+HeLa,missing_icshape_transcript,0
+HeLa,insufficient_401nt_reactivity,5961

@@ -1,0 +1,19 @@
+stage: 15
+analysis: isoform_aware_sensitivity
+datasets:
+  HEK293T:
+    mappings: data/final/06_hek293t_all_isoform_mappings.csv.gz
+  HeLa:
+    mappings: data/final/09_hela_all_isoform_mappings.csv.gz
+outcome_formula: (acov_rep1+acov_rep2)/(agcov_rep1+agcov_rep2)
+site_key: hg38_chr:hg38_pos_1based:hg38_strand
+estimands:
+  - deterministic_representative_isoform
+  - single_isoform_sites
+  - isoform_equal_weight
+  - available_structure_coverage_weight
+resampling_unit: genomic_site_nested_in_analysis_gene
+minimum_flank10_coverage_each_side: 0.70
+interpretation:
+  transcript_weights_are_sensitivity_weights_not_isoform_abundance: true
+  status: exploratory

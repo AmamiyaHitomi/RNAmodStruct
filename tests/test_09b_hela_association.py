@@ -15,7 +15,7 @@ def read_rows(path):
 
 class HeLaAssociationTests(unittest.TestCase):
     def test_run_status_and_population(self):
-        status = read_rows(ROOT / "results" / "09b_hela_association_run_status.csv")[0]
+        status = read_rows(ROOT / "results" / "status" / "09b_hela_association_run_status.csv")[0]
         self.assertEqual(status["status"], "PASS")
         self.assertGreaterEqual(int(status["sites"]), 500)
         self.assertEqual(int(status["bootstrap_successful"]), 1000)

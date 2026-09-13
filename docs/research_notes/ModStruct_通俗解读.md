@@ -1,146 +1,145 @@
-# ModStruct 通俗解读：这个项目到底在做什么
+# ModStruct Popular interpretation: What exactly is this project doing?
 
-> 本文是《ModStruct 本科生研究方案》的"白话版"，用生活比喻解释整个项目。想了解严谨细节请看原方案；想先搞懂"这活儿是干嘛的"，看这篇就够了。
-
----
-
-## 一、一句话版本
-
-**我们要搞清楚：RNA 分子的"形状"和它身上的 m6A 化学标记之间，到底关系有多强——尤其是在排除了其他干扰因素之后，这个关系还剩下多少。**
+> This article is the "vernacular version" of the "ModStruct Undergraduate Research Plan", using life metaphors to explain the entire project. If you want to know the rigorous details, please read the original plan; if you want to understand "what this job is for" first, this article is enough.
 
 ---
 
-## 二、先补一点背景（别怕，很短）
+## 1. One sentence version
 
-**RNA 是什么？**
-细胞里有一类分子叫 RNA，你可以理解成一条"字母链"，上面只有 4 种字母（A、U、G、C）。这条链不是直直躺平的，它会自己折叠起来，形成立体形状——就像一根绳子自己绕成一团，哪里卷、哪里展开，都有讲究。这个形状（专业叫"结构"）会影响 RNA 干活的效率。
-
-**m6A 是什么？**
-科学家发现，RNA 链上某些"字母 A"的位置，会被细胞贴上一个化学小标签（甲基），这就是 m6A。这个标签很重要，它影响 RNA 是稳定还是被销毁、翻译成蛋白质多不多，是现在最热门的研究方向之一。
-
-**关键背景：**
-科学家早就知道，m6A 和 RNA 结构"互相有关系"——形状会影响标签贴不贴得上，标签也会反过来改变形状。所以"两者有关"**不是**这个项目要发现的新东西，这一点必须先说清楚，别把老结论当新发现。
+**We need to figure out: How strong is the relationship between the "shape" of the RNA molecule and the m6A chemical label on it - especially how much of the relationship remains after excluding other interfering factors. **
 
 ---
 
-## 三、那这个项目到底想干什么？
+## 2. Add a little background first (don’t be afraid, it’s very short)
 
-打个比方：
+**What is RNA? **
+There is a type of molecule in cells called RNA, which you can think of as a "letter chain" with only 4 letters (A, U, G, C). This chain does not lie straight, it folds on itself to form a three-dimensional shape - just like a rope winding itself into a ball, where it is rolled and where it is unrolled. This shape (technically called "structure") affects the efficiency of the RNA's work.
 
-> 大家都知道"房子越贵，一般装修越好"。但房价还受地段、面积、房龄影响。
-> 真正有意思的问题是：**在已经知道地段、面积、房龄之后，"装修风格"还能不能额外解释房价差异？**
+**m6A What is it? **
+Scientists have discovered that certain "letter A" positions on the RNA chain will be labeled by cells with a small chemical label (methyl group), which is m6A. This label is very important. It affects whether RNA is stable or destroyed, and whether it is translated into protein. It is one of the hottest research directions now.
 
-翻译成这个项目的话：
-
-- "房价" = m6A 修饰的多少
-- "面积/地段/房龄" = RNA 的序列本身（字母顺序）、基因区域、测量质量
-- "装修风格" = 用实验方法测出来的 RNA 结构
-
-项目要回答三个具体问题：
-
-1. **有关联吗？** 那些已经确认有 m6A 的位点，修饰的"多少"和它周围的 RNA 结构信号有没有相关性？
-2. **实验结构有额外价值吗？** 在"只用序列"的基础上，加入"实验测的结构数据"，预测修饰水平的能力有没有提高？
-3. **换细胞还成立吗？** 在 HEK293T 细胞上发现的规律，换到 HeLa 细胞（另一个细胞系）还站得住吗？
-
-其中第 2 个问题最有价值，相当于在问："实验结构"这个信息，是不是序列之外、**额外**有用的东西。
+**Key Background:**
+Scientists have long known that m6A and RNA structures are "related" to each other - the shape affects whether the label sticks on, and the label will in turn change its shape. Therefore, "the two are related" is not something new to be discovered by this project. This must be made clear first. Don't treat old conclusions as new discoveries.
 
 ---
 
-## 四、数据从哪来？要自己做实验吗？
+## 3. So what exactly do you want to do with this project?
 
-**完全不用做实验**，全部用网上公开的数据。两类数据来自不同的公共数据库（GEO）：
+For example:
 
-| 数据 | 作用 | 来源细胞 |
+> Everyone knows that "the more expensive the house, the better the decoration is generally." However, housing prices are also affected by location, area, and age of the property.
+> The really interesting question is: **After knowing the location, area, and age of the house, can "decoration style" additionally explain the difference in housing prices? **
+
+Translated into this project:
+
+- "House price" = m6A modified amount
+- "area/lot/age" = RNA sequence itself (alphabetical order), gene region, measured quality
+- "Decoration style" = RNA structure measured experimentally
+
+The project will answer three specific questions:
+
+1. **Are they related? ** For those sites that have been confirmed to contain m6A, is there any correlation between the "how much" modification and the RNA structural signal around it?2. **Does the experimental structure have additional value? ** On the basis of "only using sequences" and adding "experimentally measured structural data", will the ability to predict modification levels be improved?
+3. **Is cell replacement still valid? **Do the patterns found in HEK293T cells hold in HeLa cells (another cell line)?
+
+The second question is the most valuable. It is equivalent to asking: Is the information of "experimental structure" something **extra** useful outside of the sequence?
+
+---
+
+## 4. Where does the data come from? Want to do your own experiment?
+
+**There is no need to do experiments at all**, all data published on the Internet are used. Two types of data come from different public databases (GEO):
+
+| Data | Function | Source cells |
 |---|---|---|
-| GLORI 数据 | 测 m6A 修饰"有多少" | HEK293T（主）+ HeLa（复核） |
-| icSHAPE 数据 | 测 RNA 结构（实验测出来的） | HEK293T（主）+ HeLa（复核） |
+| GLORI data | Measuring "how much" m6A modification | HEK293T (main) + HeLa (check) |
+| icSHAPE data | Measure RNA structure (measured experimentally) | HEK293T (main) + HeLa (review) |
 
-项目要做的核心工程活，就是把这两类数据**按"同一个位点"对齐**，拼成一张大表，然后在这张表上做分析。
+The core engineering work to be done in the project is to align these two types of data at the "same position", put them together into a large table, and then perform analysis on this table.
 
-**这一步也是最危险的一步**（见下面"难点"）。
+**This step is also the most dangerous step** (see "Difficulties" below).
 
 ---
 
-## 五、怎么做？（方法，讲人话）
+## 5. How to do it? (Method, speak human language)
 
-### 5.1 先"审计"数据（前两周最重要）
+### 5.1 "Audit" the data first (the first two weeks are the most important)
 
-不是下载下来就用，而是先搞清楚每个文件里到底写了什么：一行代表什么？哪一列是修饰比例？坐标怎么算的？这一步叫"审计"。方案里反复强调：**没搞懂数据含义之前，不许做分析**。
+Instead of just downloading it and using it, you need to first find out what is written in each file: What does one line mean? Which column is the modification ratio? How are the coordinates calculated? This step is called "auditing". It is repeatedly emphasized in the plan: **No analysis is allowed before you understand the meaning of the data**.
 
-### 5.2 做关联分析（统计）
+### 5.2 Do correlation analysis (statistics)
 
-用简单的统计模型，看"结构信号"和"修饰多少"之间有没有关系、关系多强、误差多大。同时要"控制"一堆干扰因素（序列特征、基因区域、测量覆盖等），看排除这些之后关系还在不在。
+Use a simple statistical model to see if there is any relationship between "structural signal" and "modification amount", how strong the relationship is, and how big the error is. At the same time, it is necessary to "control" a bunch of interfering factors (sequence characteristics, gene regions, measurement coverage, etc.) to see if the relationship is still there after eliminating these.
 
-### 5.3 用机器学习做"消融实验"（分清功劳）
+### 5.3 Use machine learning to do "ablation experiments" (distinguish credit)
 
-这是最巧妙的部分。搭 5 个模型（M0 到 M4），一步步往里加东西：
+This is the neatest part. Build 5 models (M0 to M4) and add things to them step by step:
 
-| 模型 | 加了什么 | 想回答 |
+| Model | What was added | Want to answer |
 |---|---|---|
-| M0 | 只有背景信息 | 区域和测量本身能解释多少？ |
-| M1 | + 序列 | 序列本身有多强？ |
-| M2 | + 计算预测的结构 | 预测结构有没有用？ |
-| M3 | + 实验测的结构 | 实验结构有没有额外价值？ |
-| M4 | 全都要 | 在预测结构基础上，实验结构还有增益吗？ |
+| M0 | Background information only | How much can the area and measurement itself explain? |
+| M1 | + Sequence | How strong is the sequence itself? |
+| M2 | + Calculate the predicted structure | Is the predicted structure useful?|
+| M3 | + Experimentally tested structure | Does the experimental structure have additional value? |
+| M4 | All required | Based on the predicted structure, is there any gain in the experimental structure? |
 
-**核心比较是 M4 对 M2**：如果 M4 预测得更准，说明实验结构确实带来了额外信息。这一步就能把"序列的功劳"和"实验结构的功劳"分开算清楚。
+**The core comparison is M4 vs. M2**: If M4 predicts more accurately, it means that the experimental structure does bring additional information. This step can separate and calculate the "credit of the sequence" and the "credit of the experimental structure".
 
-用的是最简单的模型（Ridge 回归、梯度提升树），**不用深度学习、不用 GPU、不训练神经网络**——因为没必要，简单模型足够回答"信息从哪来"这个问题。
+The simplest model (Ridge regression, gradient boosting tree) is used, **no deep learning, no GPU, no neural network training** - because it is not necessary, the simple model is enough to answer the question "Where does the information come from?"
 
-### 5.4 换细胞系复核
+### 5.4 Review of changing cell lines
 
-把在 HEK293T 上得到的规律，原封不动搬到 HeLa 数据上验证。搬过去还成立，结论就更有说服力；搬过去不成立，也如实写出来。
+The rules obtained on HEK293T were transferred to HeLa data intact for verification. If it still holds true in the past, the conclusion will be more convincing; if it doesn't hold in the past, write it down truthfully.
 
 ---
 
-## 六、时间怎么安排（12 周）
+## 6. How to arrange time (12 weeks)
 
-| 阶段 | 干什么 |
+| Stage | What to do |
 |---|---|
-| 第 1–2 周 | 下载数据、审计文件、看能不能对齐（最关键） |
-| 第 3–4 周 | 建联合数据表、做质控、**冻结方案**（之后不许再改） |
-| 第 5–7 周 | 关联分析 + 机器学习模型 |
-| 第 8 周 | 拿出"最小可用版本"（单细胞系、能复现） |
-| 第 9–10 周 | 用 HeLa 数据复核 |
-| 第 11–12 周 | 整理报告、答辩材料 |
+| Week 1–2 | Download data, audit files, and see if they can be aligned (the most critical) |
+| Week 3–4 | Build joint data tables, do quality control, and **freeze the plan** (no changes are allowed later) |
+| Weeks 5–7 | Correlation Analysis + Machine Learning Models |
+| Week 8 | Come up with the "minimum usable version" (single cell line, reproducible) |
+| Weeks 9–10 | Review with HeLa data |
+| Week 11–12 | Compile reports and defense materials |
 
 ---
 
-## 七、难点在哪？（这是真正会卡住的地方）
+## 7. Where is the difficulty? (This is where it really gets stuck)
 
-**结论先放前面：难点几乎不在"写代码"，而在"判断数据对不对"和"管住自己别作弊"。**
+**Conclusion first: the difficulty is almost not in "writing code", but in "judging whether the data is correct" and "controlling yourself not to cheat". **
 
-1. **数据对齐最容易全盘皆错。** 两类数据来自不同人、不同年份、不同版本，坐标规则、基因版本、正负链只要错一处，后面所有分析全错——而且代码照跑、图照出，**错得悄无声息**。
+1. **Data alignment is most likely to be completely wrong. ** The two types of data come from different people, different years, and different versions. If there is only one mistake in the coordinate rules, gene versions, and positive and negative chains, all subsequent analyzes will be completely wrong - and the code will be run and the pictures will be shown, and the mistake will be silent.
 
-2. **数据真实状态还不知道。** 方案写的时候还没逐字段核对文件，比如"这一列是修饰比例还是别的"都还不确定。这只能真的把文件下载下来、打开看、逐列核对，不能靠猜。
+2. **The true status of the data is not yet known. ** When the plan was written, the file was not checked field by field. For example, "whether this column modifies the proportion or something else" is not yet sure. This can only be done by actually downloading the file, opening it, and checking it column by column. You cannot rely on guessing.
 
-3. **要防止"为了好看而作弊"。** 比如反复调参数直到 p<0.05、挑最好的随机种子、让同一个基因既进训练又进测试、只展示好看的位点。这些**没有任何一个是因为"技术不会"，全是"想不想克制"**。
+3. **Beware of "cheating just to look good". ** For example, repeatedly adjust parameters until p<0.05, select the best random seeds, allow the same gene to be used for both training and testing, and only display good-looking sites. None of these ** are due to "technical incompetence",It's all about "do you want to restrain yourself"**.
 
-4. **要守住解释边界。** 有些话不能乱说：结构信号≠配对概率、"控制了协变量"≠"排除了所有干扰"、预测结构的增益只能叫"表征增益"不能吹成新发现。
+4. **Keep the boundaries of interpretation. ** Some things should not be said nonsense: structural signal ≠ pairing probability, "controlled covariates" ≠ "eliminated all interference", the gain of predicted structure can only be called "representation gain" and cannot be touted as a new discovery.
 
-5. **AI 帮不上这些忙，甚至更危险。** AI 能帮你写代码、查资料、画图、写报告，但它**不会主动喊停**。你让它"再调调让结果更好看"，它就会一路帮你 p-hack，直到产出一份漂亮但错误的结果。
-
----
-
-## 八、最终要交出什么
-
-- 一份研究报告；
-- 5 张主图（数据来源、关联曲线、效应森林图、模型比较、复核结果）；
-- 完整的分析代码 + 数据字典 + 筛选记录；
-- 一份"限制清单"（诚实说明结论在什么范围内成立）。
+5. **AI cannot help with these tasks, and is even more dangerous. **AI can help you write code, check information, draw pictures, and write reports, but it will not actively stop. You tell it to "tweak it to make it look better" and it p-hacks you all the way until it produces a beautiful but wrong result.
 
 ---
 
-## 九、这个项目的价值在哪（不吹牛版）
+## 8. What should be handed over in the end?
 
-它不追求炫酷的方法，也不承诺"首次发现"或"保证发表"。它的价值在于：
-
-> **用公开数据 + 严谨统计 + 简单机器学习，可复现地回答一个具体问题——"实验测的 RNA 结构，能不能在序列之外，额外帮我们预测 m6A 修饰水平"。**
-
-而且方案把话说得很明白：**无论结果是"有增益""没增益"还是"只有小范围有增益"，都算合格的完成**。项目质量取决于证据可不可靠，不取决于结论好不好看。
+- a research report;
+- 5 main pictures (data source, correlation curve, effect forest diagram, model comparison, review results);
+- Complete analysis code + data dictionary + filtered records;
+- A "limitation list" (an honest statement of the limits within which the conclusion holds true).
 
 ---
 
-## 十、一句话总结
+## 9. What is the value of this project (non-bragging version)
 
-**这是一个设计扎实的本科生物信息学课题：不做实验、不搞大模型，靠把两类公开数据对齐 + 严谨统计 + 消融比较，去量化"RNA 实验结构对 m6A 修饰的额外预测价值"。它的难点不在编程，而在数据审计、判断和守住"不作弊"的纪律。**
+It doesn't pursue cool methods, nor does it promise "first discovery" or "guaranteed publication." Its value lies in:
+
+> **Use public data + rigorous statistics + simple machine learning to reproducibly answer a specific question - "Can the experimentally measured RNA structure help us predict the m6A modification level in addition to the sequence?" **
+
+And the plan is very clear: **No matter whether the result is "with gain", "no gain" or "only with gain in a small area", it is considered a qualified completion**. The quality of the project depends on whether the evidence is reliable, not on whether the conclusion is good or not.
+
+---
+
+## 10. One sentence summary
+
+**This is a well-designed undergraduate bioinformatics topic: no experiments or large models are conducted, and the "additional predictive value of RNA experimental structure for m6A modification" is quantified by aligning two types of public data + rigorous statistics + ablation comparison. The difficulty is not in programming, but in data auditing, judgment and maintaining the discipline of "not cheating". **

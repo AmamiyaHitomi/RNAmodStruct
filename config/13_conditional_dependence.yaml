@@ -1,0 +1,24 @@
+stage: 13
+analysis: cross_fitted_generalized_covariance_measure
+datasets:
+  HEK293T:
+    input: data/final/06_hek293t_main_analysis_dataset.csv.gz
+    role: development
+  HeLa:
+    input: data/final/09_hela_main_analysis_dataset.csv.gz
+    role: frozen_external_replication
+outcome: combined_ratio
+structure: reactivity_mean_flank10
+population: model_dataset_included_equals_true
+grouping: connected_components_of_analysis_gene_and_identical_201nt_sequence
+cross_fitting:
+  folds: 5
+  nuisance_model: ridge
+  ridge_alpha: 100.0
+inference:
+  cluster: analysis_gene
+  group_sign_flip_replicates: 5000
+  seed: 20260913
+interpretation:
+  permitted: conditional_dependence_test
+  prohibited: high_dimensional_conditional_mutual_information_or_causality

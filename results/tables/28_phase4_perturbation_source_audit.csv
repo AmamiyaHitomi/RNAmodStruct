@@ -1,0 +1,4 @@
+candidate,arm,path,bytes,sha256,rows,unique_transcripts,duplicate_transcripts,missing_cells,columns_ok,cell_line,decision
+GSE264642,treatment,data/raw_processed/GSE264642_HEK293T_STM2457_statistic_reactivity.csv.gz,816959,d33097cf0196f69b6b94ad8e5fb6a8c8760893ec7df7af314dd80f6b944b3403,24898,24898,0,0,True,HEK293T,ADMIT_DIRECTIONALITY
+GSE264642,control,data/raw_processed/GSE264642_HEK293T_control_statistic_reactivity.csv.gz,813083,2043e97af71586e8232e453ba4ea4cda55e27c6b692e35f0d579b05091e3a9b6,24898,24898,0,0,True,HEK293T,ADMIT_DIRECTIONALITY
+GSE52662+GSE60034,WT_vs_KO,data/raw_processed,,,,,,,True,v6.5_WT_vs_J1_KO,REJECT_CAUSAL_CROSS_CELL_LINE

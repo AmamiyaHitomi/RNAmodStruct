@@ -1,0 +1,19 @@
+stage: 22
+phase: 2
+analysis_role: exploratory_phase_completion
+required_stage_statuses:
+  - results/status/18_public_data_audit_run_status.csv
+  - results/status/19_invivo_invitro_run_status.csv
+  - results/status/20_sacseq_cross_technology_run_status.csv
+  - results/status/21_conditional_source_admission_run_status.csv
+exit_gates:
+  authoritative_source_and_coordinate_audit: true
+  invivo_invitro_or_cross_technology_replication: true
+  technology_stratified_effects_reported: true
+  incompatible_raw_scales_not_pooled: true
+outputs:
+  evidence_summary: results/tables/22_phase2_evidence_summary.csv
+  exit_gates: results/tables/22_phase2_exit_gates.csv
+  status: results/status/22_phase2_completion_run_status.csv
+  report: results/reports/22_phase2_completion_report.md
+  manifest: metadata/manifests/release/phase2_release_manifest.csv

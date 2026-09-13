@@ -1,0 +1,5 @@
+layer,status,evidence,claim_ceiling
+Association,COMPLETE,Frozen HEK293T-HeLa observational baseline and phase-3 stratified analyses,association
+Directionality,COMPLETE,GSE264642 STM2457 paired shift; n=24898,directionality_clue
+Causal evidence,NOT_IDENTIFIED,No rescue/inactive-compound control and no site-level same-sample m6A change,not_permitted
+Mechanism,NOT_IDENTIFIED,No site-directed mutation plus orthogonal structure/biochemical validation generated here,not_permitted

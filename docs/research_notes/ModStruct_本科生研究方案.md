@@ -1,299 +1,299 @@
-# ModStruct：人类 m6A 修饰水平与局部 RNA 结构的关联及预测分析
+# ModStruct: Correlation and predictive analysis of human m6A modification levels and local RNA structure
 
-**研究定位。** 本项目以公开数据为基础，研究人类细胞中 m6A 修饰水平与局部 RNA 结构探测信号的关系，并评估实验结构信息相对于序列及其计算结构特征的额外预测价值。采用生物信息学、统计建模和轻量机器学习方法，适合有 Python 基础的本科生在导师指导下完成。建议周期为 12 周，预留 2 周缓冲；第 8 周形成可独立交付的最小版本。
+**Research positioning. ** This project is based on publicly available data to study the relationship between m6A modification levels and local RNA structure detection signals in human cells, and to evaluate the additional predictive value of experimental structural information relative to sequences and their computational structural features. Using bioinformatics, statistical modeling and lightweight machine learning methods, it is suitable for undergraduates with Python basics to complete under the guidance of instructors. Recommended cycle time is 12 weeks, with a 2-week buffer; week 8 forms the smallest version that can be delivered independently.
 
-**证据与方案的边界。** 文献和数据记录核查截至 2026 年 9 月 9 日。本文给出的是研究设计，不是已经运行的数据分析结果。已核对核心论文、GEO 项目与部分样本记录；尚未完成数据文件逐字段检查、坐标统一或实际交集计算，因此不承诺有效样本数、预测提升或统计显著性。下文筛选阈值、工作量和验收门槛均为本项目的建议设置，须在小规模数据审计后、正式查看检验结果前冻结。
+**The boundary between evidence and plan. ** Literature and data record verification as of September 9, 2026. What this article presents is the research design, not the results of the data analysis that has been run. Core papers, GEO projects, and some sample records have been checked; field-by-field inspection of data files, coordinate unification, or actual intersection calculations have not been completed, so there is no commitment to effective sample numbers, prediction improvements, or statistical significance. The screening thresholds, workload and acceptance thresholds below are all recommended settings for this project and must be frozen after the small-scale data audit and before the inspection results are officially viewed.
 
-**一、研究问题与范围**
+**1. Research questions and scope**
 
-推荐开题名称为“基于公开组学数据的 m6A 修饰水平与 RNA 局部结构关联研究”。ModStruct 作为项目简称，英文工作名称可用 *ModStruct: Associations between m6A methylation levels and local RNA structural profiles*。
+The recommended title is "Study on the association between m6A modification levels and RNA local structure based on open omics data". ModStruct As a project abbreviation, the English working title is available *ModStruct: Associations between m6A methylation levels and local RNA structural profiles*.
 
-主问题是：**在具有可靠测量的人类 mRNA 位点中，局部 RNA 结构探测信号是否与 m6A 修饰比例相关；在控制可获得的序列、转录本区域和测量质量信息后，这种关联是否仍然存在，并能否在另一细胞系中得到支持？**
+The main question is: **Does local RNA structure probing signal correlate with m6A modification ratios in human mRNA sites with reliable measurements; does this correlation persist after controlling for available sequence, transcript region, and measurement quality information and can it be supported in another cell line? **
 
-将问题拆成三个可以独立交付的部分：
+Break the problem into three parts that can be delivered independently:
 
-| 问题 | 主要输入 | 主要输出 | 优先级 |
+| Problem | Main Input | Main Output | Priority |
 |---|---|---|---|
-| Q1：已检出 m6A 位点的修饰比例是否与邻域结构信号相关？ | GLORI 定量值、icSHAPE 反应性、背景协变量 | 效应量、置信区间、局部曲线 | 必做 |
-| Q2：实验结构是否提高对修饰比例的预测？ | 序列、序列预测结构、实验反应性 | 同一测试集上的消融比较 | 必做 |
-| Q3：上述结果是否具有跨数据集稳健性？ | HEK293T 发现集、HeLa 复核集 | 关联方向、模型增益和差异说明 | 完整版必做 |
-| Q4：结构能否区分修饰与低修饰候选位点？ | 可靠阳性与具有检测能力的低修饰背景 | 分类模型、信息增益 | 有合格背景数据才做 |
+| Q1: Is the modification ratio of the detected m6A sites related to the neighborhood structure signal? | GLORI quantification, icSHAPE reactivity, background covariates | Effect size, confidence intervals, local curves | Must do |
+| Q2: Does the experimental structure improve predictions of modification ratios? | Sequence, sequence predicted structure, experimental reactivity | Ablation comparison on the same test set | Must do |
+| Q3: Are the above results robust across data sets? | HEK293T discovery set, HeLa review set | Correlation direction, model gain and difference explanation | Full version must do |
+| Q4: Can the structure distinguish between modified and low-modified candidate sites? | Reliable positives and low-modification background with detection capabilities | Classification model, information gain | Only do it with qualified background data |
 
-Q1 和 Q2 默认针对“已检出且通过质量控制的 m6A 位点”，响应变量是连续的修饰比例。这使项目不依赖把未报告位点当作阴性。代价是结论仅适用于这个经过筛选的群体；检测阈值、覆盖度和选择偏倚仍须讨论，不能推广为全转录组所有 A 位点的规律。
+Q1 and Q2 default to "m6A sites that have been detected and passed quality control", and the response variable is a continuous modification ratio. This allows the project to not rely on treating unreported sites as negative. The cost is that the conclusions are only applicable to this selected group; detection thresholds, coverage, and selection bias still need to be discussed, and cannot be generalized to the rules of all A sites in the entire transcriptome.
 
-本科生主线限定为：人类、mRNA、m6A、一个发现细胞系和一个复核细胞系、公开处理后数据。lncRNA、多修饰比较、因果推断、基础模型训练和数据库网站均不作为结题条件。不同修饰的检测技术和作用对象差异较大，初期合并会放大工作量和解释困难。
+The main lines for undergraduate students are limited to: human, mRNA, m6A, one discovery cell line and one review cell line, and published processed data. lncRNA, multiple modification comparisons, causal inference, basic model training, and database websites are not considered as closing conditions. The detection technologies and targets of different modifications are quite different, and initial merging will amplify the workload and make interpretation difficult.
 
-**二、已有研究说明了什么，项目还能做什么**
+**2. What has been demonstrated by existing research and what else can the project do**
 
-本项目不是从空白领域起步。2015 年的 icSHAPE 工作已经比较了同一序列 motif 中修饰与未修饰位点的结构特征，并分析了小鼠细胞 Mettl3 缺失后的变化；同年的 m6A-switch 研究提供了局部结构变化与 HNRNPC 结合的机制实例。因此，“m6A 与 RNA 结构有关”不能作为本项目的新发现。[^1][^2]
+This project is not starting from a blank slate. The icSHAPE work in 2015 has compared the structural characteristics of modified and unmodified sites in the same sequence motif and analyzed the changes after Mettl3 deletion in mouse cells; the m6A-switch study in the same year provided an example of the mechanism of local structural changes binding to HNRNPC. Therefore, "m6A is related to RNA structure" cannot be regarded as a new discovery in this project. [^1][^2]
 
-2024 年 Shachar 等结合杂交体系、报告实验和遗传变异分析，研究了序列与结构如何影响 m6A 沉积。这也说明“结构影响修饰”和“修饰影响结构”都已有研究基础，观察性整合不能自行确定方向。[^3]
+In 2024, Shachar et al. combined hybridization systems, reporting experiments, and genetic variation analysis to study how sequence and structure affect m6A deposition. This also shows that both "structure affects modification" and "modification affects structure" have research foundations, and observational integration cannot determine the direction on its own. [^3]
 
-还需要特别注意 2026 年 8 月 14 日发表的 SMART-m6A。该研究已经结合序列与计算结构开展深度学习、消融、定量预测及细胞系相关分析，并使用 icSHAPE 检查结构特征。其主要模型结构输入来自序列预测。因此，仅增加一个“序列＋结构”的模型，或绘制细胞系差异曲线，都不足以宣称方法首创。[^4]
+Special attention also needs to be paid to SMART-m6A published on August 14, 2026. The study has combined sequence and computational structures to perform deep learning, ablation, quantitative prediction and cell line correlation analysis, and used icSHAPE to examine structural features. Its main model structure input comes from sequence prediction. Therefore, just adding a "sequence + structure" model or drawing a cell line difference curve are not enough to claim the originality of the method. [^4]
 
-StructRMDB 已经提供修饰相关的计算结构变化资源。因此，把修饰映射到预测结构并做成网页，也不是本项目应优先竞争的方向。[^5]
+StructRMDB already provides resources for computing structural changes related to modifications. Therefore, mapping modifications to predicted structures and making them into web pages is not a priority for this project. [^5]
 
-**本项目的可行贡献是一个范围清晰、可复现的实证分析：以实验反应性为核心，分开考察序列表征增益与实验测量增益，在严格划分、覆盖控制和另一数据集复核下，量化结论的成立条件。** 这是一项合适的本科研究目标；是否达到独立论文要求，要取决于实际结果及与现有工作的进一步比较。不得使用“首次”“全面揭示”或保证发表等表述。
+**The feasible contribution of this project is an empirical analysis with clear scope and reproducibility: with experimental reactivity as the core, sequence representation gain and experimental measurement gain are separately investigated, and the conditions for establishing the quantitative conclusion are quantified under strict division, coverage control and review with another data set. ** This is an appropriate undergraduate research objective; fulfillment of independent thesis requirements will depend on actual results and further comparison with existing work. Expressions such as "first time", "full disclosure" or guaranteed publication are not allowed.
 
-可形成三种同样合格的结题结果：实验结构存在稳定增益；粗略关联在控制背景后明显减弱；增益仅存在于特定测量条件或区域。项目质量取决于证据是否可靠，不取决于是否得到预期方向。
+Three equally qualified results can be formed: there is a stable gain in the experimental structure; the rough correlation is significantly weakened after controlling the background; and the gain only exists in specific measurement conditions or areas. Project quality depends on whether the evidence is reliable, not on whether the expected direction is obtained.
 
-**三、数据选择与具体入口**
+**3. Data selection and specific entrance**
 
-| 用途 | 数据 | 推荐范围 | 已核实信息 | 尚待落实 |
+| Purpose | Data | Recommended range | Verified information | Pending implementation |
 |---|---|---|---|---|
-| 发现集：结构 | GSE74353 | HEK293T 的 in vivo icSHAPE；in vitro 为选做 | GEO 列出独立的 InVivo、InVitro BaseReactivities 压缩文件 | 转录本版本、缺失值编码、是否提供重复层面分数 |
-| 发现集：m6A | GSE210563 | HEK293T GLORI+ rep1/rep2 | 样本 GSM6432590、GSM6432591；提供处理后 CSV | 列定义、完整可测背景、重复整合方式 |
-| 复核集：结构 | GSE145805 | HeLa icSHAPE | 样本 HeLaD/HeLaN；处理后 TXT 归档 | 必须使用处理后的反应性，不能把 D/N 当生物重复 |
-| 复核集：m6A | GSE210563 | HeLa hypoxia- GLORI+ rep1/rep2 | GSM6432595、GSM6432596；hypoxia- 为该实验常氧对照 | 培养条件与结构研究的差异、是否有更合适的同条件对照 |
-| 跨技术扩展 | GSE162356，属于 GSE162357 | HeLa poly(A) m6A-SAC-seq | GEO 列出 HeLa、HEK293、HepG2 的处理后 BED | 定量字段、质量门槛及背景位点的可用性 |
-| 寻找替代结构数据 | RASP v2.0 | 与上述细胞条件一致的实测数据 | 收录结构探测数据，并包含部分 AI 填补信号 | 下载时区分实测与填补，追溯原始研究 |
+| Discovery Set: Structure | GSE74353 | in vivo icSHAPE for HEK293T; in vitro is optional | GEO lists standalone InVivo, InVitro BaseReactivities compressed files | Transcript version, missing value encoding, whether to provide duplicate level scores |
+| Discovery set: m6A | GSE210563 | HEK293T GLORI+ rep1/rep2 | Sample GSM6432590, GSM6432591; provide processed CSV | Column definition, complete measurable background, repeated integration method |
+| Review set: Structure | GSE145805 | HeLa icSHAPE | Sample HeLaD/HeLaN; processed TXT archive | Processed reactivity must be used, D/N cannot be treated as biological duplicates |
+| Review set: m6A | GSE210563 | HeLa hypoxia- GLORI+ rep1/rep2 | GSM6432595, GSM6432596; hypoxia- is the normoxic control for this experiment | Differences in culture conditions and structural research, whether there is a more suitable control under the same conditions |
+| Cross-technology extension | GSE162356, part of GSE162357 | HeLa poly(A) m6A-SAC-seq | GEO lists processed BEDs for HeLa, HEK293, HepG2 | Availability of quantification fields, quality thresholds, and background sites |
+| Search for alternative structural data | RASP v2.0 | Measured data consistent with the above cell conditions | Includes structure detection data, and includes some AI filling signals | Distinguish between measured and filled when downloading, trace back to the original research |
 
-数据记录入口分别为 [GSE74353](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74353)、[GSE210563](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210563)、[GSE145805](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145805)、[GSE162356](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162356)。这些是候选配对关系，不是同一批细胞的共同测量。[^6][^7][^8][^9]
+The data record entries are [GSE74353](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74353), [GSE210563](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210563), [ GSE145805](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145805), [GSE162356](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162356). These are candidate pairwise relationships, not common measurements of the same batch of cells. [^6][^7][^8][^9]
 
-第一批建议文件为：
+The first batch of recommendation documents are:
 
-- `GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz`，GEO 标示约 8.8 MB。
-- `GSE74353_HS_293T_icSHAPE_InVitro_BaseReactivities.txt.gz`，约 7.0 MB，仅在扩展时使用。
-- GSM6432590、GSM6432591 的 GLORI 处理后文件；第一个样本列出 `GSM6432590_293T-mRNA-1_35bp_m2.totalm6A.FDR.csv.gz`，约 7.7 MB。
-- HeLa 复核阶段再下载 GSE145805 所需文件。整个 `GSE145805_RAW.tar` 在 GEO 标示约 424.4 MB，名称中的 RAW 不代表其中都是 FASTQ；记录注明它是 TXT 归档。
+- `GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz`, the GEO marker is approximately 8.8 MB.
+- `GSE74353_HS_293T_icSHAPE_InVitro_BaseReactivities.txt.gz`, approximately 7.0 MB, used only when expanding.
+- GLORI processed files for GSM6432590, GSM6432591; first sample listed`GSM6432590_293T-mRNA-1_35bp_m2.totalm6A.FDR.csv.gz`, about 7.7 MB.
+- Download the required files for GSE145805 during the HeLa review stage. entire`GSE145805_RAW.tar`Marked at approximately 424.4 MB in GEO, the RAW in the name does not imply that it is all FASTQ; the record states that it is a TXT archive.
 
-文件大小仅用于下载规划，以实时目录为准。不得从 `totalm6A.FDR` 文件名推定它包含全部测过的阴性位点。[^6][^8][^10]
+The file size is only used for download planning and is subject to the real-time directory. Not allowed`totalm6A.FDR`The file name presumes that it contains all tested negative sites. [^6][^8][^10]
 
-**配对规则。** HEK293 与 HEK293T 分开处理；常氧与缺氧、体内与体外分开处理；一个研究中的不同对照组也不自动合并。HeLa 的 hypoxia- 是特定研究的对照条件，不能写成与另一实验“完全同条件”。细胞系相同只能减少一部分差异，不能消除批次、培养、传代及异构体构成差异。
+**Pairing rules. **HEK293 and HEK293T are processed separately; normoxia and hypoxia, in vivo and in vitro are processed separately; different control groups within a study are not automatically combined. Hypoxia- of HeLa is a control condition for a particular study and cannot be written as "exactly the same conditions" as another experiment. The same cell line can only reduce part of the differences, but cannot eliminate differences in batches, culture, passages, and isoform composition.
 
-Human RNA MaP 可作后续资源，但不进入第一阶段：它主要对应 U2OS，与本方案优先使用的修饰样本不匹配。其 DMS-TRAM-seq 工作在本次核查的 PubMed 记录中仍标为预印本，应按该状态引用。[^11]
+Human RNA MaP can be used as a follow-up resource, but does not enter the first stage: it mainly corresponds to U2OS and does not match the modified samples prioritized in this protocol. Their DMS-TRAM-seq work remains marked as preprint in the PubMed record for this review and should be cited as such. [^11]
 
-还须纠正一个早期数据说明：GSE50676 对应 Wan 等的人类家系 RNA 结构研究，使用 PARS，不能归类成 DMS-seq；本方案不将其混入 icSHAPE 主分析。[^12]
+An early data note must also be corrected: GSE50676 corresponds to Wan et al.'s human family RNA structure study using PARS and cannot be classified as DMS-seq; this plan does not mix it into the icSHAPE main analysis. [^12]
 
-**四、数据审计与最小可行性检查**
+**4. Data audit and minimum viability check**
 
-第 1—2 周的目标是验证“能否建立可信的位点级联合表”，而不是追求模型分数。先读取每个文件的表头和少量记录，再解析全表。记录来源链接、文件名、下载日期、SHA-256、细胞系、处理条件、实验方法、参考版本、坐标规则与列说明。
+The goal of weeks 1-2 is to verify whether a reliable site-level union table can be built, rather than to pursue model scores. First read the header and a small number of records of each file, and then parse the entire table. Record the source link, file name, download date, SHA-256, cell line, processing conditions, experimental method, reference version, coordinate rules and column descriptions.
 
-每一类文件必须回答以下问题：
+Each type of document must answer the following questions:
 
-1. 一行代表基因组位点、转录本位点、区间，还是一个完整转录本？
-2. 坐标是否从 0 开始？区间是否左闭右开？链信息如何表示？
-3. 结构数值是归一化反应性、原始计数、预测值，还是 AI 填补值？
-4. m6A 数值是修饰比例、突变比例、显著性或置信评分？是否经过化学转换背景校正？
-5. 哪些行已经过显著性过滤？是否存在可靠的全 A 位点可测背景？
-6. 生物重复是否仍然可分开，还是作者已经合并？
+1. Does a row represent a genomic site, a transcript site, an interval, or a complete transcript?
+2. Do the coordinates start from 0? Is the interval closed on the left and open on the right? How is chain information represented?
+3. Are the structure values ​​normalized reactivity, raw counts, predicted values, or AI imputed values?
+4. Is the m6A value modification proportion, mutation proportion, significance or confidence score? Is it background corrected for chemical conversion?
+5. Which rows have been filtered for significance? Is there a reliable measurable background for all A sites?
+6. Are biological duplicates still separable, or have the authors been merged?
 
-建议的可行性判断如下。它们是工程门槛，不是统计功效保证：
+The suggested feasibility judgment is as follows. They are engineering thresholds, not statistical efficacy guarantees:
 
-| 审计结果 | 决策 |
+| Audit results | Decision-making |
 |---|---|
-| 发现集可用位点达到约 2,000、涉及约 300 个基因，分布与质量基本合理 | 推进完整主线 |
-| 约 500—2,000 个位点或基因覆盖较少 | 缩小特征数量，以回归和描述为主；树模型降为选做 |
-| 少于约 500 个位点，或某些分层几乎没有独立基因 | 先排查映射及覆盖；必要时换一个预先列出的数据组合 |
-| 无法确定坐标或定量字段含义 | 暂停该数据的正式统计分析，不靠猜测修补 |
-| 没有低修饰背景的检测覆盖信息 | 保留连续比例主线，取消修饰／未修饰分类 |
+| The discovery set has about 2,000 available sites, involving about 300 genes, and the distribution and quality are basically reasonable | Advancing the complete main line |
+| About 500-2,000 sites or less gene coverage | Reduce the number of features, focusing on regression and description; reduce the tree model to optional |
+| Less than about 500 sites, or some strata have few independent genes | Check mapping and coverage first; if necessary, change to a pre-listed data combination |
+| Unable to determine coordinate or quantitative field meaning | Suspend formal statistical analysis of this data without guesswork |
+| No detection coverage information for low-modification background | Keep the main line of continuous ratio and cancel the modified/unmodified classification |
 
-第 2 周结束前生成一张筛选流程表：下载记录数 → 位点去重 → 参考序列校验 → mRNA 注释 → 结构覆盖 → 重复 QC → 最终位点及基因数。样本多少必须报告实际计算值，不能用数据库总体规模代替交集规模。
+A screening flow chart is generated before the end of the second week: number of downloaded records → site deduplication → reference sequence verification → mRNA annotation → structural coverage → repeat QC → final number of sites and genes. The actual calculated value must be reported for the sample size, and the overall database size cannot be used instead of the intersection size.
 
-**五、坐标统一与联合数据表**
+**5. Coordinate unification and joint data table**
 
-优先采用 GLORI 记录使用的 GRCh38，但必须按结构文件实际使用的转录本注释建立转换关系。不要仅凭“都是人类”或“都是 hg38”就直接连接。GENCODE/Ensembl 的转录本版本影响剪接路径和位置，不能只去掉版本号后盲目合并。[^10]
+Priority is given to GRCh38 used by GLORI records, but the conversion relationship must be established based on the transcript annotation actually used in the structure file. Don't just make a direct connection based on "all are human" or "all are hg38". The transcript version of GENCODE/Ensembl affects the splicing path and position, so you cannot just remove the version number and merge blindly. [^10]
 
-处理顺序是：核对结构文件的原始转录本序列和注释 → 将其位置映射到带链的基因组坐标 → 对照 GLORI 基因组位点 → 按所选转录本提取剪接后的局部 RNA 序列。若跨版本迁移是必要步骤，迁移后重新验证中央碱基、邻域序列及链方向。反向链的基因组参考碱基可能为 T，但转录本方向上的中央碱基必须是 A。
+The processing sequence is: check the original transcript sequence and annotation of the structure file → map its position to the stranded genomic coordinates → check against the GLORI genomic site → extract the spliced ​​local RNA sequence by the selected transcript. If cross-version migration is a necessary step, re-verify the central base, neighbor sequence and chain direction after migration. The genomic reference base for the reverse strand may be T, but the central base in the direction of the transcript must be A.
 
-以唯一的“基因组位点＋链＋细胞条件”作为核心生物学单位。同一位点映射到多个异构体时，不得当作多个独立样本。主分析保留局部序列和区域归属无歧义的记录；其余单独计数，作为敏感性分析或排除。若采用代表转录本规则，必须先固定规则并说明无法解决短读长异构体混合的问题。异构体感知分析不设为本科生必做项。
+Taking the unique "genome site + chain + cellular conditions" as the core biological unit. When the same site is mapped to multiple isomers, they should not be treated as multiple independent samples. Records with unambiguous local sequence and region assignments were retained in the main analysis; the remainder were counted separately and included in sensitivity analyzes or excluded. If the representative transcript rule is adopted, the rule must first be fixed and explained that the problem of short-read isoform mixing cannot be solved. Isomer perception analysis is not required for undergraduate students.
 
-建议联合表字段：
+Suggested union table fields:
 
-| 字段组 | 内容 |
+| Field Group | Content |
 |---|---|
-| 标识 | site_id、gene_id、transcript_id、chr、position、strand、cell_line |
-| 来源 | structure_accession、modification_accession、replicate、condition、reference_version |
-| 响应 | m6A_fraction、原始分子/读段计数（若有）、覆盖、原始置信指标 |
-| 序列 | 中心 201 nt 序列、DRACH 子型、GC 比例、3-mer 频率 |
-| 注释 | CDS／5′UTR／3′UTR、距终止密码子和剪接边界的位置、表达量（若有） |
-| 实验结构 | -50 至 +50 nt 反应性数组、有效值掩码、各窗口覆盖率 |
-| 预测结构 | 201 nt 序列预测的配对概率、MFE、配对状态熵等 |
-| 分析标记 | 纳入/排除原因、缺失字段标记、gene_group、split_id |
+| identification | site_id, gene_id, transcript_id, chr, position, strand, cell_line |
+| source | structure_accession, modification_accession, replicate, condition, reference_version |
+| response | m6A_fraction, raw molecule/read count (if any), coverage, raw confidence metric |
+| Sequence | Center 201 nt sequence, DRACH subtype, GC ratio, 3-mer frequency |
+| Comments | CDS/5′UTR/3′UTR, position from stop codon and splicing boundary, expression level (if any) |
+| Experimental structure | -50 to +50 nt reactivity array, rms mask, individual window coverage |
+| Predicted structure | Pairing probability, MFE, pairing state entropy, etc. of 201 nt sequence prediction |
+| Analysis flags | Reasons for inclusion/exclusion, missing field flags, gene_group, split_id |
 
-至少人工核查 20 个位点，包括正链、负链、外显子边界及多异构体情况。正式脚本需具有可自动运行的坐标断言和长度检查。这里的检查是防止生物信息学错位的必要验证，不是以人工挑出的几个位点证明整体生物学结论。
+At least 20 sites were manually checked, including positive strand, negative strand, exon boundaries and multiple isomers. Formal scripts need to have coordinate assertions and length checks that run automatically. The inspection here is a necessary verification to prevent bioinformatics misalignment, rather than proving the overall biological conclusion with a few manually selected sites.
 
-**六、质量控制、响应变量与缺失值**
+**6. Quality control, response variables and missing values**
 
-GLORI 提供单碱基定量 m6A 信息，但比例估计仍受有效覆盖和化学转换背景影响。优先沿用原文及文件定义的质量控制；只在数据提供相应字段时增加覆盖筛选。不得把普通突变率未经校正地改名为修饰比例。[^13]
+GLORI provides single-base quantitative m6A information, but ratio estimates are still affected by effective coverage and chemical conversion background. Prioritize the quality control defined in the original text and file; only add coverage filtering when the corresponding fields are provided in the data. The ordinary mutation rate must not be renamed uncorrected to the modification rate. [^13]
 
-主分析优先保留两次重复均满足作者质量要求的位点。分别检查重复间相关性、绝对差异分布和覆盖关系；不只报告相关系数。若只有比例，默认使用重复均值并保留各重复结果用于敏感性分析；若有可比有效计数，可以依原流程合并计数，但不能把技术读段当独立生物重复。
+The main analysis prioritized retaining loci whose two replicates met the author's quality requirements. Inter-replicate correlations, absolute difference distributions, and coverage relationships are examined separately; not just the correlation coefficient is reported. If there is only a proportion, the replicate mean is used by default and each replicate result is retained for sensitivity analysis; if there are comparable effective counts, the counts can be combined according to the original process, but the technical reads cannot be treated as independent biological replicates.
 
-如具有明确有效深度字段，可在审计时比较 ≥10、≥20、≥50 的保留率，并在看正式关联结果前选定主阈值。不要为得到显著结果挑覆盖门槛。修饰表没有深度字段时，说明只能继承作者过滤，不能声称已经控制位点检测深度。
+If you have a clear valid depth field, you can compare the retention rates of ≥10, ≥20, and ≥50 during audit, and select the main threshold before looking at the formal correlation results. Don’t pick a coverage threshold to get significant results. When the modification table does not have a depth field, it means that it can only inherit the author filtering and cannot claim to have controlled the depth of site detection.
 
-实验结构主窗口定义为中心两侧各 10 nt，排除位点 0；两侧分别至少 70% 有效反应性才计算主指标。对展示用的 ±50 nt 窗口单独记录每个相对位置的有效样本数。所有 `NULL`、`-999` 等缺失编码按原文件说明转换为缺失，不填成零。
+The main window of the experimental structure is defined as 10 nt on each side of the center, excluding site 0; the main index is calculated only when the effective reactivity on both sides is at least 70%. The number of valid samples for each relative position was recorded individually for the ±50 nt window used for presentation. all`NULL`、`-999`The missing codes are converted to missing according to the original document instructions and are not filled in with zeros.
 
-主分析保留实测结构值；不把 AI 填补信号混为实测结果。RASP v2.0 确实对部分数据提供深度学习填补，因此下载后必须保留该区别。[^14] 协变量缺失时，轻量插补仅在训练集拟合；与结构缺失相关的覆盖率应作为质量诊断。模型能够处理 NaN 不代表缺失偏倚已经消失。
+The main analysis retains the measured structure values; AI padding signals are not mixed with the measured results. RASP v2.0 does provide deep learning imputation for some data, so this distinction must be preserved after downloading. [^14] When covariates are missing, lightweight imputation is only fitted to the training set; coverage related to missing structures should be used as a quality diagnostic. Just because a model can handle NaN does not mean that missingness bias has disappeared.
 
-**七、结构特征：少而明确**
+**7. Structural features: few but clear**
 
-结构探测反应性是结构相关测量，不是直接的配对概率。报告中统一称“icSHAPE 反应性”或“实验结构信号”；将其解释为局部柔性或可及性证据时注明测量边界。探针可及性也与局部化学环境和分子接触有关，不能把高反应性一律解释成某个具体茎被打开。[^1][^15]
+Structure detection reactivity is a structure-related measure, not a direct pairing probability. Reports are collectively referred to as "icSHAPE reactivity" or "experimental structural signal"; measurement boundaries are noted when interpreted as evidence of local flexibility or accessibility. Probe accessibility is also related to the local chemical environment and molecular contacts, and high reactivity cannot always be explained as a specific stem being opened. [^1][^15]
 
-| 特征 | 定义 | 角色 |
+| Characteristics | Definition | Role |
 |---|---|---|
-| R_flank10 | -10…-1 与 +1…+10 有效反应性的均值 | Q1 唯一主要结构指标 |
-| R_up20、R_down20 | 上下游各 20 nt 均值，排除中心 | 探索邻域方向性 |
-| R_far | -50…-21 与 +21…+50 的均值 | 区分近邻和较远背景 |
-| R_0 | 中央位点反应性 | 仅作附加分析，避免主线依赖中央读出 |
-| Coverage | 各窗口有效值比例 | QC 和缺失偏倚诊断，不包装成生物结构特征 |
-| P_unpaired | 计算预测的中央或邻域未配对概率 | 序列预测结构对照 |
-| MFE_per_nt | 固定窗口 MFE 除以长度 | 计算特征，不解释为修饰的能量效应 |
-| H_pair | 计算 ensemble 的配对状态不确定性 | 信息论扩展 |
+| R_flank10 | Mean of -10…-1 and +1…+10 effective reactivity | Q1 only major structural indicator |
+| R_up20, R_down20 | 20 nt mean upstream and downstream, excluding the center | Explore neighborhood directionality |
+| R_far | The mean of -50…-21 and +21…+50 | Distinguish between nearest neighbors and further background |
+| R_0 | Central site reactivity | Additional analysis only to avoid mainline reliance on central readout |
+| Coverage | Proportion of valid values ​​in each window | QC and deletion bias diagnosis, not packaged into biological structural features |
+| P_unpaired | Calculate the predicted central or neighborhood unpaired probability | Sequence prediction structure comparison |
+| MFE_per_nt | Fixed window MFE divided by length | Compute features, not interpreted as modified energy effects |
+| H_pair | Compute the pairing state uncertainty of the ensemble | Information theory extension |
 
-预测结构采用固定 201 nt 序列窗口，与主模型输入序列范围一致；首版只使用标准 A/C/G/U 参数。用 ViennaRNA 的 partition function 计算配对概率，而不是只从一条 dot-bracket 结构推导概率。RNAfold 的 `-p` 支持这类计算。[^16]
+The predicted structure uses a fixed 201 nt sequence window, consistent with the main model input sequence range; the first version uses only standard A/C/G/U parameters. Use ViennaRNA's partition function to calculate pairing probabilities instead of deriving probabilities from just a dot-bracket structure. RNAfold`-p`This type of calculation is supported. [^16]
 
-如果定义 p(i,j) 为位点 i 与 j 配对的预测概率，u(i)=1−Σj p(i,j)，则可定义：
+If p(i,j) is defined as the predicted probability of pairing site i with j, u(i)=1−Σj p(i,j), then it can be defined:
 
 $$H_i=-u_i\log_2u_i-\sum_jp(i,j)\log_2p(i,j).$$
 
-约定 0·log(0)=0。这些状态互斥；不能把 paired、unpaired、stem 和 loop 这几类互相重叠的标签放在同一个概率分布中求熵。H_i 是给定模型、窗口和温度下的配对状态不确定性，不是细胞内构象数量或动力学的直接测量。
+It is agreed that 0·log(0)=0. These states are mutually exclusive; overlapping labels such as paired, unpaired, stem, and loop cannot be placed in the same probability distribution to calculate entropy. H_i is the pairing state uncertainty for a given model, window, and temperature and is not a direct measure of the conformational population or dynamics within the cell.
 
-若折叠软件环境准备耗时超过半天，先完成实验信号及序列基线，再补计算结构。不要为了本项目修改现有 PyTorch 环境中的核心依赖。窗口截断可能忽略长程配对，应在讨论中说明；401 nt 的窗口敏感性分析只在有余力时做，并同步扩展序列基线。
+If the preparation of the folding software environment takes more than half a day, complete the experimental signals and sequence baselines first, and then add the calculation structure. Do not modify core dependencies in the existing PyTorch environment for this project. Window truncation may ignore long-range pairings and should be stated in the Discussion; window sensitivity analysis of 401 nt was only done when available and simultaneously extended sequence baselines.
 
-**八、统计分析：先回答关联，再解释模型**
+**8. Statistical analysis: answer the correlation first, then explain the model**
 
-**8.1 描述图。** 在发现集绘制修饰比例分布、结构覆盖分布、重复一致性，以及按修饰比例分组的 ±50 nt 平均反应性曲线。分组界限在发现集确定并冻结；连续比例仍是正式响应，分组仅用于可视化。曲线下方提供有效位点数，避免把覆盖变化误看成结构变化。
+**8.1 Descriptive diagram. ** Plot modification proportion distribution, structure coverage distribution, repeat consistency, and ±50 nt average reactivity curves grouped by modification proportion in the discovery set. Grouping boundaries are determined and frozen in the discovery set; continuous scale remains the official response, and grouping is used for visualization only. The number of effective sites is provided below the curve to avoid mistaking coverage changes as structural changes.
 
-**8.2 主要关联。** 设 y 为重复整合后的 m6A 比例，R 为 R_flank10。拟合低维模型：
+**8.2 Primary Relevance. ** Let y be the proportion of m6A after repeated integration and R be R_flank10. Fit a low-dimensional model:
 
 $$y_i=\beta_0+\beta_RR_i+\gamma^TC_i+\epsilon_i.$$
 
-C 预先包括 DRACH 子型、转录本区域、局部 GC、距终止密码子的位置，以及可获得的表达量和两种实验的覆盖指标。限制到常规 DRACH 的主分析须明确其适用范围；非 DRACH 位点可单列描述。不能从删除稀少子型或非典型位点推导它们没有生物学意义。
+C pre-includes the DRACH subtype, transcript region, local GC, position from the stop codon, as well as obtainable expression levels and coverage metrics for both experiments. Primary analyzes restricted to conventional DRACH must specify their scope; non-DRACH sites may be described separately. It cannot be deduced from deletion of rare subtypes or atypical sites that they have no biological significance.
 
-主要报告 β_R、按结构信号变化一个标准差对应的修饰比例变化、95% 置信区间及样本/基因数。若用线性模型，检查残差和明显非线性；它是平均关联近似，不是修饰概率生成机制。对明显弯曲的关系，可预设一个低自由度样条作敏感性分析，而不是持续增加自由度到显著为止。
+Mainly report β_R, modification proportion change corresponding to one standard deviation of structural signal change, 95% confidence interval and sample/gene number. If using a linear model, check the residuals and apparent nonlinearities; it is an average correlation approximation, not a modified probability generation mechanism. For significantly curved relationships, a low-degree-of-freedom spline can be preset for sensitivity analysis instead of continuing to increase the degrees of freedom until significant.
 
-主置信区间采用按基因聚类的 bootstrap，建议 1,000 次，并与聚类稳健标准误结果对照。一个基因的全部位点在同一次重抽样中一起进入；不能以独立位点 bootstrap 夸大有效样本量。加入每基因等权的结果作为敏感性分析，检查少数长转录本是否主导结论。
+Main confidence intervals were bootstrapped clustered by gene, suggested 1,000 times, and compared to clustered robust standard error results. All sites of a gene are entered together in the same resampling; the effective sample size cannot be inflated with independent site bootstrap. The results with equal weight per gene were added as a sensitivity analysis to check whether a few long transcripts dominate the conclusions.
 
-**8.3 多重比较。** R_flank10 的主要检验事先固定；其他结构窗口、区域分层和逐位置检验分别定义检验族，采用 Benjamini–Hochberg FDR。逐位置图若只有 pointwise 区间，明确它不是整条曲线的同时置信带。不能把一串相邻显著位置当成很多独立发现。
+**8.3 Multiple comparisons. ** The main test of R_flank10 is fixed in advance; other structural windows, regional hierarchical and position-by-position tests define test families respectively, using Benjamini–Hochberg FDR. If the position-by-position plot only has pointwise intervals, make sure it is not the simultaneous confidence band of the entire curve. A string of adjacent salient locations cannot be treated as many independent discoveries.
 
-**8.4 必做敏感性分析。** 至少比较：排除中心 0 与进一步排除 -2…+2；仅高结构覆盖记录；分别使用两个 GLORI 重复；按基因等权；限制到无异构体歧义的位点。样本足够时加 CDS 与 3′UTR 分层。若去掉中心附近信号后关联消失，结论收窄为局部探测特征，而不是证明存在大范围重折叠。[^15]
+**8.4 Sensitivity analysis must be done. ** Compare at least: exclusion of center 0 vs. further exclusion of -2…+2; only high structure coverage records; use of two GLORI repeats each; equal weighting by gene; restricted to sites without isoform ambiguity. When the sample is sufficient, add CDS and 3′UTR layering. If the correlation disappears after removing the signal near the center, the conclusion is narrowed to local detection features rather than proving the existence of large-scale refolding. [^15]
 
-**8.5 未测因素。** 蛋白结合、转录状态、细胞培养差异和异构体混合未必能得到充分控制。回归中的“调整后关联”仅意味着调整了列出的协变量。不要写成“排除了所有混杂”或“证明结构独立决定修饰”。
+**8.5 Unmeasured factors. **Protein binding, transcription status, cell culture differences, and isoform mixing may not necessarily be adequately controlled. "Adjusted association" in a regression simply means adjusting for the listed covariates. Don't write "all confounding is ruled out" or "prove that structure independently determines modification."
 
-**九、AI 模块：用消融确定信息来自哪里**
+**9. AI module: Use ablation to determine where information comes from**
 
-AI 主任务为预测连续的 m6A 修饰比例。只比较两类模型：Ridge 回归作为稳定基线，HistGradientBoostingRegressor 作为非线性模型。后者是梯度提升树的一种实现，适合表格特征；主线不需要 PyTorch、Transformer 或 GPU。[^17]
+The main task of the AI ​​is to predict the continuous m6A modification ratio. Only two types of models are compared: Ridge regression as a stable baseline and HistGradientBoostingRegressor as a nonlinear model. The latter is an implementation of gradient boosted trees, suitable for tabular features; the mainline does not require PyTorch, Transformer, or GPUs. [^17]
 
-各模型使用同一响应、同一批位点和同一数据划分。定义 X 为 201 nt 的序列特征（one-hot 加预设 3-mer 频率），P 为同一段序列的预测结构，R 为上述实验反应性特征，C 为共同背景协变量。
+Each model uses the same response, the same batch of sites, and the same data partitioning. Define X as the sequence feature of 201 nt (one-hot plus preset 3-mer frequency), P as the predicted structure of the same sequence, R as the above experimental reactivity feature, and C as the common background covariate.
 
-| 模型编号 | 输入 | 回答的问题 |
+| Model Number | Input | Answered Questions |
 |---|---|---|
-| M0 | C | 区域和测量背景本身能解释多少？ |
-| M1 | C＋X | 序列基线有多强？ |
-| M2 | C＋X＋P | 计算结构表征是否帮助这个学习器？ |
-| M3 | C＋X＋R | 实验结构相对序列的额外预测价值是多少？ |
-| M4 | C＋X＋P＋R | 在已有计算结构后，实验结构还能否提供增益？ |
+| M0 | C | How much can the regional and measurement context itself explain? |
+| M1 | C+X | How strong is the sequence baseline? |
+| M2 | C＋X＋P | Does computing structural representation help this learner? |
+| M3 | C＋X＋R | What is the additional predictive value of experimental structures relative to sequences? |
+| M4 | C＋X＋P＋R | After the calculation structure is already available, can the experimental structure still provide gains? |
 
-**主要模型比较为 M4 对 M2，主要指标为独立测试集的 MAE 差值：**
+**The main model comparison is M4 vs. M2, and the main metric is the MAE difference on the independent test set: **
 
 $$\Delta MAE=MAE(M2)-MAE(M4).$$
 
-正值表示加入实验结构后误差减小。次要指标为 Spearman 相关、RMSE 和 R²；允许 R² 为负。若比例按 0—1 表示，MAE 乘 100 后对应百分点，报告时必须写清单位。不要用“准确率”描述连续比例回归。
+Positive values ​​indicate that the error decreases after adding the experimental structure. Secondary measures are Spearman correlation, RMSE, and R²; negative R² is allowed. If the ratio is expressed as 0-1, the MAE multiplied by 100 corresponds to the percentage, and the unit must be written when reporting. Don't use "accuracy" to describe continuous proportional regression.
 
-Ridge 建议只比较少量正则化强度，如 0.1、1、10、100；提升树预设约 6—8 组参数，不做大规模搜索。树模型默认的随机内部早停划分可能跨基因，需禁用或采用明确的分组验证方案。所有缩放、插补及参数选择都仅发生在开发数据中。
+Ridge recommends comparing only a small number of regularization strengths, such as 0.1, 1, 10, and 100; the lifting tree presets about 6-8 sets of parameters and does not conduct large-scale searches. The default random internal early stopping partitioning of tree models may span genes and needs to be disabled or an explicit group validation scheme used. All scaling, interpolation, and parameter selection occur only in development data.
 
-解释模型时，先检查是否比基线有效，再做特征组消融或测试集置换重要性。对高度相关的结构窗口，优先整组解释，避免给每个相似特征编造独立机制。置换会产生不自然的序列—结构组合，故主要证据仍是重新训练后的模型比较；置换重要性只作模型诊断。SHAP 不是必做项，也不是因果解释。[^18]
+When interpreting the model, first check whether it is more effective than the baseline before doing feature group ablation or test set permutation importance. For highly related structural windows, give priority to the whole set of explanations to avoid fabricating independent mechanisms for each similar feature. Replacement will produce unnatural sequence-structure combinations, so the main evidence is still model comparison after retraining; the importance of replacement is only used for model diagnosis. SHAP is not a must-do, nor is it a cause-and-effect explanation. [^18]
 
-**十、数据划分与外部复核**
+**10. Data division and external review**
 
-主划分以基因为单位：HEK293T 的约 80% 基因作为开发集，20% 为一次性内部测试集。在开发集中使用 5 折 GroupKFold 调参。若有效基因数较少，减少到 3 折并缩小模型规模。GroupKFold 的目的就是使一个组不同时进入训练和验证。[^19]
+The main partition is in genes: ~80% of HEK293T's genes as a development set and 20% as a one-time internal test set. Use 50% off GroupKFold tuning in the development set. If the number of effective genes is small, reduce it to 3 fold and reduce the model size. The purpose of GroupKFold is to prevent a group from entering training and validation at the same time. [^19]
 
-划分还要处理跨基因重复序列：完全相同的 201 nt 窗口须在同一个组中，或仅保留一份；对高相似窗口进行审计，在有条件时按序列簇与基因关系共同分组。只按基因分组不等于完全消除了同源序列泄漏。匹配集和位点的所有重复也必须保持同组。
+The division also deals with cross-gene repeat sequences: identical 201 nt windows must be in the same group, or only one copy is retained; high similarity windows are audited and grouped together by sequence clusters and gene relationships when possible. Grouping by genes alone does not mean completely eliminating homologous sequence leakage. All repetitions of match sets and sites must also remain in the same group.
 
-主模型在内部测试集上报告一次最终结果；测试表现不能反过来用于选择窗口、特征或阈值。用测试基因为单位的 paired bootstrap 计算 ΔMAE 区间，所有模型每次抽取同一批基因。该区间主要反映固定模型在测试基因上的抽样不确定性，不包含所有实验批次及训练随机性。可以用少量预设种子补充训练稳定性，不能从中挑最好的运行。
+The master model reports final results once on an internal test set; test performance cannot in turn be used to select windows, features, or thresholds. The ΔMAE interval was calculated using paired bootstrap with test genes as units, and all models sampled the same batch of genes each time. This interval mainly reflects the sampling uncertainty of the fixed model on the test genes, and does not include all experimental batches and training randomness. You can use a small number of preset seeds to supplement training stability, but you can't pick the best ones to run.
 
-HeLa 复核分成两个层次：
+HeLa review is divided into two levels:
 
-- **关联复核：** 使用冻结的 R_flank10、协变量和 QC 规则，在 HeLa 独立估计效应。报告方向、幅度和区间；若与发现集相反或区间很宽，直接写出。
-- **迁移评估：** 冻结 HEK293T 模型及预处理，直接在 HeLa 测试，不用 HeLa 标签调参。分别报告所有合格位点，以及剔除开发阶段出现过的基因/重复序列后的严格子集；若后者不足，只能称跨细胞背景迁移，不能称新基因泛化。
+- **Association Review:** Effects are estimated independently in HeLa using frozen R_flank10, covariates and QC rules. Report the direction, magnitude, and interval; if it is contrary to the discovery set or the interval is wide, write it directly.
+- **Migration evaluation:** Freeze the HEK293T model and preprocessing, and test directly in HeLa without HeLa label parameter adjustment. Report all qualified sites separately, as well as a strict subset after excluding genes/repetitive sequences that appeared in the development stage; if the latter is insufficient, it can only be called cross-cell background migration, not generalization of new genes.
 
-GSE74353 与 GSE145805 的实验年份和处理流程不同。因此，跨细胞系变化与研究批次变化在这里纠缠；HeLa 复核失败不能单独归因为“细胞特异性”，成功也不能证明所有细胞通用。必要时仅比较各数据集内部的效应方向和相对模型增益，不合并原始反应性。禁止用测试标签决定的批次校正。
+The experimental years and processing procedures of GSE74353 and GSE145805 are different. Therefore, cross-cell line variation and study batch variation are entangled here; HeLa review failure cannot be attributed to "cell specificity" alone, nor does success prove to be universal for all cells. When necessary, only effect directions and relative model gains within each data set were compared, without merging raw reactivity. Batch calibration determined by test labels is prohibited.
 
-**十一、信息论模块：可选，但必须定义准确**
+**11. Information Theory Module: Optional, but must be defined accurately**
 
-本项目中的“信息”可以有三种具体含义：序列与实验数据的整合；计算 ensemble 的配对状态熵；模型加入结构后预测不确定性减少的程度。前两项可直接进入主线，第三项作为第 9—10 周的扩展。
+The "information" in this project can have three specific meanings: the integration of sequence and experimental data; the calculation of the pairing state entropy of the ensemble; and the degree of reduction in prediction uncertainty after adding structure to the model. The first two items can be entered directly into the main plot, and the third item serves as an expansion for weeks 9-10.
 
-有一个关键数学边界：如果预测结构 P 完全由完整输入序列 X 和固定算法决定，即 P=f(X)，则理论上：
+There is a key mathematical bound: if the predicted structure P is completely determined by the complete input sequence X and a fixed algorithm, that is, P=f(X), then theoretically:
 
 $$I(Y;P\mid X)=0.$$
 
-这不妨碍 M2 优于 M1，因为有限数据和有限模型可能更容易使用结构表征。这样的改善应称为“结构表征增益”，不能解释成 P 带来了完整序列之外的新观测信息。如果模型只使用压缩的 k-mer 特征，预测结构也可能补回压缩时丢失的序列信息，因此更不能把结果当作独立生物信息的证明。实验反应性 R 则不是仅由输入序列计算生成的，值得单独评价。
+This does not prevent M2 from being preferred over M1, since limited data and limited models may be easier to use structural representations. Such an improvement should be called a "structural representation gain" and cannot be interpreted as P bringing new observational information beyond the complete sequence. If the model only uses compressed k-mer features, the predicted structure may also compensate for the sequence information lost during compression, so the results cannot be regarded as proof of independent biological information. The experimental reactivity R is not calculated solely from the input sequence and deserves separate evaluation.
 
-不建议本科生第一版直接估计高维 I(Y;R|X)：高维条件独立检验需要明确假设，估计结果容易受模型误差及稀疏性影响。[^20]
+It is not recommended for undergraduate students to directly estimate high-dimensional I(Y;R|X) in the first version: high-dimensional conditional independence testing requires clear assumptions, and the estimation results are easily affected by model errors and sparsity. [^20]
 
-更易执行的选做方法是：在已检出位点内，根据发现集冻结的比例分位点定义低、中、高修饰水平，把分类作为辅助任务；或在合格低修饰背景存在时做二分类。以模型对数损失的减少量换算为 bits：
+An easier-to-implement option is to define low, medium, and high modification levels based on the frozen proportion quantiles of the discovery set within the detected sites, and use classification as an auxiliary task; or perform secondary classification when qualified low modification background exists. Convert the reduction in model logarithmic loss to bits:
 
 $$\Delta_{bits}=\{LogLoss(M2)-LogLoss(M4)\}/\ln 2.$$
 
-该量在独立测试样本上计算，并按基因给区间。称为“该预测任务下的对数损失增益”，不要直接命名成准确测得的生物学条件互信息；只有当模型充分逼近真实条件分布并满足相应取样条件时，才与条件熵差存在理想关系。分组阈值、类别比例和选择偏倚都会改变它。若为负，照实报告，不能截成零。
+The quantity is calculated on independent test samples and intervals are given by gene. It is called "the logarithmic loss gain under this prediction task", do not directly name it as the accurately measured biological condition mutual information; only when the model fully approximates the true condition distribution and meets the corresponding sampling conditions, there is an ideal relationship with the conditional entropy difference. Grouping thresholds, class proportions, and selection bias all change it. If negative, report it as it is and cannot be truncated to zero.
 
-**十二、可选的修饰／低修饰对照分析**
+**12. Optional modification/low modification control analysis**
 
-这部分不是主线的前提。仅当拥有“测过且足够覆盖”的 A 位点背景时，才构建分类标签。公开显著位点列表之外的 A 统一视为未标注，不能自动设 y=0；一个位点的未检出也不等于真正无修饰。
+This part is not a prerequisite for the main plot. Classification labels are only constructed if there is a "tested and sufficiently covered" A site background. A outside the list of public significant sites is uniformly regarded as unlabeled, and y=0 cannot be automatically set; the non-detection of a site does not mean that it is truly unmodified.
 
-合格对照需要匹配：中央碱基 A、DRACH 子型、转录本区域、序列 GC、表达及两类实验覆盖。优先同基因或同转录本背景；无合适对照的阳性排除并报告。低修饰阈值依据技术检测下限与比例区间确定，不能随意将没有计数的一行称为“低于 5%”。
+Qualified controls need to match: central base A, DRACH subtype, transcript region, sequence GC, expression and two types of experimental coverage. Prioritize isogenic or isogenic backgrounds; positives without suitable controls are excluded and reported. The low modification threshold is determined based on the technical detection limit and proportion interval. A line with no counts cannot be arbitrarily called "less than 5%".
 
-若采用每个阳性 1—3 个匹配背景，是为得到条件可比的研究样本，不是自然人群抽样。AUPRC、校准和 log loss 必须连同测试集阳性比例报告；1:1 平衡集上的 AUPRC 不能与自然稀疏候选集直接比较。模型学习的是该标签和取样规则下的检出差异，不是所有 RNA 分子的真实修饰概率。
+If 1-3 matching backgrounds are used for each positive, it is to obtain research samples with comparable conditions, not natural population sampling. AUPRC, calibration, and log loss must be reported along with the test set positivity ratio; AUPRC on the 1:1 balanced set cannot be directly compared to the naturally sparse candidate set. The model learns the detection difference under the label and sampling rule, not the true modification probability of all RNA molecules.
 
-低修饰背景拿不到时，最好的替代是完成连续比例分析及其限制说明，而不是临时训练“阳性 versus 随机 A”的高分分类器。
+When low-modification backgrounds are unavailable, the best alternative is to complete a continuous proportion analysis and its restriction specification, rather than ad hoc training of a high-scoring "positive versus random A" classifier.
 
-**十三、结果图与交付内容**
+**13. Result chart and delivery content**
 
-建议最后形成 5 张主图；每张回答一个明确问题，不提前画入任何假想实验结果。
+It is recommended that 5 main pictures be formed in the end; each picture answers a clear question, and no hypothetical experimental results are drawn in advance.
 
-| 图 | 内容 | 要回答的问题 |
+| Figure | Content | Questions to answer |
 |---|---|---|
-| 图 1 | 数据来源、样本条件、筛选流程、最终位点/基因数 | 数据是怎么来的，有多少可用？ |
-| 图 2 | 重复一致性、覆盖分布、不同修饰水平的局部曲线 | 信号是否可靠，粗略关联是什么？ |
-| 图 3 | 调整后效应及主要敏感性分析的森林图 | 关联在控制背景后是否仍然存在？ |
-| 图 4 | M0—M4 在固定测试集的 MAE 与 ΔMAE 区间 | 实验结构实际贡献多少？ |
-| 图 5 | HeLa 复核、严格与非严格迁移子集、代表位点 | 结论能否复核，在哪里失效？ |
+| Figure 1 | Data source, sample conditions, screening process, final number of sites/genes | How does the data come from, and how much is available? |
+| Figure 2 | Repeat consistency, coverage distribution, local curves for different modification levels | Is the signal reliable and what is the rough correlation? |
+| Figure 3 | Forest plot of adjusted effects and main sensitivity analysis | Does the association persist after controlling for background? |
+| Figure 4 | The MAE and ΔMAE intervals of M0—M4 in the fixed test set | What is the actual contribution of the experimental structure? |
+| Figure 5 | HeLa review, strict and non-strict migration subsets, representative sites | Can the conclusion be reviewed, and where does it fail? |
 
-代表位点选择规则先固定，例如从高覆盖、无映射歧义的测试位点中展示 3—5 个，包括至少一个模型失败案例。不只挑最好看的基因。图中如展示预测二级结构，明确标注为计算预测，不写成实验直接解析。
+The representative site selection rules are first fixed, such as displaying 3–5 test sites from high coverage, no mapping ambiguity, including at least one model failure case. Don’t just pick the best-looking genes. If the predicted secondary structure is shown in the figure, it is clearly marked as a computational prediction and is not directly analyzed as an experiment.
 
-结题交付包包括：研究报告、上述主图、来源与数据字典、筛选计数表、固定划分表、分析脚本、配置文件、环境版本、运行说明及限制清单。报告中同时保留阴性或不稳定结果。无需制作在线数据库。
+The final delivery package includes: research report, the above main picture, source and data dictionary, filter count table, fixed partition table, analysis script, configuration file, environment version, operation instructions and restriction list. Negative or unstable results are also retained in the report. No need to make an online database.
 
-**十四、12 周安排与验收标准**
+**Fourteenth and 12th Week Arrangement and Acceptance Criteria**
 
-按 1 名有基础的学生每周约 12—15 小时、导师每周约半小时讨论规划。对初学者或课程繁忙者，按 14—16 周安排更稳妥；以下是工作量估计，不是完成时间保证。
+A student with basic knowledge will spend about 12-15 hours per week, and the tutor will discuss planning for about half an hour per week. For beginners or those with busy courses, a 14-16 week schedule is more secure; the following is an estimate of workload, not a guarantee of completion time.
 
-| 周次 | 工作 | 必须交付的结果 |
+| Weeks | Work | Result that must be delivered |
 |---|---|---|
-| 第 1 周 | 阅读核心论文，整理数据与字段，下载处理后样本 | 文献对比表、数据清单、文件头示例 |
-| 第 2 周 | 坐标映射、小规模交集、覆盖审计 | 位点检查记录、初步筛选表、确定继续/缩小范围 |
-| 第 3 周 | 完整联合表、重复 QC、缺失处理 | 冻结数据字典、确定可用位点和基因数 |
-| 第 4 周 | 局部特征、图 1—2、冻结主要问题与划分 | 书面分析配置；此后不依测试结果改主方案 |
-| 第 5 周 | 关联模型、基因聚类区间、敏感性分析 | 图 3 与效应量表 |
-| 第 6 周 | 序列基线、预测结构特征、M0—M4 Ridge | 可复现的开发集比较 |
-| 第 7 周 | 轻量树模型、消融、冻结模型 | 最终参数与模型说明 |
-| 第 8 周 | 一次性内部测试，整理最小版本 | 图 4、完整单细胞系报告、可运行代码 |
-| 第 9 周 | HeLa 复核数据整合及同规则分析 | 复核 QC、关联效应表 |
-| 第 10 周 | 外部迁移、可选信息增益或跨技术验证 | 图 5；只选择一个扩展 |
-| 第 11 周 | 整理解释、失败案例及局限 | 报告初稿、全部图注和来源 |
-| 第 12 周 | 从固定中间表重跑关键分析、导师核查 | 最终报告、代码、答辩材料内容提纲 |
+| Week 1 | Read core papers, organize data and fields, and download processed samples | Literature comparison table, data list, file header examples |
+| Week 2 | Coordinate mapping, small-scale intersections, coverage audit | Site inspection records, preliminary screening form, OK to continue/narrow down |
+| Week 3 | Full union table, duplicate QC, deletion handling | Freeze data dictionary, determine number of available sites and genes |
+| Week 4 | Local features, Figures 1-2, freeze major issues and divisions | Written analysis and configuration; thereafter the main plan will not be changed based on test results |
+| Week 5 | Association Models, Gene Cluster Intervals, Sensitivity Analysis | Figure 3 and Effect Scale |
+| Week 6 | Sequence Baseline, Predicted Structural Characteristics, M0—M4 Ridge | Reproducible Development Set Comparison |
+| Week 7 | Lightweight tree model, melting, freezing model | Final parameters and model description |
+| Week 8 | One-time internal testing, finishing the minimum version | Figure 4, complete single cell line report, runnable code |
+| Week 9 | HeLa review data integration and same rule analysis | Review QC, correlation effect table |
+| Week 10 | External migration, optional information gain, or cross-technology validation | Figure 5; Select only one extension |
+| Week 11 | Organize explanations, failures and limitations | First draft of report, all illustrations and sources |
+| Week 12 | Rerun key analysis from fixed intermediate table, instructor verification | Final report, code, defense material content outline |
 
-**第 8 周最小结题标准：** 一个细胞系的可信联合数据；明确的关联分析；序列与实验结构的固定测试比较；坐标与划分检查；足够清晰的限制说明。预测结构未能按时完成时，M3 对 M1 可作为最小版本比较，但不得声称已经分离了计算结构与实验结构贡献。
+**Week 8 Minimum Closing Criteria:** Confident joint data from one cell line; clear association analysis; fixed test comparison of sequence to experimental structure; coordinate and partitioning checks; sufficiently clear statement of limitations. When the predicted structure is not completed on time, M3 versus M1 may be compared as a minimal version, but no claim shall be made that computational structural and experimental structural contributions have been separated.
 
-**完整版标准：** 在最小版之上完成 M4 对 M2 及 HeLa 复核。不以 p<0.05、ΔMAE>0 或某个 AUC 门槛作为结题要求。样本不足、增益缺失或外部失败，只要有足够分析和解释，均可以形成完整本科研究报告。
+**Full Version Standard:** Completion of M4 versus M2 and HeLa review on Minimum Version. Do not use p<0.05, ΔMAE>0, or a certain AUC threshold as closing requirements. Insufficient samples, missing gains, or external failures can form a complete undergraduate research report as long as there is sufficient analysis and explanation.
 
-**十五、计算资源和工程组织**
+**15. Computing resources and engineering organization**
 
-主流程以处理后表格为输入，建议使用 16 GB 内存起步、32 GB 更舒适的电脑，预留约 10—20 GB 项目空间；这些是保守规划，应以实际文件和中间结果为准。主线无须 GPU，不批量重跑全套 FASTQ，不自建 RNA 基础模型。
+The main process uses the processed form as input. It is recommended to use a computer with 16 GB memory to start and 32 GB for a more comfortable computer, and reserve about 10-20 GB project space; these are conservative plans and should be based on actual files and intermediate results. The mainline does not require a GPU, does not rerun the entire set of FASTQ in batches, and does not build a self-built RNA basic model.
 
-Python 可使用 pandas/numpy、scipy/statsmodels、scikit-learn 和常规绘图库；结构折叠单独准备 ViennaRNA。项目已知可调用的 Python 为 `E:\ancd\envs\my_pytorch\python.exe`，但具体库是否可用仍应以环境检查为准。本次方案编制未安装或修改这些依赖。
+Python works with pandas/numpy, scipy/statsmodels, scikit-learn, and regular plotting libraries; structure folding prepares ViennaRNA separately. The project's known callable Python is`E:\ancd\envs\my_pytorch\python.exe`, but whether the specific library is available should still be subject to environmental inspection. These dependencies have not been installed or modified in this program preparation.
 
-建议目录如下；这是未来实施结构，并不表示这些数据和代码已经生成：
+The recommended directory is as follows; this is a future implementation structure and does not mean that these data and codes have been generated:
 
 ```text
 ModStruct/
   README.md
   config/analysis.yaml
-  metadata/source_manifest.csv
-  metadata/data_dictionary.md
+  metadata/manifests/source/source_manifest.csv
+  metadata/provenance/data_dictionary.md
   data/raw_processed/
   data/interim/
   data/final/site_table.parquet
-  splits/gene_splits.csv
+  results/tables/08_hek293t_group_assignments.csv
   src/03_audit_inputs.py
   src/04_validate_coordinate_mapping.py
   src/03_build_features.py
@@ -302,97 +302,97 @@ ModStruct/
   src/06_validate.py
   results/tables/
   results/figures/
-  report/
+  docs/reports/final/
 ```
 
-配置至少固定：数据版本、纳入标准、反应性缺失编码、窗口、主响应、QC 阈值、随机种子、基因分组、模型参数候选、主要终点、探索检验族。笔记本用于探索，正式产出由脚本读取配置生成。学生应能解释每一列的来源以及每一张图的计算方法。
+The configuration is at least fixed: data version, inclusion criteria, missing reactivity encoding, window, primary response, QC threshold, random seed, gene grouping, model parameter candidates, primary endpoint, exploratory test family. Notebooks are used for exploration, and formal output is generated by scripts reading configurations. Students should be able to explain the origin of each column and how each graph was calculated.
 
-**十六、风险、替代路线与结论边界**
+**16. Risks, Alternative Routes and Conclusion Boundaries**
 
-| 风险 | 如何发现 | 如何处理 |
+| Risk | How to find out | How to deal with it |
 |---|---|---|
-| 坐标或版本错配 | 中心不为 A、motif 异常、交集极低 | 回到原始序列和注释；不以调统计阈值解决 |
-| 阳性表没有可测背景 | 文件仅列显著位点且没有完整覆盖表 | 连续比例主线；取消阴性分类 |
-| 结构覆盖严重偏向高表达 | 纳入率随表达/覆盖明显变化 | 高覆盖敏感性、说明适用群体，必要时缩小范围 |
-| 信号仅集中在修饰邻位 | 排除 -2…+2 后效应消失 | 描述为局部探测特征，不推断全局结构重塑 |
-| 同一基因跨训练测试 | split 审计失败 | 重新按组划分，废弃泄漏版本性能 |
-| HeLa 复核失败 | 方向不一致或误差增益消失 | 报告批次与生物条件无法分离，不选择性删除 |
-| 计算结构有效、实验结构无增益 | M2>M1，但 M4 不优于 M2 | 表述为当前基线的表征增益，不能证明实验结构无用 |
-| 阳性内比例范围过窄 | 分布截断明显、重复噪声接近位点差异 | 缩小结论；不为提高可预测性随意筛高/低端 |
-| 工作量超出学期 | 第 4 周仍不能形成联合表 | 保留一个细胞系及实测反应性，删树模型/信息论扩展 |
+| Coordinate or version mismatch | The center is not A, the motif is abnormal, and the intersection is extremely low | Return to the original sequence and annotation; do not solve it by adjusting the statistical threshold |
+| The positive table has no measurable background | The file only lists significant sites and does not have a complete coverage table | Continuous proportion main line; cancel negative classification |
+| Structural coverage is heavily biased toward high expression | The inclusion rate changes significantly with expression/coverage | High coverage sensitivity, indicate the applicable group, and narrow the scope if necessary |
+| The signal is concentrated only in the modified ortho positions | The effect disappears after excluding -2…+2 | Described as a local detection feature, no global structural remodeling is inferred |
+| Cross-training test of the same gene | split audit failed | Re-divided into groups, discarding leaked version performance |
+| HeLa review failed | The direction is inconsistent or the error gain disappears | The reported batch cannot be separated from the biological conditions and is not selectively deleted |
+| The calculated structure is effective and the experimental structure has no gain | M2>M1, but M4 is not better than M2 | It is expressed as the representation gain of the current baseline, which cannot prove that the experimental structure is useless |
+| The range of the proportion within the positive is too narrow | The distribution is obviously cut off, and the repetitive noise is close to the site difference | Narrow the conclusion; do not arbitrarily filter the high/low end to improve predictability |
+| The workload exceeds the semester | The joint table cannot be formed in the 4th week | Retain a cell line and measured reactivity, delete the tree model/information theory extension |
 
-所有结果应限制在所研究的细胞、测量技术、位点筛选和序列范围内。多个基因提供统计信息，但不等于有多个独立细胞实验；基因 bootstrap 不能替代生物重复。分类与回归都不能单独确定“结构影响修饰”还是“修饰影响结构”。
+All results should be limited to the cells, measurement techniques, site filters, and sequences studied. Multiple genes provide statistical information, but do not equate to multiple independent cell experiments; genetic bootstrap is not a substitute for biological replicates. Neither classification nor regression alone can determine whether "structure affects modification" or "modification affects structure."
 
-若未来开展机制验证，可在独立项目中用相同序列的修饰/未修饰 RNA 比较局部结构，或结合修饰酶扰动、救援和结构测量。酶扰动本身也可能改变表达与细胞状态，仍需要相应对照。本科版不依赖这些实验完成。[^2][^3]
+For future mechanistic validation, local structures could be compared with modified/unmodified RNA of the same sequence in a separate project, or by combining modified enzyme perturbation, rescue, and structural measurements. Enzyme perturbation itself may also change expression and cell status, and corresponding controls are still required. The undergraduate version does not rely on these labs for completion. [^2][^3]
 
-**十七、项目难点与 AI 辅助下的工作边界**
+**17. Project difficulties and work boundaries assisted by AI**
 
-本项目的难点大部分不在编程，而在数据审计、判断与分析纪律。按出错风险从高到低列于下：前两项只能靠实际读文件和人工判断解决，中间两项靠规则冻结与自觉遵守，最后一项界定 AI 工具在该项目中的使用方式。
+Most of the difficulties in this project are not in programming, but in data auditing, judgment and analysis discipline. They are listed below in descending order of error risk: the first two can only be solved by actually reading files and manual judgment, the middle two rely on rule freezing and conscious compliance, and the last defines how AI tools are used in the project.
 
-**（1）数据对齐与坐标统一（最高风险）。** GLORI 与 icSHAPE 来自不同研究、不同年份、不同转录本注释版本，拼到同一"位点"时，坐标起算方式、区间开闭、基因组版本、转录本版本、链方向、异构体归属任一环节出错，都会让后续所有分析整体失效，而且错误是静默的——代码照跑、图照出、结论却是错的。第五节要求的人工核查与坐标断言不是可选优化，而是防止"全盘皆错"的必要关卡。
+**(1) Data alignment and coordinate unification (highest risk). ** GLORI and icSHAPE come from different studies, different years, and different transcript annotation versions. When they are combined into the same "site", any error in the coordinate starting method, interval opening and closing, genome version, transcript version, chain direction, and isoform attribution will invalidate all subsequent analysis as a whole, and the error is silent - the code is run, the picture is shown, but the conclusion is wrong. The manual verification and coordinate assertion required in Section 5 are not optional optimizations, but necessary hurdles to prevent "everything is wrong".
 
-**（2）数据真实状态未知。** 方案编制时尚未逐字段核对文件，一行代表位点还是整个转录本、某列是修饰比例还是突变率、重复是否已被作者合并等问题尚无答案。这些只能通过真实下载、读表头、逐列审计解决，不能以推测或"AI 生成的理解"代替。凡未经亲自核对的字段，一律不得当作已核实结论。
+**(2) The true status of the data is unknown. ** The file has not been checked field by field when the protocol was prepared. Questions such as whether a row represents a site or the entire transcript, whether a column represents a modification ratio or a mutation rate, and whether duplicates have been merged by the author have not yet been answered. These can only be solved through real downloads, header readings, and column-by-column audits, and cannot be replaced by speculation or "AI-generated understanding." Any fields that have not been personally verified shall not be deemed to have been verified.
 
-**（3）防止"为结果好看而调整"。** 挑选覆盖率阈值、从多个随机种子中选最好、让同一基因跨训练测试、只展示好看的位点，都属于分析纪律问题而非技术问题，且没有代码报错提示，只能靠第四节、第九节、第十节冻结的规则与自觉避免。
+**(3) Prevent "adjusting for good-looking results". ** Choosing coverage thresholds, choosing the best from multiple random seeds, allowing the same gene to be tested across trainings, and only displaying good-looking sites are all analytical discipline issues rather than technical issues. There are no code error prompts and can only be avoided by relying on the rules of freezing in Sections 4, 9, and 10 and consciously avoiding them.
 
-**（4）解释边界。** 反应性不等于配对概率、"调整协变量"不等于"排除所有混杂"、预测结构完全由序列算出时的增益只能称"表征增益"。这些边界不影响能否出图，但决定结论是否站得住。
+**(4) Explain the boundaries. ** Reactivity is not equal to pairing probability, "adjusting covariates" is not equal to "excluding all confounding", and the gain when the predicted structure is completely calculated from the sequence can only be called "representation gain". These boundaries do not affect whether the diagram can be produced, but they determine whether the conclusion is tenable.
 
-**（5）AI 工具不会降低的核心难度。** 生成式 AI 能显著降低写脚本、查资料、绘图与成文的门槛，但无法替人完成三件事：实际读取数据文件、对字段含义做判断、以及守住分析纪律不被"把结果做漂亮"的惯性突破。更须警惕的是，AI 工具会顺应暗示、持续优化到结果好看，从而让 p-hacking、数据泄漏等错误被光滑的报告外包装掩盖。因此本项目把 AI 定位为写代码与查资料的助手，数据含义、分析判断与结论边界由学生和导师共同负责；正式开题与结题时按学校要求披露 AI 使用情况。
+**(5) Core difficulty will not be reduced by AI tools. ** Generative AI can significantly lower the threshold for writing scripts, checking information, drawing, and writing documents, but it cannot complete three things for people: actually reading data files, making judgments about the meaning of fields, and maintaining analytical disciplines without being broken by the inertia of "making the results beautiful." What needs to be more vigilant is that AI tools will adapt to cues and continue to optimize until the results look good, allowing errors such as p-hacking and data leakage to be covered up by smooth report packaging. Therefore, this project positions AI as an assistant for writing code and checking information. The students and tutors are jointly responsible for the meaning of data, analysis and judgment, and the boundaries of conclusions. The use of AI will be disclosed in accordance with the school's requirements during the official opening and closing of the project.
 
-**十八、开题摘要与研究价值**
+**18. Proposal summary and research value**
 
-可直接改写用于开题的摘要：
+The abstract used to develop the title can be rewritten directly:
 
-> RNA 的 m6A 修饰与局部结构具有相互关联，但公开数据中的关联可能同时受到序列组成、转录本区域及测量覆盖的影响。本项目拟整合人类 HEK293T 细胞的 GLORI 定量修饰数据与 icSHAPE 实验结构数据，以已检出且质量可靠的 m6A 位点为对象，研究修饰比例与局部结构反应性的关系。项目将建立可追溯的位点级联合数据，采用背景调整和按基因聚类的统计分析，并通过序列、预测结构及实验结构的模型消融评估额外预测价值。进一步以 HeLa 数据复核关联及迁移表现，明确结论对细胞背景、实验批次与检测范围的依赖。预期交付可复现分析流程、结构关联结果及本科研究报告，为区分 RNA 序列表征与实验结构信息的价值提供实证依据。
+> m6A modification of RNA correlates with local structure, but correlations in published data may be affected by both sequence composition, transcript region, and measurement coverage. This project intends to integrate the GLORI quantitative modification data of human HEK293T cells and the icSHAPE experimental structural data, and use the detected and reliable m6A sites as the object to study the relationship between modification ratio and local structural reactivity. The project will build traceable site-level joint data, employ background adjustment and statistical analysis by gene clustering, and assess additional predictive value through model ablation of sequences, predicted structures, and experimental structures. Further review the correlation and migration performance with HeLa data to clarify the dependence of the conclusion on the cell background, experimental batch and detection range. It is expected to deliver reproducible analysis procedures, structural correlation results, and undergraduate research reports to provide empirical evidence for distinguishing the value of RNA sequence characterization and experimental structural information.
 
-学科归属可写为“生物信息学、统计学习与 RNA 表观转录组学交叉研究”。AI 的作用是比较可解释的预测模型；信息论的作用是界定不同输入提供的预测信息及其边界。本项目不需要承诺开发新神经网络，也不需要把一般相关分析包装成因果机制。
+The subject affiliation can be written as “interdisciplinary research on bioinformatics, statistical learning and RNA epitranscriptomics”. The role of AI is to create a more interpretable prediction model; the role of information theory is to define the predictive information provided by different inputs and its boundaries. This project does not require a commitment to develop new neural networks, nor does it require packaging general correlational analysis into causal mechanisms.
 
-**十九、检索与文献使用说明**
+**19. Instructions for searching and document usage**
 
-本方案采用针对性的范围检索，覆盖 m6A—结构机制、定量修饰数据、RNA 探测资源、结构辅助预测和模型验证方法；不是 PRISMA 系统综述，也不声称检索穷尽。主要检索词包括 `m6A icSHAPE structure association`、`GLORI GSE210563`、`GSE74353 HEK293T`、`m6A structure prediction 2026`、`StructRMDB`、`RASP v2.0` 和 `conditional independence testing`。
+This protocol uses a targeted range search, covering m6A—structural mechanisms, quantitative modification data, RNA detection resources, structure-assisted prediction, and model validation methods; it is not a PRISMA systematic review, nor does it claim to be an exhaustive search. Main search terms include`m6A icSHAPE structure association`、`GLORI GSE210563`、`GSE74353 HEK293T`、`m6A structure prediction 2026`、`StructRMDB`、`RASP v2.0`and`conditional independence testing`。
 
-优先采用期刊原始研究、GEO 官方记录和软件官方文档。预印本单独标注，不把 PMC 收录当作同行评审的证明。部分数据库页面间歇性访问失败，已通过可读取的官方记录核对核心元数据，但不能据此声称实际数据内容或下载链路全部验证通过。来源规模和技术描述不代替本项目的实测交集。
+Priority will be given to original research from journals, official GEO records, and official software documents. Preprints are individually annotated, and PMC inclusion is not considered proof of peer review. Some database pages failed to access intermittently. The core metadata has been verified through readable official records, but it cannot be claimed that the actual data content or download links have all been verified. Source sizes and technical descriptions do not replace actual measured intersections for this project.
 
-本文使用 AI 辅助检索整理和方案起草；无实验结果、分析性能或统计显著性被生成或假定为实际结果。正式开题与结题时，学生和导师应阅读核心方法及数据说明，按学校要求披露 AI 使用情况。
+This article was organized using AI-assisted search and protocol drafting; no experimental results, analytical performance, or statistical significance were generated or assumed to be actual results. When formally opening and closing the topic, students and tutors should read the core methods and data descriptions, and disclose the use of AI as required by the school.
 
-**来源与参考文献**
+**Sources and References**
 
-[^1]: Spitale RC, Flynn RA, Zhang QC, et al. *Structural imprints in vivo decode RNA regulatory mechanisms*. Nature. 2015;519:486–490. [原文](https://pmc.ncbi.nlm.nih.gov/articles/PMC4376618/)，[DOI](https://doi.org/10.1038/nature14263)。该论文存在 [2015 年勘误记录](https://pubmed.ncbi.nlm.nih.gov/26416736/)；正式复现其图表前应一并核对，本方案不复用其具体数值作为结果。
+[^1]: Spitale RC, Flynn RA, Zhang QC, et al. *Structural imprints in vivo decode RNA regulatory mechanisms*. Nature. 2015;519:486–490. [Original](https://pmc.ncbi.nlm.nih.gov/articles/PMC4376618/), [DOI](https://doi.org/10.1038/nature14263). This paper exists [2015 Corrigendum Record](https://pubmed.ncbi.nlm.nih.gov/26416736/); its charts should be checked together before formally reproducing them, and this plan will not reuse its specific values ​​as results.
 
-[^2]: Liu N, et al. *N6-methyladenosine-dependent RNA structural switches regulate RNA–protein interactions*. Nature. 2015. [原文](https://www.nature.com/articles/nature14234)。用于说明已存在的结构开关机制证据，不将该机制推广到所有 m6A 位点。
+[^2]: Liu N, et al. *N6-methyladenosine-dependent RNA structural switches regulate RNA–protein interactions*. Nature. 2015. [Original](https://www.nature.com/articles/nature14234). Used to illustrate existing evidence for a structural switch mechanism without generalizing this mechanism to all m6A sites.
 
-[^3]: Shachar R, Dierks D, Garcia-Campos MA, et al. *Dissecting the sequence and structural determinants guiding m6A deposition and evolution via inter- and intra-species hybrids*. Genome Biology. 2024;25:48. [原文](https://pmc.ncbi.nlm.nih.gov/articles/PMC10870504/)，[DOI](https://doi.org/10.1186/s13059-024-03182-1)。
+[^3]: Shachar R, Dierks D, Garcia-Campos MA, et al. *Dissecting the sequence and structural determinants guiding m6A deposition and evolution via inter- and intra-species hybrids*. Genome Biology. 2024;25:48. [Original](https://pmc.ncbi.nlm.nih.gov/articles/PMC10870504/), [DOI](https://doi.org/10.1186/s13059-024-03182-1).
 
-[^4]: Sun M, Zhang D, Li Z, Lin Y. *Structure-aware deep learning enhances m6A prediction and reveals cell type-associated RNA structural signatures*. PLOS Computational Biology. 2026;22(8):e1014649. 2026-08-14. [原文](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1014649)，[代码](https://github.com/mzsun-ai/SMART-m6A)。
+[^4]: Sun M, Zhang D, Li Z, Lin Y. *Structure-aware deep learning enhances m6A prediction and reveals cell type-associated RNA structural signatures*. PLOS Computational Biology. 2026;22(8):e1014649. 2026-08-14. [Original text](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1014649), [Code](https://github.com/mzsun-ai/SMART-m6A).
 
-[^5]: Zhang Z, Wang X, Zhou J, et al. *StructRMDB: A database of RNA modification sites that affect RNA secondary structure*. Computational and Structural Biotechnology Journal. 2025;27:5493–5502. [出版记录](https://pubmed.ncbi.nlm.nih.gov/41439023/)，[原文](https://pmc.ncbi.nlm.nih.gov/articles/PMC12720313/)，DOI:10.1016/j.csbj.2025.11.058。
+[^5]: Zhang Z, Wang X, Zhou J, et al. *StructRMDB: A database of RNA modification sites that affect RNA secondary structure*. Computational and Structural Biotechnology Journal. 2025;27:5493–5502. [Publication Record](https://pubmed.ncbi.nlm.nih.gov/41439023/), [Original](https://pmc.ncbi.nlm.nih.gov/articles/PMC12720313/), DOI: 10.1016/j.csbj.2025.11.058.
 
-[^6]: NCBI GEO. *RNA duplex map in living cells reveals higher order transcriptome structure*, GSE74353. [数据记录](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74353)。本方案只选择其中 HEK293T 的 icSHAPE 文件，不把整个项目都归类为 icSHAPE。
+[^6]: NCBI GEO. *RNA duplex map in living cells reveals higher order transcriptome structure*, GSE74353. [Data record](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74353). This solution only selects the icSHAPE files of HEK293T and does not classify the entire project as icSHAPE.
 
-[^7]: NCBI GEO. *Absolute quantification of single-base m6A methylation in the mammalian transcriptome*, GSE210563. [数据记录](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210563)；[HeLa 常氧对照样本 GSM6432595](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM6432595)。
+[^7]: NCBI GEO. *Absolute quantification of single-base m6A methylation in the mammalian transcriptome*, GSE210563. [Data record](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE210563); [HeLa normoxic control sample GSM6432595](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM6432595).
 
-[^8]: NCBI GEO. *RNA secondary structome of different cell lines*, GSE145805. [数据记录](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145805)。相关原始研究：*Predicting dynamic cellular protein–RNA interactions by deep learning using in vivo RNA structures*. [全文](https://pmc.ncbi.nlm.nih.gov/articles/PMC7900654/)。
+[^8]: NCBI GEO. *RNA secondary structome of different cell lines*, GSE145805. [Data record](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE145805). Relevant original research: *Predicting dynamic cellular protein–RNA interactions by deep learning using in vivo RNA structures*. [Full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC7900654/).
 
-[^9]: NCBI GEO. *Quantitative and whole-transcriptome N6-Methyladenosine profiling at single-nucleotide resolution [polyA_RNA]*, GSE162356. [数据记录](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162356)。相关研究：Hu L, et al. *m6A RNA modifications are measured at single-base resolution across the mammalian transcriptome*. Nature Biotechnology. 2022;40:1210–1219. [全文](https://pmc.ncbi.nlm.nih.gov/articles/PMC9378555/)，DOI:10.1038/s41587-022-01243-z。
+[^9]: NCBI GEO. *Quantitative and whole-transcriptome N6-Methyladenosine profiling at single-nucleotide resolution [polyA_RNA]*, GSE162356. [Data record](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162356). Related research: Hu L, et al. *m6A RNA modifications are measured at single-base resolution across the mammalian transcriptome*. Nature Biotechnology. 2022;40:1210–1219. [Full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC9378555/), DOI: 10.1038/s41587-022-01243-z.
 
-[^10]: NCBI GEO. *HEK293T_GLORI+_rep1*, GSM6432590. [样本和处理文件记录](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM6432590)。
+[^10]: NCBI GEO. *HEK293T_GLORI+_rep1*, GSM6432590. [Sample and processing documentation](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM6432590).
 
-[^11]: Farenhem K, Whitfield TW, Chouloute A, Jain A. *Transcriptome-wide RNA accessibility mapping reveals structured RNA elements and pervasive conformational rearrangements under stress*. bioRxiv. 2025. DOI:10.1101/2025.06.05.658101。[PubMed 预印本记录](https://pubmed.ncbi.nlm.nih.gov/40502122/)，[全文](https://pmc.ncbi.nlm.nih.gov/articles/PMC12157405/)，[Human RNA MaP](https://humanrnamap.wi.mit.edu/)。
+[^11]: Farenhem K, Whitfield TW, Chouloute A, Jain A. *Transcriptome-wide RNA accessibility mapping reveals structured RNA elements and pervasive conformational rearrangements under stress*. bioRxiv. 2025. DOI:10.1101/2025.06.05.658101. [PubMed preprint record](https://pubmed.ncbi.nlm.nih.gov/40502122/), [Full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC12157405/), [Human RNA MaP](https://humanrnamap.wi.mit.edu/).
 
-[^12]: Wan Y, Qu K, Zhang Q, et al. *Landscape and variation of RNA secondary structure across the human transcriptome*. Nature. 2014;505:706–709. [全文及 PARS 方法](https://pmc.ncbi.nlm.nih.gov/articles/PMC3973747/)，[出版记录](https://www.nature.com/articles/nature12946)。
+[^12]: Wan Y, Qu K, Zhang Q, et al. *Landscape and variation of RNA secondary structure across the human transcriptome*. Nature. 2014;505:706–709. [Full text and PARS Methods](https://pmc.ncbi.nlm.nih.gov/articles/PMC3973747/), [Publication Record](https://www.nature.com/articles/nature12946).
 
-[^13]: Liu C, Sun H, Yi Y, et al. *Absolute quantification of single-base m6A methylation in the mammalian transcriptome using GLORI*. Nature Biotechnology. 2023;41:355–366；在线发表于 2022-10-27。[出版及摘要记录](https://pubmed.ncbi.nlm.nih.gov/36302990/)，DOI:10.1038/s41587-022-01487-9。
+[^13]: Liu C, Sun H, Yi Y, et al. *Absolute quantification of single-base m6A methylation in the mammalian transcriptome using GLORI*. Nature Biotechnology. 2023;41:355–366; Published online on 2022-10-27. [Publication and Abstract Record](https://pubmed.ncbi.nlm.nih.gov/36302990/), DOI: 10.1038/s41587-022-01487-9.
 
-[^14]: Mu K, Fei Y, Xu Y, Zhang QC. *RASP v2.0: an updated atlas for RNA structure probing data*. Nucleic Acids Research. 2025;53(D1):D211–D219；在线发表于 2024 年。[原文](https://academic.oup.com/nar/article/53/D1/D211/7901281)，[数据库](https://rasp2.zhanglab.net/)。
+[^14]: Mu K, Fei Y, Xu Y, Zhang QC. *RASP v2.0: an updated atlas for RNA structure probing data*. Nucleic Acids Research. 2025;53(D1):D211–D219; published online in 2024. [Original](https://academic.oup.com/nar/article/53/D1/D211/7901281), [Database](https://rasp2.zhanglab.net/).
 
-[^15]: *RNA infrastructure profiling illuminates transcriptome structure in crowded spaces*. Cell Chemical Biology. 2024;31(12):2156–2167.e5. DOI:10.1016/j.chembiol.2024.09.009。[原文](https://www.sciencedirect.com/science/article/pii/S2451945624004057)，[PubMed](https://pubmed.ncbi.nlm.nih.gov/39447577/)。用于界定探针可及性、局部化学环境及 m6A 邻位信号的解释边界。
+[^15]: *RNA infrastructure profiling illuminates transcriptome structure in crowded spaces*. Cell Chemical Biology. 2024;31(12):2156–2167.e5. DOI:10.1016/j.chembiol.2024.09.009. [Original](https://www.sciencedirect.com/science/article/pii/S2451945624004057), [PubMed](https://pubmed.ncbi.nlm.nih.gov/39447577/). Boundaries used to define probe accessibility, local chemical environment, and interpretation of m6A neighbor signals.
 
-[^16]: ViennaRNA 官方文档。*The Program RNAfold*；*Predicting various Thermodynamic Properties*。[RNAfold 教程](https://www.tbi.univie.ac.at/RNA/ViennaRNA/doc/html/tutorial/RNAfold.html)，[配分函数和概率](https://www.tbi.univie.ac.at/RNA/ViennaRNA/refman/partfunc/thermodynamics.html)。访问日期 2026-09-09。
+[^16]: ViennaRNA official documentation. *The Program RNAfold*; *Predicting various Thermodynamic Properties*. [RNAfold Tutorial](https://www.tbi.univie.ac.at/RNA/ViennaRNA/doc/html/tutorial/RNAfold.html), [Partition Functions and Probabilities](https://www.tbi.univie.ac.at/RNA/ViennaRNA/refman/partfunc/thermodynamics.html). Accessed 2026-09-09.
 
-[^17]: scikit-learn 官方文档。*Histogram-Based Gradient Boosting*。[模型说明](https://scikit-learn.org/stable/modules/ensemble.html)。访问日期 2026-09-09；实施时记录本地实际版本。
+[^17]: scikit-learn official documentation. *Histogram-Based Gradient Boosting*. [Model Description](https://scikit-learn.org/stable/modules/ensemble.html). Access date 2026-09-09; local actual version recorded during implementation.
 
-[^18]: scikit-learn 官方文档。*Permutation feature importance*。[解释及相关特征限制](https://scikit-learn.org/stable/modules/permutation_importance.html)。访问日期 2026-09-09。
+[^18]: scikit-learn official documentation. *Permutation feature importance*. [Explanation and related feature constraints](https://scikit-learn.org/stable/modules/permutation_importance.html). Accessed 2026-09-09.
 
-[^19]: scikit-learn 官方文档。*Cross-validation: evaluating estimator performance*，grouped data 部分。[分组验证说明](https://scikit-learn.org/stable/modules/cross_validation.html)。访问日期 2026-09-09。
+[^19]: scikit-learn official documentation. *Cross-validation: evaluating estimator performance*, grouped data part. [cross-validation instructions](https://scikit-learn.org/stable/modules/cross_validation.html). Accessed 2026-09-09.
 
-[^20]: Shah RD, Peters J. *The Hardness of Conditional Independence Testing and the Generalised Covariance Measure*。[作者预印本](https://arxiv.org/abs/1804.07203)，[机构收录记录](https://atiro.turing.ac.uk/esploro/outputs/journalArticle/The-hardness-of-conditional-independence-testing/9915867609548)。用于说明条件独立检验需要明确假设，不用于将有限模型的预测增益直接等同于条件互信息。
+[^20]: Shah RD, Peters J. *The Hardness of Conditional Independence Testing and the Generalized Covariance Measure*. [Author preprint](https://arxiv.org/abs/1804.07203), [Institutional inclusion record](https://atiro.turing.ac.uk/esploro/outputs/journalArticle/The-hardness-of-conditional-independence-testing/9915867609548). It is used to illustrate that conditional independence testing requires clear assumptions, and is not used to directly equate the prediction gain of a finite model with conditional mutual information.

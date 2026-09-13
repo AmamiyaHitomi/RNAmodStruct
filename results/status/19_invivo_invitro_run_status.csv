@@ -1,0 +1,2 @@
+stage,status,started_utc,finished_utc,paired_sites,paired_genes,bootstrap_completed,transcript_missing_either,invalid_invivo,invalid_invitro
+19,PASS,2026-09-11T14:43:18.119316+00:00,2026-09-11T14:43:25.746297+00:00,3705,1075,500,6421,5939,6014

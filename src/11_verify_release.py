@@ -9,8 +9,16 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "metadata" / "release_manifest.csv"
-SEARCH_ROOTS = ["config", "src", "tests", "report", "results", "data/final", "data/interim"]
+MANIFEST = ROOT / "metadata" / "manifests" / "release" / "release_manifest.csv"
+SEARCH_ROOTS = [
+    "config",
+    "src",
+    "tests",
+    "docs/reports/final",
+    "results",
+    "data/final",
+    "data/interim",
+]
 TOP_LEVEL = ["README.md", "environment.yml", "pytest.ini", ".gitignore", ".gitmodules"]
 EXCLUDED_PARTS = {"__pycache__", ".pytest_cache", "logs", "qa"}
 EXCLUDED_FILES = {MANIFEST.resolve()}
@@ -66,7 +74,7 @@ def write_manifest() -> None:
 
 def verify_manifest() -> None:
     if not MANIFEST.exists():
-        raise SystemExit("FAIL: metadata/release_manifest.csv is missing")
+        raise SystemExit("FAIL: metadata/manifests/release/release_manifest.csv is missing")
     with MANIFEST.open(newline="", encoding="utf-8") as handle:
         expected = {row["path"]: row for row in csv.DictReader(handle)}
     actual = {str(row["path"]): row for row in current_rows()}
@@ -82,7 +90,7 @@ def verify_manifest() -> None:
             failures.append(f"size mismatch: {path}")
     if failures:
         raise SystemExit("FAIL:\n" + "\n".join(failures))
-    print(f"PASS: {len(actual)} release files match metadata/release_manifest.csv")
+    print(f"PASS: {len(actual)} release files match metadata/manifests/release/release_manifest.csv")
 
 
 def main() -> None:

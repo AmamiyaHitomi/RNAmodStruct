@@ -1,0 +1,9 @@
+dataset,learner,comparison,baseline,augmented,delta_mae_baseline_minus_augmented
+HeLa,Ridge,M1_vs_M0,M0,M1,-0.007110157094170233
+HeLa,Ridge,M2_vs_M1,M1,M2,-4.972407976197579e-05
+HeLa,Ridge,M3_vs_M1,M1,M3,-0.0010609192399832212
+HeLa,Ridge,M4_vs_M2,M2,M4,-0.0012885689997224892
+HeLa,HistGradientBoostingRegressor,M1_vs_M0,M0,M1,0.002842328888871204
+HeLa,HistGradientBoostingRegressor,M2_vs_M1,M1,M2,-0.001291542122660333
+HeLa,HistGradientBoostingRegressor,M3_vs_M1,M1,M3,-0.0027371494539262797
+HeLa,HistGradientBoostingRegressor,M4_vs_M2,M2,M4,-0.0016869567679482222

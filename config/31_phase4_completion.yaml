@@ -1,0 +1,19 @@
+stage: 31
+phase: 4
+analysis_role: phase4_completion_and_release_freeze
+required_stage_statuses:
+  - results/status/28_phase4_directionality_run_status.csv
+  - results/status/29_phase4_directionality_analysis_run_status.csv
+  - results/status/30_phase4_evidence_and_model_gate_run_status.csv
+exit_gates:
+  perturbation_source_audited: true
+  directionality_analysis_completed: true
+  evidence_layers_separated: true
+  causal_and_mechanism_overclaim_prevented: true
+  advanced_model_gate_enforced: true
+outputs:
+  exit_gates: results/tables/31_phase4_exit_gates.csv
+  evidence_summary: results/tables/31_phase4_evidence_summary.csv
+  status: results/status/31_phase4_completion_run_status.csv
+  report: results/reports/31_phase4_completion_report.md
+  manifest: metadata/manifests/release/phase4_release_manifest.csv

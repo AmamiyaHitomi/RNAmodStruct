@@ -1,0 +1,143 @@
+stage: 23
+phase: 3
+analysis_role: exploratory_source_scout
+checked_date: 2026-09-12
+target_structure_cells:
+  - HeLa
+  - HEK293T
+required_modifications:
+  - m1A
+  - m5C
+  - m7G
+  - pseudouridine
+  - ac4C
+  - Nm
+  - A-to-I
+admission_rule:
+  minimum_download_ready_modifications: 2
+  raw_values_must_remain_technology_specific: true
+  coordinate_and_value_contract_required_before_analysis: true
+sources:
+  - record_id: m1a_gse97909
+    modification: m1A
+    accession: GSE97909
+    cell_line: HEK293T
+    technology: m1A-miCLIP plus mismatch mapping
+    resolution: cluster / mismatch
+    quantitative_semantics: primarily antibody clusters; high-stoichiometry mRNA m1A reported as rare
+    reference: hg19
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE97909
+    evidence_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE97909
+    structure_match: exact_cell_line
+    decision: HOLD_TECHNICAL_VALIDITY
+    reason: widespread antibody-derived mRNA peaks were attributed to cap cross-reactivity; unsuitable as a general m1A site layer
+  - record_id: m5c_gse140995
+    modification: m5C
+    accession: GSE140995
+    cell_line: HeLa
+    technology: bsRNA-seq
+    resolution: single_nucleotide
+    quantitative_semantics: cytosine non-conversion fraction with coverage and replicate filters
+    reference: resolve_from_workbook_before_join
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE140995
+    evidence_url: https://pubmed.ncbi.nlm.nih.gov/32293435/
+    structure_match: exact_cell_line_cross_study
+    decision: DOWNLOAD_READY_QUANTITATIVE
+    reason: small processed workbook; HeLa match; candidate quantitative site values
+  - record_id: m7g_gse112276
+    modification: m7G
+    accession: GSE112276
+    cell_line: HeLa/HEK293T
+    technology: chemical-assisted m7G-seq
+    resolution: single_nucleotide_candidate / enrichment-derived
+    quantitative_semantics: HighFC site calls and a small high-estimated-methylation subset; not direct stoichiometry
+    reference: resolve_from_processed_files_before_join
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE112276
+    evidence_url: https://pubmed.ncbi.nlm.nih.gov/31031084/
+    structure_match: exact_cell_lines_cross_study
+    decision: DOWNLOAD_READY_SEMIQUANTITATIVE
+    reason: processed HeLa and HEK293T files are available but must remain separate from continuous fractions
+  - record_id: psi_gse255287
+    modification: pseudouridine
+    accession: GSE255287
+    cell_line: HEK293T
+    technology: Pseudo-seq
+    resolution: single_nucleotide_signal
+    quantitative_semantics: CMC-dependent termination signal across WT and PUS knockouts; requires site derivation
+    reference: resolve_from_processing_code
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE255287
+    evidence_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11258540/
+    structure_match: exact_cell_line_cross_study
+    decision: CONDITIONAL_LARGE_MATRIX_PROCESSING
+    reason: three processed matrices total about 12.5 GB and no compact submitted site table was identified
+  - record_id: ac4c_gse162043
+    modification: ac4C
+    accession: GSE162043
+    cell_line: HeLa
+    technology: RedaC:T-seq
+    resolution: single_nucleotide_candidate
+    quantitative_semantics: relative C-to-T mismatch signal using untreated and NAT10-knockout controls
+    reference: resolve_from_processed_files_before_join
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162043
+    evidence_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9676198/
+    structure_match: exact_cell_line_cross_study
+    decision: CONDITIONAL_REANALYSIS_REQUIRED
+    reason: base-resolution candidate exists but mRNA ac4C detection remains technically disputed; require control-aware reanalysis
+  - record_id: nm_gse90164
+    modification: Nm
+    accession: GSE90164
+    cell_line: HeLa/HEK
+    technology: Nm-seq
+    resolution: single_nucleotide_site
+    quantitative_semantics: enriched site calls; not stoichiometric fraction
+    reference: resolve_from_BED_before_join
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE90164
+    evidence_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6994179/
+    structure_match: exact_HeLa_and_near_HEK
+    decision: DOWNLOAD_READY_BINARY
+    reason: corrected compact HeLa and HEK processed BED files are available
+  - record_id: atoi_rediportal
+    modification: A-to-I
+    accession: REDIportal_v3
+    cell_line: GTEx/TCGA tissues
+    technology: RNA-seq variant calling / curated database
+    resolution: single_nucleotide_database
+    quantitative_semantics: tissue/sample editing levels and site presence; not matched to HeLa or HEK293T culture
+    reference: hg38_GENCODE45
+    source_url: http://srv00.recas.ba.infn.it/atlas/
+    evidence_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11701558/
+    structure_match: no_matched_cell_line
+    decision: HOLD_NO_MATCHED_CELL
+    reason: current atlas is tissue/tumor based; engineered HEK293T editing datasets belong to phase 4 perturbation work
+download_queue:
+  - record_id: m5c_gse140995
+    file: GSE140995_transcriptome-wide_sites.xlsx
+    bytes_reported: 337101
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE140nnn/GSE140995/suppl/GSE140995_transcriptome-wide_sites.xlsx
+    local_file: data/raw_processed/GSE140995_transcriptome-wide_sites.xlsx
+  - record_id: m7g_gse112276
+    file: GSE112276_HeLa_HighFC.txt.gz
+    bytes_reported: 173158
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112276/suppl/GSE112276_HeLa_HighFC.txt.gz
+    local_file: data/raw_processed/GSE112276_HeLa_HighFC.txt.gz
+  - record_id: m7g_gse112276
+    file: GSE112276_HEK293T_HighFC.txt.gz
+    bytes_reported: 180326
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE112nnn/GSE112276/suppl/GSE112276_HEK293T_HighFC.txt.gz
+    local_file: data/raw_processed/GSE112276_HEK293T_HighFC.txt.gz
+  - record_id: nm_gse90164
+    file: GSE90164_HeLamRNA.Nm.genome.bed.txt.gz
+    bytes_reported: 34612
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE90nnn/GSE90164/suppl/GSE90164_HeLamRNA.Nm.genome.bed.txt.gz
+    local_file: data/raw_processed/GSE90164_HeLamRNA.Nm.genome.bed.txt.gz
+  - record_id: nm_gse90164
+    file: GSE90164_HEKmRNA.Nm.genome.bed.txt.gz
+    bytes_reported: 10445
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE90nnn/GSE90164/suppl/GSE90164_HEKmRNA.Nm.genome.bed.txt.gz
+    local_file: data/raw_processed/GSE90164_HEKmRNA.Nm.genome.bed.txt.gz
+outputs:
+  evidence_cards: results/tables/23_multimodification_source_cards.csv
+  download_queue: metadata/manifests/download/phase3_download_queue.csv
+  source_manifest: metadata/manifests/source/phase3_source_manifest.csv
+  status: results/status/23_multimodification_source_scout_run_status.csv
+  report: results/reports/23_multimodification_source_scout_report.md

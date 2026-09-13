@@ -1,0 +1,7 @@
+gate,required,observed,status
+source_scope_and_download_integrity,True,True,PASS
+coordinate_and_reference_contracts_resolved,True,True,PASS
+structure_feature_extraction_completed,True,True,PASS
+technology_stratified_inference_completed,True,True,PASS
+multiple_testing_and_uncertainty_reported,True,True,PASS
+low_n_near_match_and_claim_boundaries_preserved,True,True,PASS

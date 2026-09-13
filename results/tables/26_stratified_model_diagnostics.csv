@@ -1,0 +1,3 @@
+track_id,n,clusters,r_squared_ordinary,adjusted_r_squared_ordinary,breusch_pagan_p_value,max_cooks_distance,influential_cooks_gt_4_over_n,design_rank,design_columns
+m5c_hela,420,357,0.020840388684585376,0.01140270568395485,0.11567608923150338,0.09426324708166474,23,5,5
+m7g_hela,190,145,0.09575139039050751,0.07620006910165367,0.06822208649389963,0.35081812522021394,10,5,5

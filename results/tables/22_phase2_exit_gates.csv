@@ -1,0 +1,5 @@
+gate,required,observed,status
+authoritative_source_and_coordinate_audit,True,True,PASS
+invivo_invitro_or_cross_technology_replication,True,True,PASS
+technology_stratified_effects_reported,True,True,PASS
+incompatible_raw_scales_not_pooled,True,True,PASS

@@ -1,0 +1,6 @@
+track_id,modification,cell_line,modality,input_records,normalized_records,coordinate_success_fraction,coordinate_status,structure_exon_overlap_records,structure_exon_overlap_fraction,reference_base_match_fraction,admission
+m5c_hela,m5C,HeLa,single_nucleotide_quantitative,1034,1034,1.0,DIRECT_HG38,688,0.66537718,1.0,ADMIT_QUANTITATIVE_SITE
+m7g_hela,m7G,HeLa,interval_semquantitative,6022,6022,1.0,DIRECT_HG38,549,0.09116573,,ADMIT_INTERVAL_SENSITIVITY
+m7g_hek293t,m7G,HEK293T,interval_semquantitative,6290,6290,1.0,DIRECT_HG38,132,0.02098569,,ADMIT_INTERVAL_SENSITIVITY
+nm_hela,Nm,HeLa,single_nucleotide_binary,2103,2103,1.0,DIRECT_HG38_CORRECTED_GEO_FILE,1692,0.80456491,,ADMIT_BINARY_WITH_PLUS_MINUS_1_SENSITIVITY
+nm_hek,Nm,HEK293T,single_nucleotide_binary,699,699,1.0,DIRECT_HG38_CORRECTED_GEO_FILE_NEAR_CELL_LABEL,522,0.74678112,,ADMIT_BINARY_WITH_PLUS_MINUS_1_SENSITIVITY

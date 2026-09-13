@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class PredictedStructureTests(unittest.TestCase):
     def test_run_status(self):
-        with (ROOT / "results" / "08a_hek293t_predicted_structure_run_status.csv").open(
+        with (ROOT / "results" / "status" / "08a_hek293t_predicted_structure_run_status.csv").open(
             newline="", encoding="utf-8"
         ) as handle:
             row = next(csv.DictReader(handle))

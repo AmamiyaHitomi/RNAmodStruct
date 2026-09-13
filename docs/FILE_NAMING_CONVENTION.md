@@ -19,12 +19,20 @@ All pipeline-owned files use the project-stage number from the research plan as 
 ## Directory roles
 
 - `src/`: executable code only. Names start with the stage and an action verb.
-- `metadata/audit/`: machine-readable stage-03 audit evidence only.
-- `metadata/coordinate/`: machine-readable stage-04 coordinate validation evidence only.
+- `metadata/audits/input/`: machine-readable stage-03 audit evidence only.
+- `metadata/audits/coordinate/`: machine-readable stage-04 coordinate validation evidence only.
 - `data/interim/`: derived row-level tables; every filename carries its producing stage.
 - `data/final/`: analysis-ready datasets; every filename carries its producing stage and population.
-- `results/`: compact result summaries and human-readable reports; filenames carry their producing stage.
+- `results/tables/`: compact machine-readable result tables and summaries.
+- `results/reports/`: human-readable per-stage reports and analysis contracts.
+- `results/status/`: machine-readable run, completion, and reproducibility status files.
+- `results/figures/`: publication figures; figure QA artifacts live in `results/figures/qa/`.
 - `results/logs/`: one log per executable stage, with the same stage/action stem as its script.
+- `metadata/manifests/`: release, source, and download manifests grouped by scope.
+- `metadata/decisions/`: frozen modeling decisions and preregistration records.
+- `metadata/provenance/`: data semantics, software environment, and source-verification notes.
+- `docs/reports/final/`: final report and defense-facing documents.
+- `docs/reports/progress/`: historical and stage-progress reports.
 - `tests/`: tests named after the stage or shared module they validate.
 
 Shared library code that is not an executable stage may omit a prefix, for example

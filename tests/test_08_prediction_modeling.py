@@ -17,7 +17,7 @@ def read_rows(path):
 
 class PredictionModelingTests(unittest.TestCase):
     def test_run_status_and_population(self):
-        row = read_rows(ROOT / "results" / "08_hek293t_prediction_modeling_run_status.csv")[0]
+        row = read_rows(ROOT / "results" / "status" / "08_hek293t_prediction_modeling_run_status.csv")[0]
         self.assertEqual(row["status"], "PASS")
         self.assertEqual(int(row["population_sites"]), 4096)
         self.assertEqual(int(row["models_fit"]), 5)

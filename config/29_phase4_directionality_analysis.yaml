@@ -1,0 +1,19 @@
+stage: 29
+phase: 4
+analysis_role: paired_STM2457_structure_directionality
+preregistration: metadata/decisions/phase4_preregistration.md
+required_stage_status: results/status/28_phase4_directionality_run_status.csv
+inputs:
+  treatment: data/raw_processed/GSE264642_HEK293T_STM2457_statistic_reactivity.csv.gz
+  control: data/raw_processed/GSE264642_HEK293T_control_statistic_reactivity.csv.gz
+analysis:
+  random_seed: 20260912
+  bootstrap_replicates: 5000
+  sign_flip_replicates: 10000
+  alpha: 0.05
+outputs:
+  paired_data: results/tables/29_phase4_paired_transcript_metrics.csv.gz
+  endpoint_results: results/tables/29_phase4_directionality_endpoints.csv
+  attrition: results/tables/29_phase4_pairing_attrition.csv
+  status: results/status/29_phase4_directionality_analysis_run_status.csv
+  report: results/reports/29_phase4_directionality_report.md

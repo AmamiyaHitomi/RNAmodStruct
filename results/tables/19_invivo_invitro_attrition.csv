@@ -1,0 +1,4 @@
+step,stage,sites,rule
+1,HEK293T site-level mapped population,20559,Frozen stage-06 site table
+2,Detected in both GLORI replicates,16161,Same m6A outcome for both structure conditions
+3,Paired valid in-vivo and in-vitro flanks,3705,Same transcript and >= 70% valid values on each side in both conditions

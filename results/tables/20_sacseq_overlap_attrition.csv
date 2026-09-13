@@ -1,0 +1,9 @@
+dataset,step,population,sites
+HeLa,1,SAC-seq submitted sites,10892
+HeLa,2,Exact stranded overlap with existing structure site table,5326
+HeLa,3,Existing valid structure main population,2500
+HeLa,4,Model-ready with predicted structure,2440
+HEK293_near_HEK293T,1,SAC-seq submitted sites,12234
+HEK293_near_HEK293T,2,Exact stranded overlap with existing structure site table,1554
+HEK293_near_HEK293T,3,Existing valid structure main population,480
+HEK293_near_HEK293T,4,Model-ready with predicted structure,463

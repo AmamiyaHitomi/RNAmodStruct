@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw_processed"
 REF = ROOT / "data" / "reference"
 INTERIM = ROOT / "data" / "interim"
-COORD = ROOT / "metadata" / "coordinate"
+COORD = ROOT / "metadata" / "audits" / "coordinate"
 LOG = ROOT / "results" / "logs" / "04_validate_coordinate_mapping.log"
 
 

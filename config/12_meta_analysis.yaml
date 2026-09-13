@@ -1,0 +1,13 @@
+stage: 12
+analysis: two_cell_line_meta_analysis
+inputs:
+  HEK293T: results/tables/07_hek293t_primary_association.csv
+  HeLa: results/tables/09b_hela_primary_association.csv
+effect: beta_per_sd
+standard_error: se_cluster_times_predictor_sd
+models: [fixed_effect, dersimonian_laird_random_effect]
+confidence_level: 0.95
+interpretation:
+  status: exploratory_extension_of_frozen_main_line
+  retain_dataset_specific_effects: true
+  two_study_heterogeneity_is_unstable: true

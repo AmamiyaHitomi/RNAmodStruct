@@ -1,0 +1,2 @@
+stage,status,required_stages_passed,exit_gates_passed,exit_gates_total,primary_findings_fdr_significant,next_phase_gate,finished_utc
+27,PASS,4,6,6,0,PHASE3_COMPLETE_GO_TO_PHASE4_PLANNING,2026-09-13T09:34:20.770522+00:00

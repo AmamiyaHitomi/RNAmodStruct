@@ -21,7 +21,7 @@ from pipeline_common import MISSING, parse_icshape_line, read_glori, write_csv
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw_processed"
 META = ROOT / "metadata"
-AUDIT = META / "audit"
+AUDIT = META / "audits" / "input"
 LOG = ROOT / "results" / "logs" / "03_audit_inputs.log"
 
 
@@ -254,8 +254,8 @@ def main() -> None:
     AUDIT.mkdir(parents=True, exist_ok=True)
     logging.info("audit started at %s", started)
 
-    source_files, _ = audit_manifest(META / "source_manifest.csv", ROOT, "source")
-    reference_files, reference_rows = audit_manifest(META / "02_reference_manifest.csv", ROOT, "reference")
+    source_files, _ = audit_manifest(META / "manifests" / "source" / "source_manifest.csv", ROOT, "source")
+    reference_files, reference_rows = audit_manifest(META / "manifests" / "source" / "02_reference_manifest.csv", ROOT, "reference")
 
     summaries = []
     column_rows = []

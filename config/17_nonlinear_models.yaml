@@ -1,0 +1,33 @@
+stage: 17
+analysis: nonlinear_model_and_explanation
+datasets:
+  HEK293T:
+    input: data/final/06_hek293t_main_analysis_dataset.csv.gz
+    predicted: data/final/08a_hek293t_predicted_structure_features.csv.gz
+    role: development
+  HeLa:
+    input: data/final/09_hela_main_analysis_dataset.csv.gz
+    predicted: data/final/09a_hela_predicted_structure_features.csv.gz
+    role: untouched_external_evaluation
+model_matrix: [M0, M1, M2, M3, M4]
+sequence_representation: normalized_3mer_frequencies
+learners:
+  Ridge:
+    alpha_candidates: [10.0, 100.0, 1000.0]
+  HistGradientBoostingRegressor:
+    candidates:
+      - {learning_rate: 0.05, max_iter: 150, max_leaf_nodes: 15, l2_regularization: 1.0}
+      - {learning_rate: 0.05, max_iter: 200, max_leaf_nodes: 31, l2_regularization: 10.0}
+development_cv:
+  folds: 3
+  grouping: connected_components_of_analysis_gene_and_identical_201nt_sequence
+  metric: MAE
+explanation:
+  primary: grouped_permutation_importance_on_HEK293T_out_of_fold_predictions
+  secondary: retraining_ablation
+  repeats: 20
+  seed: 20260917
+  shap: diagnostic_only_not_required
+interpretation:
+  external_gain_required_for_positive_nonlinear_claim: true
+  no_test_driven_hyperparameter_expansion: true

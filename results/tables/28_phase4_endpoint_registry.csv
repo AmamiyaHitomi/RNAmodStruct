@@ -1,0 +1,4 @@
+endpoint,role,contrast,estimand,test,multiplicity_family
+mean_reactivity,primary,STM2457_minus_vehicle,paired_median_shift,wilcoxon_signed_rank,mean_and_gini
+reactivity_gini,secondary,STM2457_minus_vehicle,paired_median_shift,wilcoxon_signed_rank,mean_and_gini
+lower_mean_fraction,secondary_descriptive,STM2457_less_than_vehicle,paired_fraction,exact_binomial,descriptive

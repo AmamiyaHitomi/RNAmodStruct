@@ -36,7 +36,7 @@ class CoordinateMappingTests(unittest.TestCase):
         self.assertEqual((left, right, combined), (1.0, 1.0, 1.0))
 
     def test_recorded_chain_mapping_roundtrip(self):
-        checks = ROOT / "metadata" / "coordinate" / "04_hek293t_coordinate_checks.csv"
+        checks = ROOT / "metadata" / "audits" / "coordinate" / "04_hek293t_coordinate_checks.csv"
         with checks.open(newline="", encoding="utf-8") as handle:
             row = next(r for r in csv.DictReader(handle) if r["mapping_status"] == "unique")
         lifter = ChainLiftOver(ROOT / "data" / "reference" / "ucsc" / "hg19ToHg38.over.chain.gz")

@@ -1,0 +1,2 @@
+stage,status,phase4_scope_status,exit_gates_passed,exit_gates_total,highest_evidence_layer,causal_evidence_identified,mechanism_identified,advanced_models_started,finished_utc
+31,PASS,COMPLETE_DIRECTIONALITY_ONLY,5,5,Directionality,False,False,False,2026-09-13T09:35:10.086524+00:00

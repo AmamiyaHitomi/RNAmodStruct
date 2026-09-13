@@ -1,0 +1,29 @@
+stage: 27
+phase: 3
+analysis_role: multimodification_phase_completion_and_release_freeze
+required_stage_statuses:
+  - results/status/23_multimodification_source_scout_run_status.csv
+  - results/status/24_multimodification_file_audit_run_status.csv
+  - results/status/25_multimodification_structure_features_run_status.csv
+  - results/status/26_stratified_multimodification_associations_run_status.csv
+exit_gates:
+  source_scope_and_download_integrity: true
+  coordinate_and_reference_contracts_resolved: true
+  structure_feature_extraction_completed: true
+  technology_stratified_inference_completed: true
+  multiple_testing_and_uncertainty_reported: true
+  low_n_near_match_and_claim_boundaries_preserved: true
+claim_policy:
+  causal_claims_permitted: false
+  exact_zero_effect_claims_permitted: false
+  cross_modification_raw_effect_pooling_permitted: false
+next_phase:
+  gate: PHASE3_COMPLETE_GO_TO_PHASE4_PLANNING
+  scope: perturbation_or_control_aware_validation_planning_only
+outputs:
+  evidence_summary: results/tables/27_phase3_evidence_summary.csv
+  exit_gates: results/tables/27_phase3_exit_gates.csv
+  claim_boundaries: results/tables/27_phase3_claim_boundaries.csv
+  status: results/status/27_phase3_completion_run_status.csv
+  report: results/reports/27_phase3_completion_report.md
+  manifest: metadata/manifests/release/phase3_release_manifest.csv

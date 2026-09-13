@@ -66,7 +66,7 @@ class HeLaDatasetTests(unittest.TestCase):
         self.assertTrue(all(count == 1 for count in representatives.values()))
 
     def test_run_status_passed_without_center_base_failures(self):
-        with (ROOT / "results" / "09_hela_build_analysis_dataset_run_status.csv").open(newline="", encoding="utf-8") as handle:
+        with (ROOT / "results" / "status" / "09_hela_build_analysis_dataset_run_status.csv").open(newline="", encoding="utf-8") as handle:
             row = next(csv.DictReader(handle))
         self.assertEqual(row["status"], "PASS")
         self.assertEqual(int(row["center_base_failures"]), 0)

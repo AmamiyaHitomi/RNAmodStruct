@@ -1,0 +1,22 @@
+stage: 19
+phase: 2
+analysis_role: exploratory_paired_structure_condition_comparison
+base_dataset: data/final/06_hek293t_site_level_dataset.csv.gz
+invivo: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz
+invitro: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVitro_BaseReactivities.txt.gz
+flank: 10
+minimum_valid_fraction_each_side: 0.70
+population:
+  require_both_glori_replicates: true
+  require_same_representative_transcript: true
+  require_both_structure_conditions: true
+  require_complete_unpadded_flanks: true
+inference:
+  model: ordinary_least_squares
+  covariance: gene_cluster_robust_CR1
+  paired_gene_bootstrap_replicates: 500
+  bootstrap_seed: 20260919
+  confidence_level: 0.95
+interpretation:
+  permitted_language: paired observational association
+  prohibited_language: causal effect

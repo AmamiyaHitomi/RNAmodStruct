@@ -1,0 +1,5 @@
+dataset,field,minimum,median,maximum,missing,meaning
+HeLa,reported_mean_mutation_ratio_pct,5.05,10.8275,100.0,0,submitted BED column 5; mutation-ratio percentage reported by depositor
+HeLa,reported_calibrated_m6a_fraction_pct,1.48764118712344,17.285276552480248,100.0,0,submitted BED column 7; calibrated m6A-fraction percentage reported by depositor
+HEK293_near_HEK293T,reported_mean_mutation_ratio_pct,5.065,11.0,88.89,0,submitted BED column 5; mutation-ratio percentage reported by depositor
+HEK293_near_HEK293T,reported_calibrated_m6a_fraction_pct,1.15576806392521,17.065871840075097,100.0,0,submitted BED column 7; calibrated m6A-fraction percentage reported by depositor

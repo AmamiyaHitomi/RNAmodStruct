@@ -1,0 +1,25 @@
+stage: 30
+phase: 4
+analysis_role: evidence_gradient_and_advanced_model_gate
+required_stage_status: results/status/29_phase4_directionality_analysis_run_status.csv
+evidence_layers:
+  association: COMPLETE
+  directionality: COMPLETE
+  causal_evidence: NOT_IDENTIFIED
+  mechanism: NOT_IDENTIFIED
+advanced_model_requirements:
+  minimum_modifications: 2
+  minimum_independent_datasets: 2
+  minimum_conditions: 3
+  independent_external_test_required: true
+observed_corpus:
+  perturbation_modifications: 1
+  perturbation_datasets: 1
+  treatment_conditions: 2
+  independent_external_test: false
+outputs:
+  evidence_gradient: results/tables/30_phase4_evidence_gradient.csv
+  advanced_model_gate: results/tables/30_phase4_advanced_model_gate.csv
+  claim_boundaries: results/tables/30_phase4_claim_boundaries.csv
+  status: results/status/30_phase4_evidence_and_model_gate_run_status.csv
+  report: results/reports/30_phase4_evidence_and_model_gate_report.md

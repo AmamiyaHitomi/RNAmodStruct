@@ -1,0 +1,35 @@
+stage: 16
+analysis: complete_401nt_window_sensitivity
+window_nt: 401
+half_window: 200
+minimum_valid_fraction_each_side: 0.70
+datasets:
+  HEK293T:
+    input: data/final/06_hek293t_main_analysis_dataset.csv.gz
+    transcript_fasta: data/reference/ensembl/release-74_GRCh37/Homo_sapiens.GRCh37.74.cdna.all.fa.gz
+    icshape: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz
+    icshape_format: gzip_text
+    role: development
+  HeLa:
+    input: data/final/09_hela_main_analysis_dataset.csv.gz
+    transcript_fasta: data/reference/ensembl/release-88_GRCh38/Homo_sapiens.GRCh38.cdna.all.fa.gz
+    icshape: data/raw_processed/GSE145805_RAW.tar
+    icshape_format: gzip_member_in_tar
+    icshape_member: GSM4333258_HeLa.out.txt.gz
+    role: frozen_external_replication
+sequence_features:
+  position_one_hot: true
+  kmer_length: 3
+predicted_structure:
+  engine: ViennaRNA
+  required_version: 2.7.2
+  temperature_celsius: 37.0
+  dangles: 2
+models: [M0, M1, M2, M3, M4]
+learner:
+  family: Ridge
+  alpha_candidates: [10.0, 100.0, 1000.0]
+  development_folds: 3
+  selection_metric: MAE
+grouping: connected_components_of_analysis_gene_and_identical_401nt_sequence
+interpretation: sensitivity_only_does_not_replace_201nt_model

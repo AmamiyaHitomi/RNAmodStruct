@@ -1,0 +1,7 @@
+track_id,coordinate_offset_nt,mapped_records,main_valid_records,valid_count_stability_ratio_across_offsets,stability_pass
+nm_hela,-1,1687,1299,0.9961568,True
+nm_hela,0,1692,1301,0.9961568,True
+nm_hela,1,1690,1296,0.9961568,True
+nm_hek,-1,521,488,0.99389002,True
+nm_hek,0,522,491,0.99389002,True
+nm_hek,1,520,491,0.99389002,True

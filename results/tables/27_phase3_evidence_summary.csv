@@ -1,0 +1,5 @@
+stage,evidence_axis,population,result,interpretation_boundary
+23,multi_modification_source_scope,7 candidate modifications,download-ready=3; held-or-conditional=4,"Source scouting is eligibility triage, not biological evidence."
+24,download_coordinate_and_overlap_audit,5 downloaded files; 5 normalized tracks,all hashes verified; m5C/m7G/Nm admitted with modality-specific contracts,Nm corrected GEO files are treated as hg38; m7G remains interval-level.
+25,structure_feature_extraction,2420 valid track-records,inferential-ready tracks=4; descriptive-only=1,HEK293T m7G n=18 is descriptive only; HEK Nm is a near-cell-label sensitivity.
+26,technology_stratified_associations,3 HeLa primary analyses; 1756 Nm matched pairs,primary q range=0.74914-0.74914; all primary CIs include zero=True,No clear association was detected; this does not establish exact zero effects or causality.

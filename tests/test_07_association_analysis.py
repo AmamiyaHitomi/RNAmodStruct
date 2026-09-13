@@ -16,7 +16,7 @@ def read_rows(path):
 
 class AssociationAnalysisTests(unittest.TestCase):
     def test_run_status_and_primary_population(self):
-        status = read_rows(ROOT / "results" / "07_hek293t_association_analysis_run_status.csv")[0]
+        status = read_rows(ROOT / "results" / "status" / "07_hek293t_association_analysis_run_status.csv")[0]
         self.assertEqual(status["status"], "PASS")
         self.assertEqual(int(status["sites"]), 4409)
         self.assertEqual(int(status["genes"]), 1324)

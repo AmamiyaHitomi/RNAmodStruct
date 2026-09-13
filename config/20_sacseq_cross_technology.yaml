@@ -1,0 +1,30 @@
+stage: 20
+phase: 2
+analysis_role: exploratory_cross_m6a_technology_replication
+datasets:
+  HeLa:
+    match_class: matched_cell_line_cross_study
+    structure_dataset: data/final/09_hela_site_level_dataset.csv.gz
+    predicted_structure: data/final/09a_hela_predicted_structure_features.csv.gz
+    sacseq: data/raw_processed/GSE162356_HeLa_polyA.bed.gz
+    primary: true
+  HEK293_near_HEK293T:
+    match_class: near_match_sensitivity_only
+    structure_dataset: data/final/06_hek293t_site_level_dataset.csv.gz
+    predicted_structure: data/final/08a_hek293t_predicted_structure_features.csv.gz
+    sacseq: data/raw_processed/GSE162356_HEK293_polyA.bed.gz
+    primary: false
+sacseq_fields:
+  column_5: reported_mean_mutation_ratio_pct
+  column_7: reported_calibrated_m6a_fraction_pct
+  primary_outcome: reported_calibrated_m6a_fraction_pct_divided_by_100
+  coordinate: BED_0_based_half_open_width_1
+models: [M0, M1, M2, M3, M4]
+learner:
+  name: Ridge
+  alpha_candidates: [0.1, 1.0, 10.0, 100.0]
+  outer_group_folds: 5
+  inner_group_folds: 3
+interpretation:
+  permitted_language: cross-study cross-technology replication
+  prohibited_language: same-sample replication or causal effect

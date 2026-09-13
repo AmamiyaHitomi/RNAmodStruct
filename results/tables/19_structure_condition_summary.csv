@@ -1,0 +1,8 @@
+metric,value,detail
+paired_sites,3705,site-unique
+paired_genes,1075,analysis_gene
+mean_invivo,0.24648904117214895,flank10
+mean_invitro,0.20702716652680472,flank10
+mean_delta_invivo_minus_invitro,0.03946187464534422,paired
+pearson_conditions,0.7151510632540296,paired sites
+spearman_conditions,0.7020073837182641,paired sites

@@ -1,0 +1,5 @@
+gate,required,observed,pass
+multiple_modifications,2,1,False
+independent_datasets,2,1,False
+conditions,3,2,False
+independent_external_test,True,False,False

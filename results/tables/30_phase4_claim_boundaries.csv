@@ -1,0 +1,4 @@
+topic,permitted,forbidden,causal,mechanism
+STM2457_structure_shift,STM2457 exposure preceded a paired transcript-level structure shift in this HEK293T dataset.,m6A loss causally remodels RNA structure transcriptome-wide.,False,False
+site_specificity,The source supports transcript-level structural summaries and same-experiment m6A reduction validation.,The analysis identifies which m6A sites caused each structural change.,False,False
+advanced_models,"Foundation-model, Transformer, and hyperparameter-search branches remain gated off.",Advanced modeling was negative after a fair external benchmark.,False,False

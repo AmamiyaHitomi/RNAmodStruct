@@ -1,0 +1,2 @@
+track_id,modification,cell_line,n,analysis_role,median_fold_enrichment,median_reactivity_mean_peak,spearman_rho,inferential_p_value_reported
+m7g_hek293t,m7G,HEK293T,18,DESCRIPTIVE_ONLY_LOW_N,5.16,0.21810616,-0.040247678018575844,False

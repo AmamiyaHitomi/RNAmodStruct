@@ -33,8 +33,8 @@ def style_ax(ax) -> None:
 
 
 def figure1() -> None:
-    hek = read_rows(ROOT / "results" / "06_hek293t_attrition_summary.csv")
-    hela = read_rows(ROOT / "results" / "09_hela_attrition_summary.csv")
+    hek = read_rows(ROOT / "results" / "tables" / "06_hek293t_attrition_summary.csv")
+    hela = read_rows(ROOT / "results" / "tables" / "09_hela_attrition_summary.csv")
     hek_counts = [int(row["sites"]) for row in hek]
     hela_counts = [int(row["sites"]) for row in hela]
 

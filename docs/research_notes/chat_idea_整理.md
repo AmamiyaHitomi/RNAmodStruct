@@ -1,34 +1,34 @@
-# ModStruct 项目原始构思整理（chat_idea）
+# ModStruct project original idea arrangement (chat_idea)
 
-原始chat链接：https://chatgpt.com/share/6a9ab534-2968-83ec-83ff-8ac4164dfdf1
+Original chat link: https://chatgpt.com/share/6a9ab534-2968-83ec-83ff-8ac4164dfdf1
 
-## 一、总体思路与数据合并的表述
+## 1. Description of the overall idea and data merging
 
-我理解你的思路，而且我觉得这里需要稍微调整一下表述：把不同实验条件的数据合并用于提高统计 power 是可以的，但最好不要把它们严格称为 biological replicates。它们更准确地说是 **heterogeneous observations / independent datasets**，或者在某些分析中作为 **"replicate-like observations"**。
+I understand your thinking, and I think the statement needs to be adjusted slightly here: it is okay to combine data from different experimental conditions to improve statistical power, but it is best not to strictly call them biological replicates. They are more accurately known as **heterogeneous observations / independent datasets**, or in some analyses, as **"replicate-like observations"**.
 
-你的整体方案反而因此可以明显简化。
+Instead, your overall plan can be significantly simplified.
 
 ---
 
-## 二、分析框架的定义
+## 2. Definition of analysis framework
 
-我会把你的实际分析框架定义成：
+I would define your actual analysis framework as:
 
 > **Human RNA modification–structure association atlas**
 
-汇总多个公开实验数据集中的 RNA structure probing data 和 RMBase RNA modification sites，在 transcript/nucleotide level 对齐，然后研究不同 RNA modification 是否具有特定的局部 RNA secondary-structure context。
+Summarize RNA structure probing data and RMBase RNA modification sites from multiple public experimental data sets, align them at the transcript/nucleotide level, and then study whether different RNA modifications have specific local RNA secondary-structure context.
 
 ---
 
-## 三、核心流程
+## 3. Core process
 
-核心流程就是：
+The core process is:
 
 ```text
                  Human RNA structure data
-        ┌──────────────┬──────────────┬──────────────┐
-        │ Human RNA MaP│ GSE145805    │ GSE50676    │
-        └──────────────┴──────────────┴──────────────┘
+        ┌───────────────┬─────────────┬───────────────┐
+        │ Human RNA MaP│ GSE145805 │ GSE50676 │
+        └───────────────┴──────────────┴───────────────┘
                          ↓
                 Unified transcript coordinates
                          ↓
@@ -39,8 +39,8 @@ RMBase v3.0 ─────→ Modification sites
                          ↓
               Modification–structure pairs
                          ↓
-        ┌─────────────────────────────────┐
-        │ m6A / m1A / m5C / m7G / Ψ ...  │
+        ┌────────────────────────────────┐
+        │ m6A / m1A / m5C / m7G / Ψ ... │
         └─────────────────────────────────┘
                          ↓
               Statistical comparison
@@ -50,27 +50,27 @@ RMBase v3.0 ─────→ Modification sites
 
 ---
 
-## 四、第一版的范围边界
+## 4. Scope boundaries of the first version
 
-我尤其赞同你的一点：**第一版不要碰 cell type / tissue / experimental condition。**
+I especially agree with you: **Don’t touch cell type / tissue / experimental condition in the first edition. **
 
-因为一旦把这些因素加入模型，项目马上从一个本科生可以完成的分析变成一个相当复杂的 meta-analysis。
+Because once these factors are added to the model, the project immediately changes from an analysis that an undergraduate can complete to a quite complex meta-analysis.
 
-你现在真正想回答的是一个更基础的问题：
+What you really want to answer now is a more basic question:
 
 > **Across human transcriptome-wide datasets, are RNA modification sites preferentially associated with particular RNA structural contexts?**
 
-这个问题本身就成立。
+The question itself is valid.
 
 ---
 
-## 五、统计学修正：避免伪重复（pseudoreplication）
+## 5. Statistical correction: avoid pseudoreplication (pseudoreplication)
 
-不过有一个统计学上的小修正非常重要。
+But there is a small statistical correction that is very important.
 
-你可以把多个实验数据合并作为总体 evidence，但是不要简单地把每个 nucleotide observation 当成完全独立的 biological replicate。
+You can combine multiple experimental data as overall evidence, but do not simply treat each nucleotide observation as a completely independent biological replicate.
 
-例如：
+For example:
 
 ```text
 Dataset A
@@ -86,19 +86,17 @@ Dataset B
 80,000 nucleotide observations
 ```
 
-不能直接认为：
+It cannot be directly considered:
 
 ```text
 180,000 observations = 180,000 independent replicates.
 ```
 
-因为同一个 transcript、甚至同一个 nucleotide，可能在多个数据集中出现。
+Because the same transcript, or even the same nucleotide, may appear in multiple data sets.A more secure approach is:
 
-更稳妥的方法是：
+Treat each experimental data set as an independent dataset/study, and then summarize the evidence at the nucleotide level.
 
-把每一个实验数据集作为一个 independent dataset / study，然后在 nucleotide level 汇总证据。
-
-例如对于 m6A：
+For example for m6A:
 
 ```text
 Dataset 1 → m6A vs matched controls → effect size₁
@@ -110,41 +108,41 @@ Dataset 3 → m6A vs matched controls → effect size₃
                overall effect
 ```
 
-但如果你的主要目标只是一个本科生项目，也可以先采用一个更简单的策略：
+But if your main goal is just an undergraduate project, you can start with a simpler strategy:
 
-把所有数据合并，然后在分析中使用 **transcript-level / dataset-level bootstrap 或 permutation**，而不是把每个 nucleotide 当成独立样本。
+Combine all the data and use **transcript-level / dataset-level bootstrap or permutation** in the analysis instead of treating each nucleotide as an independent sample.
 
-这样既保持简单，又不会犯最严重的 pseudoreplication 问题。
+This keeps it simple without committing the worst pseudoreplication problem.
 
 ---
 
-## 六、第一版的进一步简化
+## 6. Further simplification of the first version
 
-我甚至会进一步简化你的第一版。
+I would simplify your first version even further.
 
-不要一开始就分析 70 多种修饰。
+Don’t start by analyzing 70+ modifications.
 
-第一步直接做：
+The first step is to do directly:
 
 ```text
 m6A → RNA structure
 ```
 
-然后如果结果有意思，再扩展到：
+Then if the results are interesting, expand to:
 
 ```text
 m6A
 m1A
 m5C
-m7G
+7G
 Ψ
-ac4C
+4C
 A-to-I
 2'-O-Me
 ...
 ```
 
-最终形成一个非常漂亮的 matrix：
+Finally, a very beautiful matrix is ​​formed:
 
 | Modification | Structural accessibility | Base pairing | Loop propensity | Local structure |
 |---|---|---|---|---|
@@ -154,37 +152,37 @@ A-to-I
 | Ψ | ... | ... | ... | ... |
 | m7G | ... | ... | ... | ... |
 
-这实际上就已经开始产生一个非常有意思的 RNA modification structural landscape。
+This has actually started to create a very interesting RNA modification structural landscape.
 
 ---
 
-## 七、核心 hypothesis：structural niches
+## 7. Core hypothesis: structural niches
 
-而且我觉得这里存在一个比"m6A 是否改变结构"更漂亮的 hypothesis：
+And I think there is a more beautiful hypothesis here than "whether m6A changes structure":
 
 > **Different RNA modifications may occupy distinct structural niches.**
 
-也就是说，不是简单地问：
+That is, rather than simply asking:
 
 ```text
 modification → structure
 ```
 
-而是：
+Instead:
 
 ```text
 modification type ↔ structural context
 ```
 
-这就从一个比较普通的 association analysis，变成了一个 **RNA modification structural grammar** 的问题。
+This has changed from a relatively common association analysis to a problem of **RNA structural grammar modification**.
 
 ---
 
-## 八、适合本科生 + 两个关键把关点
+## 8. Suitable for undergraduate students + two key check points
 
-最关键的一点：你这个项目如果采用你现在这个设计，我认为已经非常适合交给一个能力不错的大二学生。
+The most critical point: If you adopt your current design for this project, I think it is very suitable to be handed over to a sophomore student with good ability.
 
-学生需要做的主要是：
+The main things students need to do are:
 
 ```text
 download
@@ -204,81 +202,79 @@ visualization
 biological interpretation
 ```
 
-这些事情现在有先进的 ChatGPT 辅助以后，编程本身已经不是主要障碍。
+Now that these things are assisted by the advanced ChatGPT, programming itself is no longer the main obstacle.
 
-真正需要你把关的是两个地方：
+What you really need to check are two places:
 
-**① 数据整合是否正确。**
+**① Whether the data integration is correct. **
 
-尤其是 transcript coordinate、isoform、reference genome 和 modification position。
+Especially transcript coordinate, isoform, reference genome and modification position.
 
-**② 统计比较是否合理。**
+**② Whether the statistical comparison is reasonable. **
 
-特别是 control selection 和 pseudoreplication。
+Especially control selection and pseudoreplication.
 
-这两个地方如果你给学生一个设计好的 pipeline，剩下的工作对大二学生来说我认为是完全可以在一年内完成的。
+If you give students a designed pipeline in these two places, I think the remaining work can be completed within one year for sophomores.
 
-甚至我会认为：这比让本科生自己训练一个 RNA foundation model 更适合作为本科科研项目。
+I even think that this is more suitable as an undergraduate research project than letting undergraduates train an RNA foundation model by themselves.Because it has a very good feature:
 
-因为它有一个非常好的特点：
+The problem is big enough, but computational implementation can be significantly lowered by AI; what really needs students to learn is how to establish scientific conclusions from data.
 
-问题足够大，但 computational implementation 可以被 AI 大幅降低门槛；真正需要学生学习的是如何从数据中建立科学结论。
-
-这其实非常符合你前面一直在讨论的 AI 时代本科生科研训练模式。
+This is actually very consistent with the undergraduate scientific research training model in the AI era that you have been discussing earlier.
 
 ---
 
-## 九、关联性（association）与因果性（causality）
+## 9. Association and Causality
 
-> **学生提问：** 你前面提的是，主要目标还是找到修饰与结构的关联性，但不能认为是因果性的。因果性和关联性是比较有趣的两个概念。很多时候，一般意义的关联性就在一定意义上提示可能的因果性。可以这么说吗？
+> **Student question:** What you mentioned earlier is that the main goal is to find the correlation between modification and structure, but it cannot be considered causal. Causality and correlation are two interesting concepts. Many times, correlation in a general sense suggests possible causation in a certain sense. Can you say that?
 
-可以，但要加一个很重要的限定：**关联性可以提示因果性，但不能仅凭关联性建立因果性。** 而且"提示"的强弱取决于关联是怎么产生的。
+Yes, but a very important qualification must be added: **Correlation can suggest causation, but causation cannot be established based on correlation alone. ** And the strength of the "hint" depends on how the association is made.
 
-你这个 RNA 修饰—结构项目其实非常适合说明这个问题。
+Your RNA modification-structure project is actually very suitable to illustrate this issue.
 
-比如你最后发现：
+For example, you finally find:
 
 > **m6A sites are significantly enriched in structurally accessible regions.**
 
-这首先是一个 association：
+This is the first association:
 
 ```text
 m6A ↔ accessible structure
 ```
 
-但它确实会让一个合理的因果假设出现：
+But it does allow for a reasonable causal hypothesis:
 
 ```text
 m6A modification → local RNA structural change
 ```
 
-因为从生物学机制上，这不是一个完全没有根据的相关性。核苷酸化学性质发生变化，理论上确实可能改变局部碱基配对、stacking、hydrogen bonding，从而影响二级结构。
+Because from a biological mechanism, this is not a completely unfounded correlation. Changes in the chemical properties of nucleotides may theoretically change local base pairing, stacking, and hydrogen bonding, thus affecting the secondary structure.
 
-但是还有另外一种可能：
+But there is another possibility:
 
 ```text
 RNA structure → preferential m6A deposition
 ```
 
-也就是说，结构本身可能影响 METTL3/METTL14 等修饰酶对 RNA 的识别。
+That is, the structure itself may affect RNA recognition by modifying enzymes such as METTL3/METTL14.
 
-甚至可能是：
+It might even be:
 
 ```text
              RNA sequence
-              ↙       ↘
-       RNA structure   m6A
-              ↘       ↙
+              ↙ ↘
+       RNA structure m6A
+              ↘ ↙
             common cause
 ```
 
-所以观察到：
+So it is observed:
 
 ```text
 m6A ↔ structure
 ```
 
-实际上可能对应三种完全不同的机制：
+In fact, it may correspond to three completely different mechanisms:
 
 ```text
 A. modification → structure
@@ -286,41 +282,39 @@ A. modification → structure
 B. structure → modification
 
 C. sequence / protein / cellular process
-           ↓              ↓
-      structure          m6A
+           ↓ ↓
+      structure m6A
 ```
 
-这就是为什么统计学上不能从 association 直接跳到 causality。
+This is why statistics cannot jump directly from association to causality.
 
-但你说的那句话在科学研究中是成立的：
+But what you said is true in scientific research:
 
 > **Association is often evidence that motivates and supports a causal hypothesis.**
 
-更准确一点：
+To be more precise:
 
 > **An association does not establish causality, but a biologically plausible and robust association can provide evidence in support of a causal hypothesis.**
 
-而且我觉得你这个项目真正有意思的地方就在这里。
+And I think this is what’s really interesting about your project.
 
-你第一阶段根本不需要证明：
+You don’t need to prove at all in the first stage:
 
 ```text
 m6A causes structural change.
 ```
 
-你可以非常明确地说：
+You can be very clear by saying:
 
 > **We identify structural signatures associated with RNA modification sites.**
 
-然后提出：
+Then propose:
 
 > **These associations suggest that RNA modifications may participate in regulating local RNA structure.**
 
-这在论文逻辑上是完全合理的。
+This is completely reasonable in the logic of the paper.Going further, in fact, your project can be designed as a research framework that gradually moves from association to causality.
 
-更进一步，其实你这个项目可以设计成一个 **"从 association 逐步走向 causality"** 的研究框架。
-
-**第一层：Association**
+**Level 1: Association**
 
 ```text
 Modification
@@ -328,27 +322,27 @@ Modification
 RNA structure
 ```
 
-回答：
+answer:
 
 ```text
-修饰位点是不是具有特殊结构环境？
+Does the modification site have a special structural environment?
 ```
 
-这是你现在的数据可以做的。
+This is what you can do with your current data.
 
-**第二层：Directionality**
+**Second level: Directionality**
 
-开始问：
+Start asking:
 
 ```text
-是结构影响修饰，还是修饰影响结构？
+Does structure affect modification, or modification affects structure?
 ```
 
-这时候需要考虑修饰酶、sequence motif、结构预测等信息。
+At this time, you need to consider information such as modified enzymes, sequence motifs, and structure predictions.
 
-**第三层：Causal evidence**
+**Third level: Causal evidence**
 
-例如找到：
+For example find:
 
 ```text
 modified RNA
@@ -356,9 +350,9 @@ modified RNA
 unmodified RNA
 ```
 
-在相同 sequence、相同环境下结构发生变化。
+The structure changes under the same sequence and the same environment.
 
-或者：
+or:
 
 ```text
 writer knockout
@@ -368,103 +362,102 @@ modification ↓
 structure changes
 ```
 
-这才开始真正支持：
+This is where real support begins:
 
 ```text
 modification → structure
 ```
 
-**第四层才是：Mechanism**
+**The fourth level is: Mechanism**
 
-例如：
+For example:
 
 ```text
 m6A disrupts a particular base-pairing interaction → exposes an RBP binding site → changes RNA stability.
 ```
 
-这就是完整的因果机制链。
+This is the complete chain of causal mechanisms.
 
-所以我反而认为，你这个本科项目的科学教育价值非常好：学生不是简单地"找相关性"，而是在学习科学推理中一个非常核心的概念——**association 是发现机制的入口，而不是机制本身**。
+So I think instead that the scientific education value of your undergraduate program is very good: students are not simply "looking for correlations", but are learning a very core concept in scientific reasoning - **association is the entrance to discovering mechanisms, not the mechanism itself**.
 
-而且从研究策略上，我会刻意保留这种"不证明因果"的空间。因为如果你一开始就声称研究"effects of RNA modifications on RNA structure"，审稿人很容易问：
+And in terms of research strategy, I will deliberately retain the space of "not proving cause and effect". Because if you claim to study "effects of RNA modifications on RNA structure" at the beginning, the reviewer will easily ask:
 
 > Where is the causal evidence?
 
-如果你定义成：
+If you define it as:
 
 > **Transcriptome-wide characterization of the structural context of RNA modification sites**
 
-那么你的数据和结论是高度匹配的。
+Then your data and conclusions are highly consistent.
 
-最后，如果发现某一种修饰的结构 association 特别强，例如：
+Finally, if it is found that a certain modified structure association is particularly strong, for example:
 
 > **m6A sites consistently show reduced local base-pairing probability**
 
-那就非常自然地产生下一篇工作的 hypothesis：
+Then the hypothesis of the next work will be generated very naturally:
 
 > **Does m6A directly remodel local RNA secondary structure?**
 
-第一篇发现 association，第二篇做 causality。
+The first article discovers association, and the second article does causality.
 
-这比在第一篇文章里硬把 correlation 解释成 causation，科学上要稳健得多。
+This is much more scientifically sound than explaining correlation as causation in the first article.
 
 ---
 
-## 十、项目命名
+## 10. Project naming
 
-> **学生提问：** 这个项目叫什么比较好，给我一个简单容易记而且贴切的名字
+> **Student question:** What would be a better name for this project? Give me a name that is simple, easy to remember and appropriate.
 
-如果考虑你这个项目的核心是：
+If you consider that the core of your project is:
 
 ```text
 RNA modification × RNA structure → structural association
 ```
 
-我会优先考虑这些名字：
+I would give priority to these names:
 
-| 名称 | 说明 |
+| Name | Description |
 |---|---|
-| **ModStruct** | 我最推荐。Modification + Structure，短、直接、容易记。 |
-| RNAmodStruct | 比 ModStruct 更明确，一眼知道是 RNA modification + structure。 |
-| Mod2Struct | 有一点"modification → structure"的意味，比较有模型/计算项目的感觉。 |
-| ModStructome | 强调全转录组的 structural landscape，适合以后做成 atlas/database。 |
-| RNA-ModMap | 强调 mapping RNA modifications onto structural context。 |
-| ModRNA | 极简，但太泛，辨识度不够。 |
-| StructMod | 和 ModStruct 类似，但我觉得 ModStruct 更顺口。 |
+| **ModStruct** | I recommend it the most. Modification + Structure, short, direct, and easy to remember. |
+| RNAmodStruct | More clear than ModStruct, it is known at a glance that it is RNA modification + structure. |
+| Mod2Struct | It has a bit of "modification → structure" meaning, more like a model/computation project. |
+| ModStructome | Emphasizes the structural landscape of the whole transcriptome, suitable for later making atlas/database. |
+| RNA-ModMap | Emphasis on mapping RNA modifications onto structural context. || ModRNA | Minimalist, but too general and not recognizable enough. |
+| StructMod | Similar to ModStruct, but I think ModStruct is more fluent. |
 
-如果是本科生项目名称，我会选：
+If it were an undergraduate project name, I would choose:
 
 > **ModStruct: Mapping RNA Modification Sites onto RNA Structure**
 
-如果未来可能发展成论文/数据库品牌，我会选：
+If it is possible to develop into a paper/database brand in the future, I would choose:
 
 > **ModStruct: A Human RNA Modification–Structure Atlas**
 
-我个人最喜欢 ModStruct。它有一个好处：现在做关联分析合适，以后即使扩展到 structure prediction、modification effects、foundation model，也不需要换名字。
+My personal favorite is ModStruct. It has an advantage: it is suitable for correlation analysis now, and even if it is expanded to structure prediction, modification effects, and foundation model in the future, there is no need to change the name.
 
-而且它和你之前的 QuantImmu、HistoNeo、nanoRemix 这种命名风格也比较一致：短、功能明确、容易形成品牌。
+And it is also consistent with your previous naming style of QuantImmu, HistoNeo, and nanoRemix: short, clear functions, and easy to form a brand.
 
 ---
 
-## 十一、分析方法：从普通到"酷炫"的升级路线
+## 11. Analysis method: upgrade route from ordinary to "cool"
 
-> **学生提问：** 数据处理好后分析方法好像主要是关联分析，从方法学上是不是不够酷炫？有比较酷炫吊炸天的关联分析方法可以用在这里吗？
+> **Student question:** After the data is processed, the analysis method seems to be mainly correlation analysis. Isn’t it not cool enough in terms of methodology? Is there any cool correlation analysis method that can be used here?
 
-对。如果最后只是"m6A 位点的结构可及性比随机位点高多少"，方法学上确实比较普通。数据本身很有意思，但如果只是 Mann–Whitney U test + boxplot，很难让论文的方法部分显得有辨识度。
+right. If in the end it is just "how much higher is the structural accessibility of the m6A site than a random site", the methodology is indeed relatively common. The data itself is interesting, but if it is just Mann–Whitney U test + boxplot, it is difficult to make the methods part of the paper recognizable.
 
-但我觉得没必要为了"酷炫"而硬上深度学习。这个问题其实非常适合做一个结构化的、多尺度的 association framework，而且可以做到既漂亮又有生物学解释。
+But I don’t think it’s necessary to learn deep learning just to be “cool”. This problem is actually very suitable for building a structured, multi-scale association framework, and it can be both beautiful and biologically explained.
 
-我会考虑下面几个层次。
+I would consider the following levels.
 
-### 11.1 最值得做：Structural enrichment landscape
+### 11.1 Most worth doing: Structural enrichment landscape
 
-不要只问：
+Don't just ask:
 
 ```text
 modification vs non-modification
 ```
 
-而是把每个修饰位点表示成一个局部结构状态向量：
+Instead, each modification site is represented as a local structural state vector:
 
 ```text
 m6A site
@@ -480,46 +473,46 @@ m6A site
     └── structural neighborhood
 ```
 
-然后问：
+Then ask:
 
 ```text
-不同 RNA modification 是否具有不同的 structural fingerprints？
+Do different RNA modifications have different structural fingerprints?
 ```
 
-最后得到：
+Finally get:
 
 ```text
                  Structural features
 
-           accessibility   pairing   entropy   loop
-m6A             ↑             ↓        ↑        ↑
-m1A             ↑             ↓        ...
-m5C             ...
-Ψ               ...
-m7G             ...
+           accessibility pairing entropy loop
+m6A ↑ ↓ ↑ ↑
+m1A ↑ ↓ ...
+m5C...
+Ψ...
+m7G...
 ```
 
-这就已经比普通 correlation 高一个层次。
+This is already a level higher than ordinary correlation.
 
-而且最后可以做一个：
+And finally you can do this:
 
 ```text
 Modification × Structural Feature heatmap
 ```
 
-或者：
+or:
 
 ```text
 RNA modification structural fingerprint
 ```
 
-这会非常直观。
+This will be very intuitive.
 
-### 11.2 更"酷"的：局部结构 landscape，而不是单个位点
+### 11.2 Even "cooler": local structural landscapes, not individual sites
 
-我觉得这个甚至比机器学习更有意思。
+I think this is even more interesting than machine learning.
 
-对于每个 modification site，不只看 position 0，而看：
+For each modification site, look not just at position 0, but at:
 
 ```text
 -50 ... -20 ... -10 ... 0 ... +10 ... +20 ... +50
@@ -527,78 +520,77 @@ RNA modification structural fingerprint
                      modification
 ```
 
-然后计算 modification site 周围的平均结构 profile。
+The average structure profile around the modification site is then calculated.
 
-例如：
+For example:
 
-```text
-             -50              0              +50
+```text-50 0 +50
 
-m6A          ────────╲____╱───╲____╱────────
-m1A          ───────╲________╱────────────────
-m5C          ───────────╲____╱────────────────
-control      ─────────────────────────────────
+m6A ────────╲____╱───╲____╱────────
+m1A ───────╲________╱────────────────
+m5C ───────────╲____╱───────────────
+control ──────────────────────────────
 ```
 
-这其实是在问：
+This is actually asking:
 
 ```text
-RNA modification 有没有一个 characteristic structural neighborhood？
+Is there a characteristic structural neighborhood for RNA modification?
 ```
 
-这比"m6A correlated with accessibility"漂亮得多。
+This is much prettier than "m6A correlated with accessibility".
 
-而且非常适合发现一些意料之外的东西。
+And great for discovering something unexpected.
 
-### 11.3 再往上一步：Structural entropy / heterogeneity
+### 11.3 One step further: Structural entropy / heterogeneity
 
-这是我比较推荐你考虑的。
+This is what I recommend you consider.
 
-RNA structure 不是简单的：
+RNA structure is not simple:
 
 ```text
-paired / unpaired
+paired/unpaired
 ```
 
-RNA 可以有多个 competing structures。
+RNA can have multiple competing structures.
 
-因此可以把一个 nucleotide 周围的结构状态表示成概率分布：
+Therefore, the structural state around a nucleotide can be expressed as a probability distribution:
 
 $$P(\text{paired}),P(\text{unpaired}),P(\text{stem}),P(\text{loop}),...$$
 
-然后计算：
+Then calculate:
 
 $$H=-\sum_i p_i\log p_i$$
 
-也就是 structural entropy。
+That is structural entropy.
 
-然后比较：
+Then compare:
 
 ```text
-modified sites 是否更倾向于结构不确定性高的区域？
+Do modified sites prefer regions with high structural uncertainty?
 ```
 
-这会比简单的 accessibility 更有机制意味：
+This would be more mechanical than simple accessibility:
 
 > **RNA modifications may preferentially occur in structurally dynamic regions.**
 
-这句话就已经很像一个可以形成论文故事的 hypothesis。
+This sentence is already very similar to a hypothesis that can form a thesis story.
 
-RNA structure probing 本身也已经有统计模型用于处理 structure landscape 和多构象 ensemble，而不是把 RNA 简化成单一二级结构。SLEQ 就是一个代表例子。
+RNA structure probing itself also has statistical models for dealing with structure landscape and multi-conformation ensembles, rather than reducing RNA to a single secondary structure. SLEQ is a representative example.
 
-### 11.4 真正"吊炸天"的：Structural association network
+### 11.4 What is really "shaking the sky": Structural association network
 
-这个我觉得非常适合你。
+I think this is very suitable for you.
 
-不要把：
+Don't put:
 
 ```text
 m6A → accessibility
 ```
 
-作为终点。
+as the end point.
 
-建立一个二部网络：
+Build a two-part network:
 
 ```text
 RNA modifications
@@ -612,21 +604,21 @@ RNA modifications
        └──────── transcript regions
 ```
 
-例如：
+For example:
 
 ```text
              stem
               ↑
               │
 m6A ──────── loop
-│             ↑
-│             │
+│ ↑
+│ │
 ├──────── structural entropy
 │
 └──────── accessibility
 ```
 
-然后计算：
+Then calculate:
 
 ```text
 association strength
@@ -634,35 +626,35 @@ network modules
 modification-specific structural modules
 ```
 
-最终你可能得到：
+Eventually you might get:
 
 > **RNA modifications occupy distinct structural niches.**
 
-这句话我觉得比"m6A is associated with RNA structure"漂亮很多。
+I think this sentence is much more beautiful than "m6A is associated with RNA structure".
 
-### 11.5 如果一定要上机器学习：我反而推荐 interpretable ML
+### 11.5 If you must study machine learning: I recommend interpretable ML instead
 
-不要训练一个 Transformer 去预测 modification。
+Don't train a Transformer to predict modifications.
 
-因为那很容易变成：
-
-```text
-又一个 RNA modification prediction model。
-```
-
-这个领域已经非常拥挤，机器学习、matrix completion、network propagation 等 RNA modification association 方法已经很多。
-
-你的数据真正有价值的地方是：
+Because that could easily become:
 
 ```text
-structure + modification 的关系本身。
+Another RNA modification prediction model.
 ```
 
-所以可以做：
+This field is already very crowded, and there are already many RNA modification association methods such as machine learning, matrix completion, and network propagation.
+
+The real value of your data is:
+
+```text
+The relationship of structure + modification itself.
+```
+
+So one can do:
 
 $$P(M_i=1)=f( sequence, structure, accessibility, entropy, local\ structure, region )$$
 
-然后用：
+Then use:
 
 ```text
 XGBoost
@@ -671,92 +663,91 @@ GAM
 Explainable boosting machine
 ```
 
-之类的方法。
+methods like that.
 
-关键不是预测准确率，而是：
+The key is not prediction accuracy, but:
 
 ```text
 What structural features explain the probability of RNA modification?
 ```
 
-最后用 SHAP / partial dependence 得到：
+Finally use SHAP / partial dependence to get:
 
 ```text
 m6A
 │
-├── structural accessibility   +++++
-├── structural entropy         ++++
-├── loop probability            +++
-├── GC content                  ++
-├── sequence motif              +++
-└── transcript region           ++
+├── structural accessibility +++++├── structural entropy ++++
+├── loop probability +++
+├── GC content ++
+├── sequence motif +++
+└── transcript region ++
 ```
 
-这就变成一个可解释的 structural grammar。
+This becomes an interpretable structural grammar.
 
-### 11.6 还有一个我特别喜欢的方向：information theory
+### 11.6 There is another direction that I particularly like: information theory
 
-这个可能非常适合你，因为你本身统计/数学背景比较强。
+This may be very suitable for you because you have a strong statistics/mathematics background.
 
-不要只计算 correlation，而计算：
+Don't just calculate correlation, calculate:
 
 $$I(M;S)$$
 
-即：
+Right now:
 
 ```text
 Mutual information between RNA modification state and structural state.
 ```
 
-然后进一步：
+And then further:
 
 $$I(M;S\mid Sequence)$$
 
-也就是：
+That is:
 
 ```text
-在控制 sequence context 后，RNA modification 和 RNA structure 还有多少信息关联？
+After controlling the sequence context, how much information is still associated with RNA modification and RNA structure?
 ```
 
-这个问题非常漂亮。
+This question is very beautiful.
 
-因为你真正想知道的是：
+Because what you really want to know is:
 
 ```text
-RNA modification 与 structure 的关系，是否超越了 sequence 本身所能解释的程度？
+Does the relationship between RNA modification and structure go beyond what can be explained by sequence itself?
 ```
 
-如果：
+if:
 
 $$I(M;S)>0$$
 
-但是：
+but:
 
 $$I(M;S\mid Sequence)\approx0$$
 
-说明所谓 modification–structure association 很可能主要是 sequence composition 的结果。
+It shows that the so-called modification–structure association is probably mainly the result of sequence composition.
 
-反过来，如果：
+Conversely, if:
 
 $$I(M;S\mid Sequence)\gg0$$
 
-那就非常有意思：
+That's very interesting:
 
 > **RNA modification carries structural information beyond primary sequence context.**
 
-这比普通 correlation 高级很多，而且科学解释非常清楚。
+This is much more advanced than normal correlation, and the scientific explanation is very clear.
 
-### 11.7 如果让我给这个项目设计一个"酷炫但不过度"的核心方法
+### 11.7 If I were asked to design a "cool but not excessive" core method for this project
 
-我不会堆十几个模型。
+I wouldn’t pile up a dozen models.
 
-我会做一个：
+I would make one:
 
 ```text
 Modification–Structure Association Framework
 ```
 
-核心分成三层：
+The core is divided into three layers:
 
 ```text
                RNA modification
@@ -764,12 +755,12 @@ Modification–Structure Association Framework
                       ↓
                Local structure
                       │
-        ┌──────────────┼──────────────┐
-        ↓              ↓              ↓
-   Accessibility   Structure      Entropy/
-                   topology       heterogeneity
-        │              │              │
-        └──────────────┼──────────────┘
+        ┌──────────────┼───────────────┐
+        ↓ ↓ ↓
+   Accessibility Structure Entropy/
+                   topology heterogeneity
+        │ │ │
+        └──────────────┼───────────────┘
                       ↓
             Modification-specific
              structural fingerprint
@@ -779,40 +770,38 @@ Modification–Structure Association Framework
        I(M;S) and I(M;S | sequence)
 ```
 
-最后再加一个：
+Finally add one more:
 
 ```text
 multivariate interpretable model
 ```
 
-去确定哪些 structural features 真正贡献最大。
+To determine which structural features really contribute the most.
 
-这样就不是：
+This is not:
 
 ```text
-"我们做了一个 correlation analysis。"
+"We did a correlation analysis."
 ```
 
-而是：
+Instead:
 
 > **We developed a transcriptome-wide framework to characterize the structural grammar of RNA modifications.**
 
-这个就有明显的 methodological identity 了。
+This has obvious methodological identity.
 
-而且还有一个很重要的优点：这些方法可以由本科生逐步完成。
+And there is another very important advantage: these methods can be completed step by step by undergraduates.
 
-第一版只做 enrichment + local profile；如果进展顺利，加 entropy；再加 mutual information；最后加 interpretable ML。不会出现"模型一上来就把项目做死"的问题。
+The first version only does enrichment + local profile; if it goes well, add entropy; add mutual information; and finally add interpretable ML. There will be no problem of "killing the project as soon as the model is launched".
 
-我尤其推荐你把 **"structural grammar"** 作为最终概念。它比"structural association"更有味道，也和你之前一直在寻找的"从大量数据中找规律/规则"这个科研思路非常契合。
-
-另外，structure probing 领域已经有 BUM-HMM、DiffScan、diffBUM-HMM 等比较成熟的统计方法，可以借鉴其对测量噪声、coverage bias 和 nucleotide-level uncertainty 的处理思路，而不必自己重新发明结构 probing 的统计模型。
+I especially recommend you consider "structural grammar" as a final concept. It is more flavorful than "structural association" and is very consistent with the scientific research idea of "finding patterns/rules from large amounts of data" that you have been looking for before.In addition, the field of structure probing already has relatively mature statistical methods such as BUM-HMM, DiffScan, and diffBUM-HMM. You can learn from their processing ideas for measurement noise, coverage bias, and nucleotide-level uncertainty, without having to reinvent the statistical model of structure probing yourself.
 
 ---
 
-## 十二、最终推荐（一句话结论）
+## 12. Final recommendation (one sentence conclusion)
 
-如果只让我选一个最值得做、又不会把本科项目搞得过度复杂的"酷方法"，我会选：
+If I had to choose only one "cool method" that was worth doing without overly complicating my undergraduate project, I would choose:
 
 > **Local structural landscape + conditional mutual information + interpretable multivariate model**
 
-这三个组合起来，已经足够让项目从普通的"修饰位点统计比较"，升级成一个相当漂亮的 computational biology study。
+The combination of these three is enough to upgrade the project from an ordinary "statistical comparison of modification sites" to a quite beautiful computational biology study.

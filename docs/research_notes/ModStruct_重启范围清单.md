@@ -1,9 +1,9 @@
-# ModStruct 重启范围清单：四期实施版
+# ModStruct Restart Scope List: Fourth Phase Implementation Version
 
-> 本文由原 `restart_scope_v1` 直接修订而来。原清单中的 24 项均保留可追溯编号，但不再按“被砍原因”分类，
-> 而是按研究依赖重组为四期。已冻结的 HEK293T–HeLa 主线是后续扩展的基线，不因重启而回写或重定义。
+> This article is directly revised from the original `restart_scope_v1`. The 24 items in the original list all retain traceability numbers, but are no longer classified according to "reason for cancellation".
+> Instead, it is reorganized into four phases based on research dependencies. The frozen HEK293T–HeLa mainline is the baseline for subsequent expansions and will not be written back or redefined due to reboots.
 
-## 文档信息（Material Passport）
+## Document information (Material Passport)
 
 - Origin Skill: academic-research-suite
 - Origin Mode: experiment-plan / scope-revision
@@ -12,306 +12,300 @@
 - Verification Status: LOCAL_AUDITED
 - Version Label: restart_scope_v2_four_phases
 - Supersedes: restart_scope_v1
-- Evidence boundary: 本次修订核对了当前工作区的代码、配置、结果和数据目录；外部数据的最新可得性仍须在第二、三、四期启动时联网复核。
+- Evidence boundary: This revision checks the code, configuration, results and data directory of the current workspace; the latest availability of external data still needs to be reviewed online when the second, third and fourth phases are launched.
 
-## 一、当前基线与重启纪律
+## 1. Current baseline and restart discipline
 
-### 1. 已完成基线
+### 1. Baseline completed
 
-原第 24 项“HeLa Q3”已经完成，不再列为待办：
+The original item 24 "HeLa Q3" has been completed and is no longer listed as to-do:
 
-- HEK293T 发现集：4,409 个关联分析位点、4,096 个模型位点；
-- HeLa 复核集：25,996 个关联分析位点、24,960 个模型位点；
-- HeLa 关联方向与 HEK293T 一致；
-- 冻结 HEK293T 模型已完成 HeLa 全集和严格子集迁移；
-- 当前结论为“局部实验结构与 m6A 比例存在小幅正向关联，但未观察到额外预测增益”；
-- 主线版本、环境、测试和发布哈希已经冻结。
+- HEK293T discovery set: 4,409 association analysis sites, 4,096 model sites;
+- HeLa review set: 25,996 association analysis sites, 24,960 model sites;
+- HeLa correlation direction is consistent with HEK293T;
+- The frozen HEK293T model has completed HeLa full set and strict subset migration;
+- The current conclusion is that "there is a small positive correlation between local experimental structure and m6A ratio, but no additional predictive gain is observed";
+- Mainline versions, environments, testing and release hashes have been frozen.
 
-### 2. 四条执行纪律
+### 2. Four execution disciplines
 
-1. **主线不回写**：新增工作采用新的阶段号、配置、表格和报告，不覆盖 06–10 阶段的冻结结论。
-2. **探索性透明**：重启分析发生在主结果已知之后，默认标记为 exploratory；只有新的独立数据验证才能升级证据等级。
-3. **先审计后分析**：任何外部数据先完成来源、字段、参考版本、坐标、链向、定量语义和完整性审计。
-4. **逐期设门槛**：上一期达到退出门槛后再进入下一期，避免同时铺开 24 个互相依赖的方向。
-
----
-
-## 第一期：现有数据的方法扩展
-
-### 目标
-
-在不新增外部数据、不改变冻结主线的前提下，回答现有结果的稳健性、条件依赖、跨细胞系汇总和模型边界问题。
-
-### 纳入原清单项目
-
-- #2 高维条件互信息的可识别降级路线；
-- #6 正式 meta-analysis；
-- #16 401 nt 窗口敏感性；
-- #17 异构体感知分析；
-- #18 HistGradientBoosting；
-- #19 SHAP / 置换重要性；
-- #23 结构熵 `H_pair` 独立分析；
-- #24 作为已完成基线，不再执行。
-
-### 实施包
-
-#### 1A. 双细胞系效应汇总（原 #6）
-
-- 分别使用 HEK293T、HeLa 已冻结的每 SD 关联系数及标准误；
-- 报告固定效应和随机效应汇总、异质性 `Q`、`I²` 和 `τ²`；
-- 只有两个细胞系时，异质性估计不稳定，必须同时保留逐数据集效应，不把 pooled estimate 当作最终真值；
-- 输出建议：`config/12_meta_analysis.yaml`、`src/12_run_meta_analysis.py`、`results/tables/12_*`、`results/12_*_report.md`。
-
-#### 1B. 条件依赖检验（原 #2）
-
-- 不直接声称估计高维 `I(M;S|sequence)`；
-- 使用交叉拟合的 Generalized Covariance Measure 或等价 residual-on-residual 检验；
-- 分别拟合 `E[M|X]` 和 `E[R|X]`，其中 `X` 仅使用序列、区域、覆盖和预设背景协变量；
-- 所有拟合与调参按基因及相同序列连通分组，推断按基因聚类或分组置换；
-- HEK293T 为开发性分析，HeLa 使用冻结流程作外部复核；
-- 输出建议：`config/13_conditional_dependence.yaml`、`src/13_run_conditional_dependence.py`。
-
-#### 1C. 结构熵独立假设（原 #23）
-
-- 使用现有 `mean_pairing_state_entropy`，检验结构不确定性与 m6A 比例的关联；
-- 同时报告未调整、协变量调整、加入 `R_flank10` 后的条件关联；
-- 控制与其他预测结构特征的多重比较，不把单一显著结果解释成机制；
-- 在 HEK293T 定义分析后，将同一模型冻结到 HeLa。
-
-#### 1D. 异构体感知敏感性（原 #17）
-
-- 从 `06_hek293t_all_isoform_mappings.csv.gz` 和 `09_hela_all_isoform_mappings.csv.gz` 出发；
-- 至少比较：确定性代表异构体、单异构体位点、异构体等权、按可用结构覆盖加权四种估计；
-- 同一基因组位点的多个异构体必须保持在同一重采样/分组单元；
-- 不将短读长数据解释为真实异构体丰度。
-
-#### 1E. 401 nt 窗口敏感性（原 #16）
-
-- 从已固定的转录本序列重新提取完整 401 nt 窗口，不对不足窗口进行填充；
-- 同步扩展序列 one-hot、k-mer 和 ViennaRNA 特征，不能只扩展实验结构而维持 201 nt 序列基线；
-- 沿用冻结的基因–相同序列连通分组原则，重新构造 401 nt 序列哈希；
-- 作为敏感性分析报告，不替换 201 nt 主模型。
-
-#### 1F. 非线性模型与解释（原 #18、#19）
-
-- 先比较 Ridge 与 `HistGradientBoostingRegressor`，调参仅使用开发集分组交叉验证；
-- 保留 M0–M4 的嵌套消融结构，不能只报告最优模型；
-- 解释优先使用分组置换重要性和重训练消融；SHAP 仅作诊断，并明确不是因果解释；
-- 若树模型没有稳定外部增益，按阴性结果报告，不扩大超参搜索追逐测试集表现。
-
-### 第一期顺序
-
-`1A meta-analysis → 1B 条件依赖 → 1C 结构熵 → 1D 异构体 → 1E 401 nt → 1F 树模型/解释`
-
-### 第一期退出门槛
-
-- 每个实施包均有冻结 YAML、可执行脚本、机器可读表、技术报告和测试；
-- 所有预处理在训练折内拟合，HEK293T–HeLa 之间不存在新泄漏；
-- 明确区分预设主线、事后扩展和外部复核；
-- 结果无论阳性或阴性均进入汇总报告。
+1. **No write-back on the main line**: New work adopts new stage numbers, configurations, tables and reports, and does not cover the frozen conclusions of stages 06-10.
+2. **Exploratory Transparency**: Restart analysis occurs after the main results are known, and is marked exploratory by default;Only new independent data verification can upgrade the level of evidence.
+3. **Audit first and then analyze**: Any external data must first be audited on source, field, reference version, coordinates, link direction, quantitative semantics and integrity.
+4. **Setting thresholds phase by phase**: Enter the next phase after reaching the exit threshold in the previous phase to avoid rolling out 24 interdependent directions at the same time.
 
 ---
 
-## 第二期：新增公开数据与跨技术复核
+## Issue 1: Method extension for existing data
 
-### 目标
+### Target
 
-增加结构测量条件和 m6A 测量技术的独立性，判断第一期观察是否受单一结构技术、细胞系或批次驱动。
+Answer questions about the robustness, conditional dependence, cross-cell line aggregation and model boundaries of existing results without adding new external data or changing the frozen main line.
 
-### 纳入原清单项目
+### Include items in the original list
 
-- #12 HEK293T in-vitro icSHAPE；
-- #13 Human RNA MaP（U2OS）；
-- #14 GSE50676（PARS）；
-- #15 m6A-SAC-seq（GSE162356）；
-- #4 中“多结构数据源”的数据审计部分。
+- #2 Identifiable degradation routes for high-dimensional conditional mutual information;
+- #6 Formal meta-analysis;
+- #16 401 nt window sensitivity;
+- #17 Isomer Perception Analysis;
+- #18 HistGradientBoosting;
+- #19 SHAP / replacement importance;
+- #23 Structural entropy `H_pair` independent analysis;
+- #24 is regarded as a completed baseline and will not be executed again.
 
-### 数据优先级
+### Implementation package
 
-1. **#12 in-vitro icSHAPE**：与现有 HEK293T in-vivo 和 GLORI 的条件最接近，优先级最高；
-2. **#15 SAC-seq**：优先评估定量字段、背景位点和与 HeLa icSHAPE 的可配对性；
-3. **#13 Human RNA MaP**：只有找到匹配细胞条件的定量修饰数据后才进入关联分析；
-4. **#14 PARS**：作为独立技术单独建模，不与 icSHAPE 原始数值直接合并。
+#### 1A. Summary of dual cell line effects (formerly #6)
 
-### 统一审计流程
+- Use the frozen per-SD correlation coefficients and standard errors of HEK293T and HeLa respectively;
+- Report fixed and random effects summary, heterogeneity `Q`, `I²` and `τ²`;
+- When there are only two cell lines, the heterogeneity estimate is unstable, and the per-dataset effect must be preserved at the same time, and the pooled estimate is not regarded as the final true value;
+- Output suggestions: `config/12_meta_analysis.yaml`, `src/12_run_meta_analysis.py`, `results/tables/12_*`, `results/reports/12_*_report.md`.
 
-- 记录 GEO/论文/文件三级来源和校验和；
-- 确认实验条件、细胞系、处理组和生物重复；
-- 审计坐标体系、参考版本、0/1 起算和链向；
-- 判断结构值和修饰值是连续定量、半定量还是二元检测；
-- 量化映射损失、结构缺失和选择偏倚；
-- 每个数据集先独立估计，再进入跨数据集汇总，禁止直接堆叠原始值。
+#### 1B. Conditional dependency testing (original #2)
 
-### 第二期进入门槛
+- does not directly claim to estimate high-dimensional `I(M;S|sequence)`;
+- Generalized Covariance Measure or equivalent residual-on-residual test using cross-fitting;
+- Fit `E[M|X]` and `E[R|X]` respectively, where `X` uses only sequence, region, coverage and preset background covariates;
+- All fittings and parameter adjustments are grouped by genes and the same sequence connectivity,Infer clustering or grouping permutation by genes;
+- HEK293T is a developmental analysis, and HeLa uses a frozen process for external review;
+- Output suggestions: `config/13_conditional_dependence.yaml`, `src/13_run_conditional_dependence.py`.
 
-- 数据仍可从权威来源获得且许可允许研究复用；
-- 至少一个结构数据集能与匹配条件的 m6A 数据形成可解释的位点级联合表；
-- 不依赖把不同技术的数值强行当作同一量纲。
+#### 1C. Structural entropy independence assumption (original #23)
 
-### 第二期退出门槛
+- Use the existing `mean_pairing_state_entropy` to examine the association of structural uncertainty with the m6A ratio;
+- Simultaneously report unadjusted, covariate-adjusted, and conditional associations after adding `R_flank10`;
+- Control multiple comparisons with other predicted structural features and do not interpret a single significant result as a mechanism;
+- After defining the analysis in HEK293T, freeze the same model to HeLa.
 
-- 至少完成一个 in-vivo / in-vitro 对照或一个跨修饰测量技术复核；
-- 对技术异质性给出分层效应，而不是只给总体平均；
-- 新数据完整通过与主线同等级的来源和坐标审计。
+#### 1D. Isoform Sensitivity (formerly #17)
 
----
+- Starting from `06_hek293t_all_isoform_mappings.csv.gz` and `09_hela_all_isoform_mappings.csv.gz`;
+- Compare at least: four estimates of deterministic representation of isomers, single isomer sites, isomer equal weighting, weighting by available structural coverage;
+- Multiple isoforms of the same genomic locus must be kept in the same resampling/grouping unit;
+- Short read data are not interpreted as true isoform abundances.
 
-## 第三期：多修饰 structural niches 与图谱
+#### 1E. 401 nt window sensitivity (formerly #16)
 
-### 目标
+- Re-extract the full 401 nt window from the fixed transcript sequence, without filling in insufficient windows;
+- Simultaneous expansion of sequence one-hot, k-mer and ViennaRNA features cannot just expand the experimental structure while maintaining the 201 nt sequence baseline;
+- Following the frozen gene-identical sequence connected grouping principle, the 401 nt sequence hash is reconstructed;
+- Reported as a sensitivity analysis without replacing the 201 nt master model.
 
-从单一 m6A 项目扩展为“不同 RNA 修饰是否占据不同结构生态位”的比较图谱；数据库或网站只作为图谱成熟后的交付形式。
+#### 1F. Nonlinear models and explanations (formerly #18, #19)
 
-### 纳入原清单项目
+- First compare Ridge with `HistGradientBoostingRegressor`, and only use development set group cross-validation for parameter adjustment;
+- Preserve the nested ablation structure of M0–M4 and cannot only report the optimal model;
+- Explain the importance of prioritizing group permutation and retraining ablation; SHAP is diagnostic only,and is clearly not a causal explanation;
+- If the tree model does not have a stable external gain, it will be reported as a negative result and the hyperparameter search will not be expanded to chase the test set performance.
 
-- #1 多修饰比较 / structural grammar；
-- #3 Structural association network；
-- #4 RMBase v3.0 与多数据集合并；
-- #7 lncRNA；
-- #10 数据库 / 网站；
-- #20 修饰 / 低修饰背景分类；
-- #21 log-loss → bits。
+### The order of the first issue
 
-### 3A. 多修饰数据侦察
+`1A meta-analysis → 1B conditional dependence → 1C structural entropy → 1D isomer → 1E 401 nt → 1F tree model/explanation`
 
-- 候选修饰：m1A、m5C、m7G、Ψ、ac4C、2′-O-Me、A-to-I；
-- 为每种修饰建立证据卡：检测技术、分辨率、定量语义、细胞条件、参考版本、背景集合和许可；
-- 单碱基二元注释与连续定量数据分轨分析；RMBase 只能承担存在/不存在层，不能伪装成修饰比例；
-- 至少两种修饰通过质量门槛后才启动 structural niches 比较。
+### The first phase exit threshold
 
-### 3B. 可比特征空间
-
-- 统一结构特征定义，但允许不同技术保留数据集层级；
-- 预设局部反应性、方向性、预测未配对概率、结构熵、序列 motif 和转录本区域；
-- 对细胞系、技术和覆盖进行分层或层级建模，避免把技术差异解释为修饰差异；
-- lncRNA 只有在获得匹配的结构与修饰测量后才加入，不从 mRNA 结果外推。
-
-### 3C. Structural association network（原 #3）
-
-- 二部图两侧分别为修饰类型和结构/序列/区域特征；
-- 边权来自可比较的标准化效应及不确定性，不直接使用 p 值；
-- 社区发现作为描述性工具，稳定性需通过数据集重采样和留一数据集分析验证；
-- 在多修饰未落地前，不建立只有 m6A 一个修饰节点的“网络”。
-
-### 3D. 背景分类和信息增益（原 #20、#21）
-
-- 只有获得“被充分测量但低修饰/未修饰”的可靠背景后才启动 Q4；
-- 背景必须按覆盖、可检测性、碱基类型、区域和表达匹配；
-- 分类模型报告校准、AUROC、AUPRC 和决策阈值之外的连续性能；
-- `Δbits = [LogLoss(baseline) − LogLoss(augmented)] / ln 2` 只用于合格概率模型；
-- 若背景仍来自显著位点列表的补集，则第 20、21 项保持阻塞。
-
-### 3E. 数据库 / 网站（原 #10）
-
-- 不是第三期前置条件；
-- 只有当至少两种修饰、两个独立数据集和稳定的数据字典就绪后再建设；
-- 优先发布可下载表、版本化 API/schema 和静态文档，最后再做交互网站。
-
-### 第三期退出门槛
-
-- 至少两种修饰具有可比较证据；
-- 修饰差异与检测技术差异能够在模型中区分；
-- 图谱中的每条边可追溯到数据集、模型和不确定性；
-- 网站如启动，必须绑定版本化数据发布而不是只做可视化外壳。
+- Each implementation package has frozen YAML, executable scripts, machine-readable tables, technical reports and tests;
+- All preprocessing is fit within the training fold, and there are no new leaks between HEK293T–HeLa;
+-Clearly distinguish between preset mainline, subsequent expansion and external review;
+- The results, whether positive or negative, are entered into the summary report.
 
 ---
 
-## 第四期：扰动、方向性、因果证据与条件式高级建模
+## Issue 2: Newly added public data and cross-technology review
 
-### 目标
+### Target
 
-从观察性关联推进到方向性和干预证据；高级模型只服务于明确的因果或跨数据集问题，不以“训练大模型”本身作为成果。
+Increase the independence of structure measurement conditions and m6A measurement technology to determine whether Phase 1 observations are driven by a single structure technology, cell line, or batch.
 
-### 纳入原清单项目
+### Include items in the original list
 
-- #5 四层因果框架的 Directionality / Causal / Mechanism；
-- #8 因果推断（与 #5 合并）；
-- #9 基础模型训练；
-- #11 深度学习 / Transformer（与 #9 合并为条件式方法分支）；
-- #22 大规模超参搜索。
+- #12 HEK293T in-vitro icSHAPE;
+- #13 Human RNA MaP (U2OS);
+- #14 GSE50676 (PARS);
+- #15 m6A-SAC-seq (GSE162356);
+- Data auditing section of "Multiple Structured Data Sources" in #4.
 
-### 4A. 扰动数据优先
+### Data priority
 
-- 优先寻找 writer/eraser 扰动、修饰酶敲低/敲除、相同序列修饰与未修饰对照；
-- 必须同时具有修饰变化和结构测量，且时间顺序、处理条件、批次和对照可识别；
-- 在分析前绘制因果图，明确处理、结局、混杂、中介和选择变量；
-- 不使用普通横断面相关、预测重要性或 SHAP 代替因果效应。
+1. **#12 in-vitro icSHAPE**: closest to the conditions of existing HEK293T in-vivo and GLORI, with the highest priority;
+2. **#15 SAC-seq**: Prioritize evaluation of quantitative fields, background sites, and pairability with HeLa icSHAPE;
+3. **#13 Human RNA MaP**: Only enter the correlation analysis after finding the quantitative modification data that matches the cell conditions;
+4. **#14 PARS**: Modeled separately as an independent technology and not directly merged with icSHAPE original values.
 
-### 4B. 四层证据梯度
+### Unified audit process
 
-1. **Association**：当前主线已完成；
-2. **Directionality**：时间序列、扰动前后或非对称预测只能提供方向线索；
-3. **Causal evidence**：需要可辩护的干预对照、差分设计或其他可识别策略；
-4. **Mechanism**：需要位点级突变、结构验证或生化实验，纯计算结果不得升级为机制结论。
+- Record the third-level source and checksum of GEO/paper/document;
+- Confirm experimental conditions, cell lines, treatment groups and biological replicates;
+- Audit coordinate system, reference version, starting from 0/1 and link direction;
+- Determine whether the structure value and modification value are continuous quantitative, semi-quantitative or binary detection;
+- Quantify mapping loss, structure loss and selection bias;
+-Each data set is estimated independently first, and then summarized across data sets.Direct stacking of primitive values ​​is prohibited.
 
-### 4C. 基础模型 / Transformer（原 #9、#11）
+### Entry threshold for the second phase
 
-- 默认不启动；只有当第三期形成足够规模的多修饰、多条件语料，并提出简单模型无法回答的明确问题后重新评估；
-- 必须设置 Ridge、树模型和现有公开模型基线；
-- 训练、调参和外部验证按数据集/基因/同源序列分组；
-- 评价重点是跨技术、跨细胞系或跨修饰泛化，而不是单一随机划分指标。
+- The data are still available from authoritative sources and the license allows for research reuse;
+- At least one structural data set can form an interpretable site-level joint table with matching m6A data;
+- Does not rely on forcing values from different technologies into the same dimension.
 
-### 4D. 超参搜索（原 #22）
+### Second phase exit threshold
 
-- 只在冻结开发集或嵌套交叉验证内执行；
-- 搜索空间、预算、停止规则和主指标在运行前登记；
-- 测试集和外部复核集不得用于扩展搜索空间；
-- 若性能提升仅来自测试后调参，必须降级为探索性结果。
-
-### 第四期进入门槛
-
-- 至少存在一个可识别的扰动数据集，或第三期语料足以提出明确的跨域基础模型问题；
-- 已完成伦理、许可和数据使用条件核查；
-- 分析计划在读取结局标签前冻结。
-
-### 第四期退出门槛
-
-- 因果结论严格匹配识别假设和研究设计；
-- 方向性、因果证据和机制证据分层报告；
-- 高级模型必须在真正独立的外部数据上超过简单基线，否则按阴性结果保留。
+- Complete at least one in-vivo/in-vitro control or a cross-modification measurement technology review;
+- Give stratified effects for technological heterogeneity rather than just the overall average;
+- The new data has completely passed the source and coordinate audit at the same level as the main line.
 
 ---
 
-## 四期总览
+## Issue 3: Multi-modified structural niches and maps
 
-| 期次 | 核心问题 | 原编号 | 当前数据状态 | 优先级 |
-|---|---|---|---|---|
-| 第一期 | 条件依赖、meta、窗口、异构体和非线性模型扩展 | 2, 6, 16–19, 23；24 已完成 | 数据齐备 | 立即执行 |
-| 第二期 | 跨结构条件和测量技术复核 | 4（部分）, 12–15 | 需联网复核和下载 | 第一期间可并行侦察 |
-| 第三期 | 多修饰 structural niches 与图谱 | 1, 3, 4, 7, 10, 20, 21 | 多修饰与背景数据缺口大 | 第二期后启动 |
-| 第四期 | 方向性、干预、机制与条件式高级建模 | 5, 8, 9, 11, 22 | 依赖扰动/实验或大规模语料 | 条件式启动 |
+### Target
 
-## 原 24 项去向索引
+Expand from a single m6A project to a comparative map of "whether different RNA modifications occupy different structural niches"; the database or website only serves as a delivery form after the map is matured.
 
-| 原编号 | 修订后去向 | 状态 |
+### Include items in the original list
+
+- #1 Multiple modification comparison / structural grammar;
+- #3 Structural association network;
+- #4 RMBase v3.0 and multi-dataset merging;
+- #7 lncRNA;
+- #10 Database/Website;
+- #20 retouch/low retouch background classification;
+- #21 log-loss → bits.
+
+### 3A. Multi-modified data reconnaissance
+
+- Candidate modifications: m1A, m5C, m7G, Ψ, ac4C, 2′-O-Me, A-to-I;
+- Build evidence cards for each modification: detection technology, resolution, quantitative semantics, cell conditions, reference versions, background collections and licenses;
+- Single-base binary annotation and continuous quantitative data analysis; RMBase can only assume the presence/absence layer and cannot pretend to be a modification ratio;
+- Comparison of structural niches is initiated only after at least two modifications pass the quality threshold.
+
+### 3B. Comparable feature space
+
+- Unify structural feature definitions but allow different techniques to preserve the dataset hierarchy;
+- Preset local reactivity, directionality, predicted unpaired probability, structural entropy, sequence motif and transcript region;
+- Hierarchical or hierarchical modeling of cell lines, technologies and coverage to avoid interpreting technology differences as modification differences;
+- lncRNA is only added after matching structure and modification measurements are obtained and is not extrapolated from the mRNA results.### 3C. Structural association network (formerly #3)
+
+- The two sides of the bipartite diagram are modification type and structure/sequence/regional characteristics;
+- Edge weights are derived from comparable standardized effects and uncertainties, and do not use p-values directly;
+- Community discovery is a descriptive tool, and its stability needs to be verified through data set resampling and leave-one-out data set analysis;
+- Before multiple modifications are implemented, a "network" with only one modification node, m6A, will not be established.
+
+### 3D. Background classification and information gain (original #20, #21)
+
+- Start Q4 only after obtaining a reliable background of "well measured but low/unmodified";
+- Background must match by coverage, detectability, base type, region and expression;
+- Classification models report continuous performance beyond calibration, AUROC, AUPRC and decision thresholds;
+- `Δbits = [LogLoss(baseline) − LogLoss(augmented)] / ln 2` is only used for qualified probability models;
+- If the background still comes from the complement of the list of significant sites, items 20, 21 remain blocked.
+
+### 3E. Database/Website (formerly #10)
+
+- Not a prerequisite for the third phase;
+- Only build when at least two modifications, two independent data sets and a stable data dictionary are in place;
+- Prioritize publishing downloadable tables, versioned API/schema and static documents, and then build interactive websites last.
+
+### The third phase exit threshold
+
+- Comparable evidence for at least two modifications;
+- Modification differences and detection technology differences can be distinguished in the model;
+- Each edge in the graph can be traced back to the data set, model and uncertainty;
+- Once the website is launched, it must be bound to versioned data publishing instead of just a visual shell.
+
+---
+
+## Issue 4: Disturbance, directionality, causal evidence and conditional advanced modeling
+
+### Target
+
+Advance from observational correlations to directional and intervention evidence; advanced models only serve clear causal or cross-dataset questions, and do not "train large models" as an outcome in themselves.
+
+### Include items in the original list
+
+- #5 Directionality / Causal / Mechanism of the four-layer causal framework;
+- #8 Causal Inference (merged with #5);
+- #9 Basic model training;
+- #11 Deep Learning/Transformer (merged with #9 into conditional methods branch);
+- #22 Large-scale hyperparameter search.### 4A. Disturbance data priority
+
+- Prioritize finding writer/eraser perturbations, modification enzyme knockdown/knockout, identical sequence modifications and unmodified controls;
+- Both modification changes and structural measurements must be available, and the time sequence, processing conditions, batches and controls must be identifiable;
+- Draw causal diagrams prior to analysis to identify treatment, outcome, confounding, mediating and selection variables;
+- Do not use ordinary cross-sectional correlations, predictive significance, or SHAP as a proxy for causal effects.
+
+### 4B. Four levels of evidence gradient
+
+1. **Association**: The current main line has been completed;
+2. **Directionality**: Time series, before and after disturbance, or asymmetric prediction can only provide directional clues;
+3. **Causal evidence**: Requires defensible intervention controls, differential designs, or other identifiable strategies;
+4. **Mechanism**: Site-level mutations, structural verification or biochemical experiments are required, and pure calculation results must not be upgraded to mechanistic conclusions.
+
+### 4C. Basic model / Transformer (original #9, #11)
+
+- Not enabled by default; re-evaluated only when a sufficiently large multi-modification and multi-condition corpus is formed in the third period and clear questions that cannot be answered by a simple model are raised;
+- Ridge, tree models and existing public model baselines must be set;
+- Training, parameter adjustment and external validation are grouped by data set/gene/homologous sequence;
+- Evaluation focuses on generalization across technologies, across cell lines, or across modifications rather than a single random partition metric.
+
+### 4D. Hyperparameter search (original #22)
+
+- Only executed within frozen development set or nested cross-validation;
+- Search space, budget, stopping rules and main indicators are registered before running;
+- Test sets and external review sets must not be used to expand the search space;
+- If the performance improvement only comes from post-test parameter adjustment, it must be downgraded to exploratory results.
+
+### Entry threshold for the fourth phase
+
+- There is at least one identifiable perturbation data set, or the third phase corpus is sufficient to raise clear cross-domain basic model questions;
+- Ethics, permission and data usage conditions checks have been completed;
+- Analysis plan freezes before ending tag is read.
+
+### The fourth phase exit threshold
+
+- Causal conclusions strictly match the identified hypotheses and research design;
+- Hierarchical reporting of directionality, causal evidence and mechanism evidence;
+- The advanced model must outperform the simple baseline on truly independent external data, otherwise it is retained as a negative result.
+
+---
+
+## Overview of the Four Issues
+
+| Issue | Core issue | Original number | Current data status | Priority ||---|---|---|---|---|
+| Issue 1 | Conditional dependence, meta, window, isomer and nonlinear model extension | 2, 6, 16–19, 23; 24 Completed | Data ready | Execute immediately |
+| Second period | Review of cross-structural conditions and measurement techniques | 4 (Part), 12–15 | Internet access required for review and download | Parallel reconnaissance possible in the first period |
+| Phase 3 | Multi-modification structural niches and maps | 1, 3, 4, 7, 10, 20, 21 | Multiple modifications and large gaps in background data | Start after the second phase |
+| Issue 4 | Directionality, intervention, mechanism and conditional advanced modeling | 5, 8, 9, 11, 22 | Dependent perturbation/experiment or large-scale corpus | Conditional priming |
+
+## Original 24-item destination index
+
+| Original number | Destination after revision | Status |
 |---:|---|---|
-| 1 | 第三期 3A–3C | 待多修饰数据 |
-| 2 | 第一期 1B | 可立即实施，采用 GCM 降级路线 |
-| 3 | 第三期 3C | 待至少两种修饰通过门槛 |
-| 4 | 第二期数据审计 + 第三期图谱 | 分阶段实施 |
-| 5 | 第四期 4A–4B | 与 #8 合并，待扰动数据 |
-| 6 | 第一期 1A | HEK293T 与 HeLa 已具备 |
-| 7 | 第三期 3B | 待匹配 lncRNA 数据 |
-| 8 | 第四期 4A–4B | 与 #5 合并 |
-| 9 | 第四期 4C | 条件式，不作为近期主线 |
-| 10 | 第三期 3E | 图谱成熟后启动 |
-| 11 | 第四期 4C | 与 #9 合并 |
-| 12 | 第二期 | 优先审计/下载 |
-| 13 | 第二期 | 需匹配修饰数据 |
-| 14 | 第二期 | 独立技术分层 |
-| 15 | 第二期 | 跨修饰测量技术优先候选 |
-| 16 | 第一期 1E | 可实施，需重提取 401 nt |
-| 17 | 第一期 1D | 可直接使用全异构体映射表 |
-| 18 | 第一期 1F | 可立即实施 |
-| 19 | 第一期 1F | 置换重要性优先，SHAP 仅诊断 |
-| 20 | 第三期 3D | 被可靠低修饰背景阻塞 |
-| 21 | 第三期 3D | 依赖 #20 的合格概率标签 |
-| 22 | 第四期 4D | 仅限冻结开发流程 |
-| 23 | 第一期 1C | 所需特征已经存在 |
-| 24 | 已完成基线 | 不再列入待办 |
+| 1 | Issue 3 3A–3C | More data to be revised |
+| 2 | First Issue 1B | Ready for immediate implementation, using GCM downgrade route |
+| 3 | The third issue 3C | Wait for at least two modifications to pass the threshold |
+| 4 | Second phase data audit + third phase map | Phased implementation |
+| 5 | Issue 4A–4B | Merged with #8, data to be perturbed |
+| 6 | Issue 1 1A | HEK293T and HeLa already available |
+| 7 | Issue 3 3B | lncRNA data to be matched |
+| 8 | Issue 4A–4B | Merged with #5 |
+| 9 | The fourth issue 4C | Conditional expression, not as the main line in the near future |
+| 10 | The third phase of 3E | Start after the map matures |
+| 11 | Fourth Issue 4C | Merged with #9 |
+| 12 | Second Issue | Priority Audit/Download |
+| 13 | Second Issue | Need to match modified data |
+| 14 | Issue 2 | Independent technology layering |
+| 15 | Issue 2 | Priority candidates for cross-modification measurement technology |
+| 16 | First Issue 1E | Implementable, need to re-extract 401 nt |
+| 17 | Issue 1 1D | Full isomer mapping table can be used directly |
+| 18 | Phase 1 1F | Can be implemented immediately || 19 | Issue 1 1F | Replacement priority takes precedence, SHAP only diagnoses |
+| 20 | Issue 3 3D | Blocked by reliable low-retouch background |
+| 21 | Issue 3 3D | Eligibility probability label dependent on #20 |
+| 22 | The fourth issue of 4D | Freeze development process only |
+| 23 | Issue 1 1C | Required features already exist |
+| 24 | Baseline completed | No longer on the backlog |
 
-## 下一步执行入口
+## Next execution entry
 
-第一期是当前唯一不需要新增数据或实验授权、且能够直接提高论文证据完整性的阶段。启动时应新建独立的
-`12–17` 阶段配置与脚本，并先完成 1A meta-analysis；第二期的数据可得性侦察可以并行进行，但在审计
-完成前不得进入正式分析。
+The first phase is currently the only phase that does not require new data or experimental authorization and can directly improve the integrity of the paper's evidence. When starting, a new independent
+`12–17` phase configuration and script, and complete 1A meta-analysis first; the second phase of data availability reconnaissance can be carried out in parallel, but after the audit
+Do not proceed to formal analysis until completed.

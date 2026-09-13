@@ -1,0 +1,5 @@
+evidence_axis,result,evidence_ceiling
+source_admission,GSE264642 admitted for directionality; GSE52662+GSE60034 rejected for causal analysis,directionality
+paired_structure_shift,n=24898; median shift=0.023843264; BH q=0,directionality
+causal_mechanism,not identified by available design,not_permitted
+advanced_modeling,not started because corpus and external-test gates failed,gate_decision_only

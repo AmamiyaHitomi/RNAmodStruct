@@ -1,0 +1,5 @@
+stage,evidence_axis,primary_population,result,interpretation_boundary
+18,source_and_coordinate_audit,3 downloaded public files,verified=3; paired_ready=1,"Audit establishes provenance and coordinate contracts, not biological replication."
+19,structure_condition_contrast,3705 HEK293T paired sites,in-vivo and in-vitro icSHAPE effects estimated separately with a paired contrast,Observational condition contrast; not a causal perturbation.
+20,cross_m6a_measurement_technology,2440 HeLa sites,GLORI and SAC-seq outcomes analyzed separately; HEK293/HEK293T retained as near-match sensitivity only,"Matched cell line across studies, not the same biological samples."
+21,conditional_source_admission,2 deferred sources,held=2; admitted=0,HOLD prevents unmatched structure-only sources from being presented as m6A replication.

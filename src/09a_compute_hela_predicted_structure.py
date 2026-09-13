@@ -24,7 +24,7 @@ CONFIG_PATH = ROOT / "config" / "09a_hela_predicted_structure.yaml"
 INPUT = ROOT / "data" / "final" / "09_hela_main_analysis_dataset.csv.gz"
 CHECKPOINT = ROOT / "data" / "interim" / "09a_hela_unique_sequence_predicted_structure.csv"
 OUTPUT = ROOT / "data" / "final" / "09a_hela_predicted_structure_features.csv.gz"
-STATUS = ROOT / "results" / "09a_hela_predicted_structure_run_status.csv"
+STATUS = ROOT / "results" / "status" / "09a_hela_predicted_structure_run_status.csv"
 LOG = ROOT / "results" / "logs" / "09a_compute_hela_predicted_structure.log"
 
 

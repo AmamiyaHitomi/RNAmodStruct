@@ -1,0 +1,6 @@
+track_id,modification,cell_line,input_records,mapped_representative_records,mapping_fraction,main_valid_records,main_valid_fraction_of_input,measurement_scale,track_admission
+m5c_hela,m5C,HeLa,1034,688,0.66537718,420,0.40618956,quantitative_site_fraction,INFERENTIAL_READY
+m7g_hela,m7G,HeLa,6022,549,0.09116573,190,0.03155098,semiquantitative_interval_peak,INFERENTIAL_READY
+m7g_hek293t,m7G,HEK293T,6290,132,0.02098569,18,0.00286169,semiquantitative_interval_peak,DESCRIPTIVE_ONLY_LOW_N
+nm_hela,Nm,HeLa,2103,1692,0.80456491,1301,0.61864004,binary_site,INFERENTIAL_READY
+nm_hek,Nm,HEK293T,699,522,0.74678112,491,0.70243205,binary_site,INFERENTIAL_READY

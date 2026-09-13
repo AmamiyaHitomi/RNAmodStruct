@@ -1,0 +1,2 @@
+stage,status,paired_transcripts,primary_median_shift,primary_q_value,evidence_layer,causal_claim_permitted,finished_utc
+29,PASS,24898,0.02384326370313075,0.0,directionality,False,2026-09-12T09:38:44.198937+00:00

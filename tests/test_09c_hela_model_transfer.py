@@ -15,7 +15,7 @@ def read_rows(path):
 
 class HeLaModelTransferTests(unittest.TestCase):
     def test_run_status_and_population(self):
-        row = read_rows(ROOT / "results" / "09c_hela_model_transfer_run_status.csv")[0]
+        row = read_rows(ROOT / "results" / "status" / "09c_hela_model_transfer_run_status.csv")[0]
         self.assertEqual(row["status"], "PASS")
         self.assertGreaterEqual(int(row["all_sites"]), 500)
         self.assertEqual(int(row["models_transferred"]), 5)

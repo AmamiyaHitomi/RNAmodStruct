@@ -1,0 +1,78 @@
+stage: 28
+phase: 4
+analysis_role: perturbation_admission_and_directionality_preregistration
+evidence_status: retrospective_exploratory
+frozen_before_full_local_outcome_analysis: true
+frozen_utc: "2026-09-12T06:30:00+00:00"
+primary_candidate:
+  accession: GSE264642
+  organism: Homo sapiens
+  cell_line: HEK293T
+  treatment: 40_uM_STM2457_for_24_hours
+  control: DMSO_vehicle
+  structure_assay: NAI_Structure-seq
+  biological_replicates_per_probe_condition: 2
+  reference: hg38_GENCODE_v33_transcriptome
+  modification_change_validation: meRIP_qPCR_in_same_experiment
+  site_level_modification_change_available: false
+  files:
+    treatment: data/raw_processed/GSE264642_HEK293T_STM2457_statistic_reactivity.csv.gz
+    control: data/raw_processed/GSE264642_HEK293T_control_statistic_reactivity.csv.gz
+legacy_candidate:
+  modification_accession: GSE52662
+  structure_accession: GSE60034
+  decision: REJECT_CAUSAL_CROSS_CELL_LINE
+  reason: WT_structure_is_v6.5_mESC_but_KO_structure_is_J1_mESC
+admission:
+  same_species: true
+  same_cell_line: true
+  perturbation_and_vehicle_control: true
+  structure_measured_under_both_arms: true
+  modification_reduction_validated: true
+  site_level_modification_change_measured: false
+  time_series_available: false
+  rescue_or_inactive_compound_control: false
+  admitted_evidence_layer: directionality
+research_question: >-
+  Does pharmacological reduction of METTL3 activity precede a paired
+  transcriptome-wide shift in RNA structural accessibility in HEK293T cells?
+primary_estimand: >-
+  Paired median shift in per-transcript mean SHAPE reactivity,
+  STM2457 minus vehicle, among transcripts observed in both arms.
+secondary_estimands:
+  - paired_median_shift_in_transcript_reactivity_gini
+  - fraction_of_transcripts_with_lower_mean_reactivity_after_STM2457
+analysis:
+  transcript_id_version_policy: retain_exact_identifier
+  random_seed: 20260912
+  paired_sign_permutations: 10000
+  transcript_bootstrap_replicates: 5000
+  alpha: 0.05
+  multiplicity: benjamini_hochberg_across_mean_and_gini_endpoints
+causal_dag:
+  treatment: STM2457
+  target: METTL3_activity
+  exposure: m6A_level
+  outcome: RNA_structure_reactivity
+  uncontrolled_paths:
+    - STM2457_off_target_to_structure
+    - treatment_to_RNA_abundance_to_selection
+    - treatment_to_RBP_occupancy_to_structure
+  selection_variables:
+    - transcript_detected_in_both_arms
+claim_policy:
+  association_permitted: true
+  directionality_clue_permitted: true
+  causal_claim_permitted: false
+  mechanism_claim_permitted: false
+advanced_model_gate:
+  transformer_enabled: false
+  foundation_model_enabled: false
+  hyperparameter_search_enabled: false
+  reason: single_treatment_pair_does_not_satisfy_multimodification_multidomain_corpus_gate
+outputs:
+  source_audit: results/tables/28_phase4_perturbation_source_audit.csv
+  dag: results/tables/28_phase4_causal_dag.csv
+  endpoint_registry: results/tables/28_phase4_endpoint_registry.csv
+  preregistration: metadata/decisions/phase4_preregistration.md
+  status: results/status/28_phase4_directionality_run_status.csv

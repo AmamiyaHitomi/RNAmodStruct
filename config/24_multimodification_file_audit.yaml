@@ -1,0 +1,74 @@
+stage: 24
+phase: 3
+analysis_role: downloaded_file_coordinate_and_overlap_audit
+checked_date: 2026-09-12
+
+references:
+  hg38_fasta: data/reference/ensembl/release-88_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+  hek293t_gtf: data/reference/ensembl/release-74_GRCh37/Homo_sapiens.GRCh37.74.gtf.gz
+  hek293t_hg38_gtf: data/reference/ensembl/release-88_GRCh38/Homo_sapiens.GRCh38.88.gtf.gz
+  hela_gtf: data/reference/ensembl/release-88_GRCh38/Homo_sapiens.GRCh38.88.gtf.gz
+  hek293t_structure: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVivo_BaseReactivities.txt.gz
+  hela_structure_tar: data/raw_processed/GSE145805_RAW.tar
+  hela_structure_member: GSM4333258_HeLa.out.txt.gz
+
+files:
+  - track_id: m5c_hela
+    modification: m5C
+    cell_line: HeLa
+    local_file: data/raw_processed/GSE140995_transcriptome-wide_sites.xlsx
+    sha256: 899fe504039c896055640c704c01f95aad92809c1c1e464546de9a4a848b6cd2
+    reference_build: hg38
+    coordinate_contract: Loci is chr:1-based-position:C:strand; Start/End annotations are optional 0-based-half-open mirrors
+    measurement_contract: replicate-specific bisulfite non-conversion fractions; preserve B/C/E separately
+  - track_id: m7g_hela
+    modification: m7G
+    cell_line: HeLa
+    local_file: data/raw_processed/GSE112276_HeLa_HighFC.txt.gz
+    sha256: 7016d00dc4363c0b7fa91824b7f9f476209b37852b6dba0c695b38f386b9dd90
+    reference_build: hg38
+    coordinate_contract: BED12-style 0-based half-open enriched intervals
+    measurement_contract: peak fold enrichment and significance; not stoichiometry and not single-nucleotide
+  - track_id: m7g_hek293t
+    modification: m7G
+    cell_line: HEK293T
+    local_file: data/raw_processed/GSE112276_HEK293T_HighFC.txt.gz
+    sha256: ec2480ca68aa96e780ca5a224a3d91db737350ffa7fac3b48231a2be527ba679
+    reference_build: hg38
+    coordinate_contract: BED12-style 0-based half-open enriched intervals
+    measurement_contract: peak fold enrichment and significance; not stoichiometry and not single-nucleotide
+  - track_id: nm_hela
+    modification: Nm
+    cell_line: HeLa
+    local_file: data/raw_processed/GSE90164_HeLamRNA.Nm.genome.bed.txt.gz
+    sha256: 853e62485abdd6db07b2274d2236aeb8f868a9c12adc02755d99161a5a7c2047
+    reference_build: hg38_corrected_GEO_file
+    coordinate_contract: headerless hg38 point coordinates with equal start/end; treat as 1-based and retain +/-1 sensitivity requirement
+    measurement_contract: binary enriched site call; not stoichiometry
+  - track_id: nm_hek
+    modification: Nm
+    cell_line: HEK293T
+    local_file: data/raw_processed/GSE90164_HEKmRNA.Nm.genome.bed.txt.gz
+    sha256: 48b53194dd7b155fde3ff21080e8ee2580888295f1d493bce8c3fd3ed1a422ba
+    reference_build: hg38_corrected_GEO_file
+    coordinate_contract: headerless hg38 point coordinates with equal start/end; treat as 1-based and retain +/-1 sensitivity requirement
+    measurement_contract: binary enriched site call; HEK is a near-label match to HEK293T
+
+admission_rules:
+  minimum_integrity_fraction: 1.0
+  minimum_structure_exon_overlap_records: 20
+  m5c_minimum_reference_base_fraction: 0.99
+  minimum_distinct_modifications_for_stage25: 2
+  prohibit_cross_technology_raw_value_pooling: true
+
+outputs:
+  file_audit: results/tables/24_multimodification_file_audit.csv
+  overlap_audit: results/tables/24_multimodification_overlap_audit.csv
+  download_manifest: metadata/manifests/download/phase3_download_manifest.csv
+  m5c_hela: data/interim/24_m5c_hela_sites.csv.gz
+  m7g_hela: data/interim/24_m7g_hela_peaks.csv.gz
+  m7g_hek293t: data/interim/24_m7g_hek293t_peaks.csv.gz
+  nm_hela: data/interim/24_nm_hela_sites_hg38.csv.gz
+  nm_hek: data/interim/24_nm_hek293t_sites_hg38.csv.gz
+  status: results/status/24_multimodification_file_audit_run_status.csv
+  report: results/reports/24_multimodification_file_audit_report.md

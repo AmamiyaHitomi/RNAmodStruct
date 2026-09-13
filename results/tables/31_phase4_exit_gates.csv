@@ -1,0 +1,6 @@
+gate,required,observed,status
+perturbation_source_audited,True,True,PASS
+directionality_analysis_completed,True,True,PASS
+evidence_layers_separated,True,True,PASS
+causal_and_mechanism_overclaim_prevented,True,True,PASS
+advanced_model_gate_enforced,True,True,PASS

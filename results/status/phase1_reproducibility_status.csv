@@ -1,0 +1,2 @@
+status,method,verdict,started_utc,finished_utc,artifacts_compared,commands,duration_seconds,command_timings_seconds
+PASS,deterministic_full_rerun,REPRODUCIBLE,2026-09-11T13:53:29.258493+00:00,2026-09-11T13:58:18.384434+00:00,16,6,289.0761717000132,12_run_meta_analysis.py=1.840;13_run_conditional_dependence.py=35.907;14_run_structure_entropy.py=7.144;15_run_isoform_sensitivity.py=26.102;16_run_window_401_sensitivity.py=99.232;17_run_nonlinear_models.py=118.851

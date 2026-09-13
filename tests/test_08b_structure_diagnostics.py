@@ -15,7 +15,7 @@ def read_rows(path):
 
 class StructureDiagnosticTests(unittest.TestCase):
     def test_run_status_is_development_only(self):
-        row = read_rows(ROOT / "results" / "08b_hek293t_structure_diagnostics_run_status.csv")[0]
+        row = read_rows(ROOT / "results" / "status" / "08b_hek293t_structure_diagnostics_run_status.csv")[0]
         self.assertEqual(row["status"], "PASS")
         self.assertEqual(row["analysis_scope"], "development_only")
         self.assertEqual(int(row["sites"]), 3271)

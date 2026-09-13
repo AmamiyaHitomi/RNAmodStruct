@@ -1,0 +1,2 @@
+stage,status,directionality_layer_complete,causal_layer_identified,mechanism_layer_identified,advanced_model_gates_passed,advanced_model_gates_total,advanced_models_started,finished_utc
+30,PASS,True,False,False,0,4,False,2026-09-12T09:38:59.740653+00:00

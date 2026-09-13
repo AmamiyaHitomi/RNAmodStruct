@@ -1,0 +1,66 @@
+stage: 18
+phase: 2
+analysis_role: exploratory_public_data_admission
+checked_at: 2026-09-11
+
+sources:
+  hek293t_icshape_invitro:
+    accession: GSE74353
+    file: data/raw_processed/GSE74353_HS_293T_icSHAPE_InVitro_BaseReactivities.txt.gz
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE74353
+    download_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE74nnn/GSE74353/suppl/GSE74353_HS_293T_icSHAPE_InVitro_BaseReactivities.txt.gz
+    cell_line: HEK293T
+    technology: icSHAPE
+    reference: GRCh37.74 transcriptome
+    coordinate_contract: transcript_id plus one value per 1-based transcript position
+    value_contract: processed nucleotide reactivity; NULL means not measured
+    admission: PAIRED_ANALYSIS_READY
+  hela_sacseq:
+    accession: GSE162356
+    file: data/raw_processed/GSE162356_HeLa_polyA.bed.gz
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162356
+    download_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE162nnn/GSE162356/suppl/GSE162356_HeLa_polyA.bed.gz
+    cell_line: HeLa
+    technology: m6A-SAC-seq
+    reference: GRCh38 genomic BED
+    coordinate_contract: BED 0-based half-open; strand in column 6
+    value_contract: seven-column processed BED; numeric columns 5 and 7 require provenance-preserving names until the official field mapping is frozen
+    admission: FIELD_AND_COORDINATE_AUDIT_READY
+  hek293_sacseq:
+    accession: GSE162356
+    file: data/raw_processed/GSE162356_HEK293_polyA.bed.gz
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE162356
+    download_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE162nnn/GSE162356/suppl/GSE162356_HEK293_polyA.bed.gz
+    cell_line: HEK293
+    technology: m6A-SAC-seq
+    reference: GRCh38 genomic BED
+    coordinate_contract: BED 0-based half-open; strand in column 6
+    value_contract: seven-column processed BED; HEK293 is not HEK293T
+    admission: NEAR_MATCH_SENSITIVITY_ONLY
+  human_rna_map:
+    accession: Human RNA MaP
+    file: null
+    source_url: https://humanrnamap.wi.mit.edu/
+    cell_line: U2OS
+    technology: DMS-TRAM-seq
+    reference: GRCh38.106 canonical annotation
+    coordinate_contract: genomic hg38 coordinates
+    value_contract: nucleotide-resolution solvent accessibility at A/C
+    admission: AUDIT_ONLY_NO_MATCHED_QUANTITATIVE_M6A
+  pars_gse50676:
+    accession: GSE50676
+    file: null
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50676
+    cell_line: GM12878/GM12891/GM12892
+    technology: PARS
+    reference: source-specific; must be resolved before use
+    coordinate_contract: independent technology; do not pool raw scores with icSHAPE
+    value_contract: PARS structure score
+    admission: AUDIT_ONLY_NO_MATCHED_QUANTITATIVE_M6A
+
+hard_gates:
+  - gzip_full_stream_read
+  - nonempty_rows
+  - coordinate_width_one_for_bed
+  - strand_plus_or_minus_for_bed
+  - unique_bed_site_by_chrom_start_end_strand

@@ -1,0 +1,2 @@
+phase,status,finished_utc,stages_passed,tests_file,reproducibility_verdict,manifest_entries,summary_sha256,manifest_sha256
+1,PASS,2026-09-13T09:35:29.062639+00:00,6,tests/test_phase1_extensions.py,REPRODUCIBLE,49,bd8719a69201c58d6485ed8d65230e4daa46f4a8bafc8ee3015d3c9dd7de5dff,e0fbde750deadf841bd8d0e2fdc1e002a7a4d6f369f7f03a160ddbe3c351cbeb
