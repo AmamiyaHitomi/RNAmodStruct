@@ -1,190 +1,187 @@
 # RNAmodStruct (ModStruct)
 
-> A reproducible computational framework for studying the relationship between RNA modification levels and local RNA structure.
->
-> 用可复现的计算流程研究 RNA 修饰水平与局部 RNA 结构之间的关联、预测价值和证据边界。
+> A reproducible computational framework for studying relationships between RNA modification levels and local RNA structure.
 
 ![Study overview](results/figures/10_data_overview_figure1.png)
 
-## 项目简介
+## Overview
 
-RNAmodStruct 以公开人类转录组数据为基础，围绕一个核心问题展开：**RNA 修饰水平是否与局部 RNA 结构信号稳定相关，以及结构信息能否提供额外的预测价值？**
+RNAmodStruct investigates a central question: **Are RNA modification levels consistently associated with local RNA structure, and does structural information provide additional predictive value?**
 
-主线研究以 HEK293T 为发现集、HeLa 为外部复核集，结合 GLORI m6A 定量、icSHAPE 实验结构信号和 ViennaRNA 预测结构。后续阶段进一步评估条件依赖性、跨技术一致性、多修饰扩展以及扰动数据中的方向性证据。
+The main analysis uses HEK293T as the discovery system and HeLa as an external replication system, integrating GLORI-based m6A quantification, experimental icSHAPE reactivity, and ViennaRNA-predicted structure. Later phases assess conditional dependence, cross-technology consistency, additional RNA modifications, and directional evidence from perturbation data.
 
-本仓库强调：
+The project is designed around several principles:
 
-- 分阶段冻结配置，避免分析过程中隐式改变口径；
-- 区分发现、外部复核、敏感性分析和事后探索；
-- 使用基因与相同序列联合分组，降低数据泄漏风险；
-- 同时保留阳性和阴性结果；
-- 通过 SHA-256 manifest、运行状态表和自动化测试保证可追溯性；
-- 严格区分关联、方向性、因果和机制证据。
+- Freeze inputs, thresholds, and outputs in stage-specific YAML configurations.
+- Keep discovery, external replication, sensitivity analysis, and post hoc exploration distinct.
+- Group observations by genes and identical sequences to reduce information leakage.
+- Preserve both positive and negative results.
+- Track provenance and reproducibility with SHA-256 manifests, machine-readable status files, and automated tests.
+- Distinguish association, directionality, causality, and mechanism explicitly.
 
-## 当前状态
+## Project status
 
-| 项目 | 状态 |
+| Component | Status |
 |---|---|
-| 主线 HEK293T 分析与 HeLa 复核 | 完成 |
-| Phase 1 方法扩展（12–17） | `REPRODUCIBLE` |
-| Phase 2 条件与跨技术验证（18–22） | `PASS` |
-| Phase 3 多修饰扩展（23–27） | `COMPLETE` |
-| Phase 4 扰动方向性分析（28–31） | `COMPLETE_DIRECTIONALITY_ONLY` |
-| 自动化测试 | 87 passed |
-| 总发布清单 | 308 个文件通过 SHA-256 校验 |
+| Core HEK293T analysis and HeLa replication | Complete |
+| Phase 1 methodological extensions (stages 12–17) | `REPRODUCIBLE` |
+| Phase 2 condition and cross-technology validation (stages 18–22) | `PASS` |
+| Phase 3 multi-modification extension (stages 23–27) | `COMPLETE` |
+| Phase 4 perturbation directionality analysis (stages 28–31) | `COMPLETE_DIRECTIONALITY_ONLY` |
+| Automated test suite | 87 tests passed |
+| Main release manifest | 308 files verified by SHA-256 |
 
-状态文件位于 [`results/status/`](results/status/)，阶段总结位于 [`results/reports/`](results/reports/)。
+Machine-readable status records are stored in [`results/status/`](results/status/), and stage reports are stored in [`results/reports/`](results/reports/).
 
-## 主要结论
+## Main findings
 
-1. **m6A 与局部结构存在幅度较小的稳定正相关。** HEK293T 与 HeLa 的效应方向一致；两细胞系固定效应汇总为 β/SD = 0.01007（95% CI 0.00713–0.01301）。
-2. **实验结构信号没有表现出稳定的额外外部预测增益。** 扩大结构窗口、加入条件依赖特征或使用非线性模型，都没有把该结论提升为稳定的机制性证据。
-3. **多修饰扩展没有检出明确关联。** 在当前公开数据、技术分层和覆盖阈值下，m5C、m7G 与 Nm 的主要 HeLa 检验均未通过 FDR 0.05；这不等于证明真实效应严格为零。
-4. **METTL3 抑制数据支持方向性描述，但不支持因果归因。** GSE264642 中 24,898 个配对转录本呈现系统性结构位移；由于缺少位点级 m6A 定量、救援或失活化合物对照及独立复核，目前最高证据等级仍是 `Directionality`。
+1. **m6A level shows a small, directionally consistent association with local RNA structure.** Effects have the same direction in HEK293T and HeLa. The fixed-effect estimate across the two cell lines is beta/SD = 0.01007 (95% CI 0.00713–0.01301).
+2. **Experimental structure does not provide stable additional predictive value in external validation.** Wider structure windows, conditional-dependence analyses, and nonlinear models do not elevate the observed association into robust mechanistic evidence.
+3. **The multi-modification extension does not identify a clear association.** Under the available public data, technology-specific models, and coverage thresholds, the primary HeLa analyses for m5C, m7G, and Nm do not pass FDR 0.05. This does not demonstrate that the true effects are exactly zero.
+4. **METTL3-inhibition data support a directional description, not a causal claim.** GSE264642 contains 24,898 paired transcripts with a systematic structural shift. Without matched site-level m6A measurements, rescue or inactive-compound controls, and independent replication, the highest supported evidence level remains `Directionality`.
 
-详细统计结果和限制请以阶段报告为准：
+Detailed results and limitations are available in:
 
-- [Phase 1 方法扩展总结](results/reports/phase1_summary_report.md)
-- [Phase 2 完成与退出门槛](results/reports/22_phase2_completion_report.md)
-- [Phase 3 多修饰分析总结](results/reports/27_phase3_completion_report.md)
-- [Phase 4 方向性分析总结](results/reports/31_phase4_completion_report.md)
-- [中文完整报告](docs/reports/final/ModStruct_report_zh.md)
-- [会议论文提纲](docs/reports/final/ModStruct_conference_paper_outline.md)
+- [Phase 1 methodological extension summary](results/reports/phase1_summary_report.md)
+- [Phase 2 completion and exit-gate report](results/reports/22_phase2_completion_report.md)
+- [Phase 3 multi-modification report](results/reports/27_phase3_completion_report.md)
+- [Phase 4 directionality report](results/reports/31_phase4_completion_report.md)
+- [Conference paper outline](docs/reports/final/ModStruct_conference_paper_outline.md)
 
-## 分析路线
+## Analysis roadmap
 
-| 阶段 | 脚本编号 | 目标 |
+| Stage group | Script numbers | Purpose |
 |---|---:|---|
-| 输入与坐标审计 | 02–04 | 下载参考资产、核验版本与坐标映射、审计输入完整性 |
-| HEK293T 主分析 | 05–08b | 构建分析集、估计关联、预测消融与结构诊断 |
-| HeLa 外部复核 | 09–10 | 独立建集、结构计算、效应复核与冻结模型迁移 |
-| 发布完整性 | 11 | 生成或验证总发布 manifest |
-| Phase 1 | 12–17 | Meta 分析、条件依赖、结构熵、异构体与窗口敏感性、非线性模型 |
-| Phase 2 | 18–22 | 公共数据审计、体内/体外配对、跨技术复核与准入门槛 |
-| Phase 3 | 23–27 | m5C、m7G、Nm 等多修饰来源筛选、文件审计与分层关联 |
-| Phase 4 | 28–31 | 扰动来源审计、配对方向性分析、证据等级与模型闸门 |
+| Input and coordinate audit | 02–04 | Download reference assets, verify versions and coordinate systems, and audit input integrity |
+| HEK293T primary analysis | 05–08b | Build the analysis dataset, estimate associations, run predictive ablations, and diagnose structure features |
+| HeLa external replication | 09–10 | Build an independent dataset, compute structure, re-estimate effects, and transfer frozen models |
+| Release integrity | 11 | Generate or verify the main release manifest |
+| Phase 1 | 12–17 | Meta-analysis, conditional dependence, entropy, isoform and window sensitivity, and nonlinear models |
+| Phase 2 | 18–22 | Public-data audit, in vivo/in vitro pairing, cross-technology validation, and admission gates |
+| Phase 3 | 23–27 | Source scouting, file auditing, and stratified analyses for m5C, m7G, Nm, and other modifications |
+| Phase 4 | 28–31 | Perturbation-source audit, paired directionality analysis, evidence grading, and model gates |
 
-每个可执行阶段均由 `config/<stage>_*.yaml` 固定输入、阈值和输出路径。阶段编号是项目的稳定接口，具体规则见 [文件命名规范](docs/FILE_NAMING_CONVENTION.md)。
+Each executable stage reads a corresponding `config/<stage>_*.yaml` file that freezes inputs, thresholds, and output locations. Stage numbers form the stable interface of the pipeline. See the [file naming convention](docs/FILE_NAMING_CONVENTION.md) for details.
 
-## 仓库结构
+## Repository layout
 
 ```text
 RNAmodStruct/
-├── config/                     # 分阶段冻结的 YAML 配置
-├── data/
-│   ├── raw_processed/          # 不可变下载数据（Git 忽略，manifest 管理）
-│   ├── reference/              # 基因组、转录组和注释参考（Git 忽略）
-│   ├── interim/                # 可再生中间数据（Git 忽略）
-│   └── final/                  # 分析就绪数据（Git 忽略）
-├── docs/
-│   ├── reports/final/          # 正式报告、答辩和论文提纲
-│   ├── reports/progress/       # 阶段性报告
-│   └── research_notes/         # 研究方案与路线记录
-├── metadata/
-│   ├── audits/                 # 输入、参考和坐标审计
-│   ├── decisions/              # 冻结决策与预注册边界
-│   ├── manifests/              # 下载、来源和发布清单
-│   ├── provenance/             # 字段语义、环境和来源验证
-│   └── software/GLORI-tools/   # 固定版本的上游工具子模块
-├── results/
-│   ├── figures/                # 发布图及 QA 记录
-│   ├── reports/                # 分阶段技术报告
-│   ├── status/                 # 机器可读的运行状态
-│   ├── tables/                 # 汇总统计与模型评估表
-│   ├── models/                 # 可再生模型产物（Git 忽略）
-│   └── logs/                   # 运行日志（Git 忽略）
-├── src/                        # 分析脚本与共享模块
-├── tests/                      # 阶段测试与完整性测试
-├── environment.yml            # Conda 环境定义
-└── README.md
+|-- config/                     # Frozen YAML configuration for each stage
+|-- data/
+|   |-- raw_processed/          # Immutable downloads; ignored by Git and tracked by manifests
+|   |-- reference/              # Genome, transcriptome, and annotation assets; ignored by Git
+|   |-- interim/                # Reproducible intermediate datasets; ignored by Git
+|   `-- final/                  # Analysis-ready datasets; ignored by Git
+|-- docs/
+|   |-- reports/final/          # Final report, defense material, and paper outline
+|   |-- reports/progress/       # Progress reports
+|   `-- research_notes/         # Research plans and workflow notes
+|-- metadata/
+|   |-- audits/                 # Input, reference, and coordinate audits
+|   |-- decisions/              # Frozen decisions and preregistered boundaries
+|   |-- manifests/              # Download, source, and release manifests
+|   |-- provenance/             # Field semantics, environment, and source verification
+|   `-- software/GLORI-tools/   # Pinned upstream tool submodule
+|-- results/
+|   |-- figures/                # Publication figures and visual QA artifacts
+|   |-- reports/                # Stage-level technical reports
+|   |-- status/                 # Machine-readable run and completion status
+|   |-- tables/                 # Summary statistics and model-evaluation tables
+|   |-- models/                 # Reproducible model artifacts; ignored by Git
+|   `-- logs/                   # Runtime logs; ignored by Git
+|-- src/                        # Analysis scripts and shared modules
+|-- tests/                      # Stage tests and release-integrity tests
+|-- environment.yml            # Conda environment specification
+`-- README.md
 ```
 
-## 环境安装
+## Environment setup
 
-推荐使用 Conda/Mamba 从冻结环境创建：
+Create the pinned Conda environment:
 
 ```bash
 conda env create -f environment.yml
 conda activate rnamodstruct
 ```
 
-环境基于 Python 3.13.15，主要依赖包括 NumPy、pandas、SciPy、scikit-learn、statsmodels、PyYAML、Matplotlib、Biopython、PyArrow 和 ViennaRNA 2.7.2。完整环境审计见 [`metadata/provenance/environment.txt`](metadata/provenance/environment.txt)。
+The environment uses Python 3.13.15. Major dependencies include NumPy, pandas, SciPy, scikit-learn, statsmodels, PyYAML, Matplotlib, Biopython, PyArrow, and ViennaRNA 2.7.2. The complete environment audit is available in [`metadata/provenance/environment.txt`](metadata/provenance/environment.txt).
 
-本项目不需要 GPU；完整流程建议至少准备约 16 GB 内存。
+No GPU is required. Approximately 16 GB of RAM is recommended for the full workflow.
 
-本机当前可直接使用：
+On the development machine, the configured interpreter can be used directly:
 
 ```powershell
 E:\ancd\envs\my_pytorch\python.exe -m pytest tests -q
 ```
 
-## 数据准备
+## Data preparation
 
-大型原始数据、参考文件和可再生产物不会提交到 Git。恢复数据时以 manifest 为准：
+Large raw datasets, reference assets, intermediate datasets, final datasets, and model artifacts are not committed to Git. Their identities and expected locations are recorded in manifests:
 
-- [`metadata/manifests/source/source_manifest.csv`](metadata/manifests/source/source_manifest.csv)：主线数据来源、实验条件和本地路径；
-- [`metadata/manifests/download/download_checksums.csv`](metadata/manifests/download/download_checksums.csv)：原始下载文件校验值；
-- [`metadata/manifests/source/02_reference_manifest.csv`](metadata/manifests/source/02_reference_manifest.csv)：参考基因组、转录组和注释版本；
-- [`metadata/manifests/download/phase3_download_manifest.csv`](metadata/manifests/download/phase3_download_manifest.csv)：多修饰扩展数据下载记录。
+- [`metadata/manifests/source/source_manifest.csv`](metadata/manifests/source/source_manifest.csv) — primary data sources, experimental conditions, and local paths.
+- [`metadata/manifests/download/download_checksums.csv`](metadata/manifests/download/download_checksums.csv) — checksums for immutable downloads.
+- [`metadata/manifests/source/02_reference_manifest.csv`](metadata/manifests/source/02_reference_manifest.csv) — reference genome, transcriptome, and annotation versions.
+- [`metadata/manifests/download/phase3_download_manifest.csv`](metadata/manifests/download/phase3_download_manifest.csv) — download records for the multi-modification extension.
 
-参考资产可由以下脚本准备：
+Reference assets can be prepared with:
 
 ```bash
 python src/02_download_reference_assets.py
 ```
 
-HeLa icSHAPE 的 `GSE145805_RAW.tar` 由分析脚本直接读取内部成员 `GSM4333258_HeLa.out.txt.gz`，无需手动解压。
+The HeLa icSHAPE archive `GSE145805_RAW.tar` is read in place. The pipeline accesses the member `GSM4333258_HeLa.out.txt.gz` directly, so manual extraction is unnecessary.
 
-## 运行与验证
+## Running and validating the project
 
-主线阶段应按编号顺序执行。每个脚本默认读取对应 YAML 配置，并将产物写入 `data/`、`metadata/` 或 `results/` 的指定分类目录。
+Run the primary pipeline in stage-number order. Each script reads its stage-specific YAML configuration and writes outputs to the appropriate `data/`, `metadata/`, or `results/` subdirectory.
 
-最小验证流程：
+Run the minimum validation workflow from the repository root:
 
 ```bash
 python -m pytest tests -q
 python src/11_verify_release.py --verify
 ```
 
-需要重新冻结总发布清单时：
+Regenerate and verify the main release manifest when intentionally freezing a new release state:
 
 ```bash
 python src/11_verify_release.py --write-manifest
 python src/11_verify_release.py --verify
 ```
 
-总清单位于 [`metadata/manifests/release/release_manifest.csv`](metadata/manifests/release/release_manifest.csv)。Phase 1–4 另有独立清单，便于验证各阶段冻结范围而不混淆不同证据层级。
+The main manifest is stored at [`metadata/manifests/release/release_manifest.csv`](metadata/manifests/release/release_manifest.csv). Phases 1–4 also have independent manifests so that each evidence layer can be verified without mixing its frozen scope with other phases.
 
-## 关键分析约定
+## Key analytical conventions
 
-- 响应变量：覆盖度加权的 `combined_ratio = (Acov1 + Acov2) / (AGcov1 + AGcov2)`；
-- 主结构指标：修饰位点两侧 −10..−1 与 +1..+10 的有效 reactivity 均值 `R_flank10`，每侧有效覆盖率至少 70%；
-- 数据划分：以 `analysis_gene` 与相同 201-nt 序列构成的连通分量为分组单位，冻结为 80/20；
-- 主预测比较：HEK293T 使用 ΔMAE = MAE(M2) − MAE(M4)，HeLa 迁移使用 MAE(M1) − MAE(M3)；
-- Ridge 超参数网格必须包围最优值，否则阶段直接失败，不冻结边界最优模型；
-- 观察性关联、预测性能和扰动方向性均不得自动解释为因果机制。
+- Response variable: coverage-weighted `combined_ratio = (Acov1 + Acov2) / (AGcov1 + AGcov2)`.
+- Primary structure metric: `R_flank10`, the mean valid reactivity across positions -10..-1 and +1..+10, with at least 70% valid coverage on each side.
+- Data splitting: connected components formed from `analysis_gene` and identical 201-nt sequences, frozen into an 80/20 development/test split.
+- Primary predictive comparison: delta MAE = MAE(M2) - MAE(M4) in HEK293T; external transfer comparison: MAE(M1) - MAE(M3) in HeLa.
+- Ridge alpha grids must bracket the selected optimum. A stage fails instead of freezing a boundary optimum.
+- Observational associations, predictive importance, and perturbation directionality must not be interpreted automatically as causal mechanisms.
 
-冻结偏差与模型决策记录：
+Frozen decisions and deviations are documented in:
 
 - [`metadata/decisions/08_prediction_modeling_decision_log.md`](metadata/decisions/08_prediction_modeling_decision_log.md)
 - [`metadata/decisions/09_hela_replication_decision_log.md`](metadata/decisions/09_hela_replication_decision_log.md)
 - [`metadata/decisions/phase4_preregistration.md`](metadata/decisions/phase4_preregistration.md)
 
-## 图表预览
+## Figure preview
 
-| HEK293T 关联 | 预测消融 | HeLa 复核与迁移 |
+| HEK293T association | Predictive ablation | HeLa replication and transfer |
 |---|---|---|
-| ![HEK293T association](results/figures/07_hek293t_association_overview.png) | ![Prediction ablation](results/figures/08_hek293t_prediction_ablation.png) | ![HeLa replication](results/figures/10_hela_replication_transfer_figure5.png) |
+| ![HEK293T association](results/figures/07_hek293t_association_overview.png) | ![Predictive ablation](results/figures/08_hek293t_prediction_ablation.png) | ![HeLa replication](results/figures/10_hela_replication_transfer_figure5.png) |
 
-矢量版和投稿版文件位于 [`results/figures/`](results/figures/)。
+Vector and publication-ready versions are available in [`results/figures/`](results/figures/).
 
-## 证据边界
+## Evidence boundaries
 
-本仓库当前支持的是小效应关联、外部复核、跨技术敏感性以及扰动后的总体方向性描述。它不支持以下表述：
+The current repository supports small-effect associations, external replication, cross-technology sensitivity analyses, and aggregate directional changes following perturbation. It does **not** support the following claims:
 
-- RNA 修饰变化已经被证明会导致特定位点结构变化；
-- 预测模型中的特征重要性等同于生物学机制；
-- 未达到显著性的结果证明真实效应为零；
-- 跨细胞系、跨技术或跨研究的结果可以忽略测量尺度直接合并。
+- A change in RNA modification has been proven to cause a structure change at a specific site.
+- Predictive feature importance is equivalent to a biological mechanism.
+- A non-significant result proves that the true effect is zero.
+- Measurements from different cell lines, technologies, or studies can be pooled without respecting their original scales.
 
-未来若获得同一样本的位点级修饰定量、救援/失活化合物对照及独立验证数据，应建立新的确认性阶段，而不是回写本轮探索性结果。
+Future matched site-level modification measurements, rescue or inactive-compound controls, and independent replication should be treated as a new confirmatory phase rather than written back into the current exploratory analyses.
