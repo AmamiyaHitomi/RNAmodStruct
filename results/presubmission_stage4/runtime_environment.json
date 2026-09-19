@@ -1,0 +1,21 @@
+{
+  "recorded_utc": "2026-09-18T10:45:33.257108+00:00",
+  "python_executable": "E:\\ancd\\envs\\my_pytorch\\python.exe",
+  "python_version": "3.13.15 | packaged by conda-forge | (main, Aug 10 2026, 12:55:27) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "logical_cpu_count": 20,
+  "physical_cpu_count": 14,
+  "memory_bytes": 16777961472,
+  "packages": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "statsmodels": "0.15.0",
+    "patsy": "1.0.3",
+    "matplotlib": "3.11.1",
+    "joblib": "1.5.3",
+    "PyYAML": "6.0.3"
+  },
+  "tex": "TeX Live 2026; pdflatex from C:/Users/ROG/texlive/2026/bin/windows"
+}

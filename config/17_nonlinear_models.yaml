@@ -8,7 +8,7 @@ datasets:
   HeLa:
     input: data/final/09_hela_main_analysis_dataset.csv.gz
     predicted: data/final/09a_hela_predicted_structure_features.csv.gz
-    role: untouched_external_evaluation
+    role: subsequent_sensitivity_evaluation
 model_matrix: [M0, M1, M2, M3, M4]
 sequence_representation: normalized_3mer_frequencies
 learners:

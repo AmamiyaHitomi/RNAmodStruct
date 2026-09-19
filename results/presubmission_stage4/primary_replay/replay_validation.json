@@ -1,0 +1,119 @@
+{
+  "status": "PASS",
+  "level": "B_processed_input_to_historical_Ridge_and_frozen_HeLa_transfer",
+  "python": "E:\\ancd\\envs\\my_pytorch\\python.exe",
+  "elapsed_seconds": 182.67385379999178,
+  "input_sha256": {
+    "src/08_run_prediction_modeling.py": "d5378ca53394f0ffef70ee24b43317a9729c351fc95c760cd266cd0d4ce08a39",
+    "src/09c_run_hela_model_transfer.py": "576650e65846f377f74bb9d71c7c466dc8434ba127ce088989a9490ea033990e",
+    "config/08_prediction_modeling.yaml": "84a58664061e569e2c59de33239d0df3abd7e6fab2cfa20db46a1fb6478571f2",
+    "config/09c_hela_model_transfer.yaml": "727b6ec45acc9c7bdff81ea21e4208f7ba5255eb84c5ad744860ad3e802531d4",
+    "data/final/06_hek293t_main_analysis_dataset.csv.gz": "f19d76638529fdf1133d8d74f5499edcca6b838891935def3348bae8d1a371e9",
+    "data/final/08a_hek293t_predicted_structure_features.csv.gz": "ed09630820cbe41855da9e519bf3bda1ad4e6834c6e2b396cae812d148e1e932",
+    "data/final/09_hela_main_analysis_dataset.csv.gz": "92c01fc2f9e8f7af7ba1d54a8e0f68da6c4aa58a907b2c94992ffcc340aac958",
+    "data/final/09a_hela_predicted_structure_features.csv.gz": "eff0a3205dedddab31a2a2be5f7107e52eb4864b0ac7103963445835a3743b74"
+  },
+  "models": [
+    "08_hek293t_m0_ridge.joblib",
+    "08_hek293t_m1_ridge.joblib",
+    "08_hek293t_m2_ridge.joblib",
+    "08_hek293t_m3_ridge.joblib",
+    "08_hek293t_m4_ridge.joblib"
+  ],
+  "tables": [
+    {
+      "table": "08_hek293t_development_cv.csv",
+      "rows": 270,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "24250342726f40cc049a8bb5b4cecee07acfea4dabfb00b26553ce483aee26c2",
+      "replay_sha256": "24250342726f40cc049a8bb5b4cecee07acfea4dabfb00b26553ce483aee26c2"
+    },
+    {
+      "table": "08_hek293t_group_assignments.csv",
+      "rows": 4096,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "623be0341667985d3fe7daaf1004a5f6858cb813f5425cb2fe76cdfc5d4d2c4b",
+      "replay_sha256": "623be0341667985d3fe7daaf1004a5f6858cb813f5425cb2fe76cdfc5d4d2c4b"
+    },
+    {
+      "table": "08_hek293t_test_metrics.csv",
+      "rows": 5,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "d5c2428b10a3ee56927b279fdd45e9095e787a201885362be14253aecf32ecb7",
+      "replay_sha256": "d5c2428b10a3ee56927b279fdd45e9095e787a201885362be14253aecf32ecb7"
+    },
+    {
+      "table": "08_hek293t_test_predictions.csv",
+      "rows": 825,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "d723b7006b58a6c5fee16e6c06ef84f5289159cbcd3d8f7538a1eb7258b041b4",
+      "replay_sha256": "d723b7006b58a6c5fee16e6c06ef84f5289159cbcd3d8f7538a1eb7258b041b4"
+    },
+    {
+      "table": "08_hek293t_feature_manifest.csv",
+      "rows": 4047,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "5b5077d2b086e388dcfe2c28a1c87b52a9afe06eebff0b3a1e951e8d22a81be9",
+      "replay_sha256": "5b5077d2b086e388dcfe2c28a1c87b52a9afe06eebff0b3a1e951e8d22a81be9"
+    },
+    {
+      "table": "08_hek293t_split_audit.csv",
+      "rows": 3,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "5f8ae03a86f9986ba615bd273bdf0c9c73c444455c1f8726f218e02d009172da",
+      "replay_sha256": "5f8ae03a86f9986ba615bd273bdf0c9c73c444455c1f8726f218e02d009172da"
+    },
+    {
+      "table": "08_hek293t_primary_model_comparison.csv",
+      "rows": 4,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "2d0cdb0cf808ecbeff8ba8a9c241c09683b2d3dbe869903622ea4be992da284d",
+      "replay_sha256": "2d0cdb0cf808ecbeff8ba8a9c241c09683b2d3dbe869903622ea4be992da284d"
+    },
+    {
+      "table": "09c_hela_transfer_metrics.csv",
+      "rows": 10,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "c9d887871f24c46dbf80df723ede83e6b036f6b202647d8f2700b62b4f50c3f1",
+      "replay_sha256": "c9d887871f24c46dbf80df723ede83e6b036f6b202647d8f2700b62b4f50c3f1"
+    },
+    {
+      "table": "09c_hela_transfer_model_comparison.csv",
+      "rows": 8,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "1f70ab492c0d0eb25e08bbc825895a5e09b93d73e8a254bb4dd919b6522bb073",
+      "replay_sha256": "1f70ab492c0d0eb25e08bbc825895a5e09b93d73e8a254bb4dd919b6522bb073"
+    },
+    {
+      "table": "09c_hela_transfer_predictions.csv",
+      "rows": 24960,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "c63436c5ba302866b9c74bfef908c0a1aba4f29e158cd31fb54f4002d1bfa867",
+      "replay_sha256": "c63436c5ba302866b9c74bfef908c0a1aba4f29e158cd31fb54f4002d1bfa867"
+    },
+    {
+      "table": "09c_hela_unseen_categorical_levels.csv",
+      "rows": 2,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "9dbe0752f33381f8a9033bb2a8fa5d8f3e52e757c1bcca94e9fe2c98469b5514",
+      "replay_sha256": "9dbe0752f33381f8a9033bb2a8fa5d8f3e52e757c1bcca94e9fe2c98469b5514"
+    },
+    {
+      "table": "09c_hela_transfer_strict_subset_summary.csv",
+      "rows": 2,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "5b473921bbc948f6608caaf3b0f1ae9b278665d38329a646b1d7c09e5d9e3b0c",
+      "replay_sha256": "5b473921bbc948f6608caaf3b0f1ae9b278665d38329a646b1d7c09e5d9e3b0c"
+    }
+  ],
+  "runs": [
+    {
+      "script": "08_run_prediction_modeling.py",
+      "stdout_tail": ""
+    },
+    {
+      "script": "09c_run_hela_model_transfer.py",
+      "stdout_tail": ""
+    }
+  ]
+}

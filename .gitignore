@@ -13,3 +13,37 @@ data/interim/
 data/final/
 results/models/
 docs_chinese_original.zip
+
+# Manuscript sources, rendered papers, and submission bundles stay local.
+docs/manuscript/
+docs/manuscript_v3/
+docs/pdf/
+docs/ModStruct_LaTeX_Draft.zip
+src/prepare_presubmission_manuscript_v3.py
+metadata/manifests/release/presubmission_v3_release_manifest*.csv
+metadata/manifests/release/presubmission_v3_release_metadata*.json
+
+# LaTeX build intermediates and visual-QA scratch files.
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+docs/manuscript/qa/
+docs/manuscript_v3/qa/
+
+# Isolated replay worktrees duplicate processed inputs and fitted artifacts.
+# Keep their compact validation records at each replay root.
+results/presubmission_stage4/replay/config/
+results/presubmission_stage4/replay/data/
+results/presubmission_stage4/replay/metadata/
+results/presubmission_stage4/replay/results/
+results/presubmission_stage4/replay/src/
+results/presubmission_stage4/primary_replay/config/
+results/presubmission_stage4/primary_replay/data/
+results/presubmission_stage4/primary_replay/results/
+results/presubmission_stage4/primary_replay/src/

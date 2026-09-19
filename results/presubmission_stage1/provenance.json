@@ -1,0 +1,41 @@
+{
+  "fitted_models": false,
+  "HEK_development_label_median": 0.29487179,
+  "calibration_edges_from_HEK_development_labels": [
+    0.10023678,
+    0.12735849,
+    0.15403423,
+    0.18875667,
+    0.23241455,
+    0.29487179,
+    0.3816982700000002,
+    0.50332942,
+    0.67105263,
+    0.84568875,
+    1.0
+  ],
+  "calibration_rule": "bin prediction values by fixed development-label decile boundaries; report mean prediction versus mean observed within each bin",
+  "signed_error_rule": "prediction_minus_observed",
+  "frozen_input_sha256": {
+    "results/tables/08_hek293t_test_predictions.csv": "d723b7006b58a6c5fee16e6c06ef84f5289159cbcd3d8f7538a1eb7258b041b4",
+    "results/tables/09c_hela_transfer_predictions.csv": "c63436c5ba302866b9c74bfef908c0a1aba4f29e158cd31fb54f4002d1bfa867",
+    "results/tables/08_hek293t_test_metrics.csv": "d5c2428b10a3ee56927b279fdd45e9095e787a201885362be14253aecf32ecb7",
+    "results/tables/09c_hela_transfer_metrics.csv": "c9d887871f24c46dbf80df723ede83e6b036f6b202647d8f2700b62b4f50c3f1",
+    "results/tables/08_hek293t_group_assignments.csv": "623be0341667985d3fe7daaf1004a5f6858cb813f5425cb2fe76cdfc5d4d2c4b",
+    "data/final/06_hek293t_main_analysis_dataset.csv.gz": "f19d76638529fdf1133d8d74f5499edcca6b838891935def3348bae8d1a371e9",
+    "metadata/manifests/presubmission_phase0/freeze_manifest.json": "38f92932ce8a9ab3c0d31e680575045eb5477e3bcb46d9e4c8d88faddcaa6703",
+    "metadata/manifests/presubmission_phase0/hela_site_cohort_flags.csv": "bd1a1b69fc996836f5915adb33529e420eeec2bd4772f24a2ffa46b5e5f83512"
+  },
+  "published_metric_tolerance": 1e-08,
+  "checks_count": 60,
+  "checks_passed": 60,
+  "output_sha256": {
+    "calibration.csv": "9fd54396d5409adc8bd884459464508a5eb42db9692ed0eaa1ed46e202194454",
+    "calibration.png": "ab4228e4d32a087bbd40d669ce7691bd86491287ce3565dc4a1b4b5f8b8e6568",
+    "diagnostic_metrics.csv": "cf7dd27fc6bcab9bd4c86d170648bedbe06e811de2de09d71753b7067e6aee4e",
+    "oracle_diagnostics.csv": "d59de3c99c2b6d4a2e40dd7303dea3ba0dff61d7f7bc10a94a02e051b7b064c3",
+    "prediction_distributions.png": "6888a887547806f5eacac852cd0883eddf7d513cb2e8a5f5bd041c32f6276def",
+    "published_metric_reproduction.csv": "6818de3014961f74274da36a4220044b9e8c770a9e9ff28bb11cfae238eeed5b",
+    "site_predictions_with_constant.csv": "ac26c829fb6a09321b34a8908ed8fbd41382bf2332f4325ff8ae2a8825e5f6e2"
+  }
+}

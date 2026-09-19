@@ -1,0 +1,93 @@
+{
+  "spec_version": "presubmission-phase0-1",
+  "date_local": "2026-09-18",
+  "status": "post_hoc_plan_fixed_after_original_HEK_test_and_HeLa_evaluations",
+  "source_freeze": "freeze_manifest.json",
+  "interpretation": {
+    "original_HEK_test": "reused_descriptive",
+    "original_frozen_HeLa_transfer": "historical_primary_external_evaluation",
+    "new_HeLa_comparisons": "post_hoc_sensitivity_on_previously_examined_HeLa",
+    "stage17_HeLa_nonlinear": "subsequent_sensitivity_not_untouched_external_evaluation",
+    "new_HEK_main_4409_exclusion": "post_hoc_auditable_scope_not_proof_of_all_historically_reviewed_HEK_exclusion"
+  },
+  "fixed_inputs": {
+    "hek_development_assignment": "results/tables/08_hek293t_group_assignments.csv",
+    "development_sites": 3271,
+    "reused_test_sites": 825,
+    "development_group_cv": "five_fold_GroupKFold_by_frozen_joint_group",
+    "hela_cohort_ids": [
+      "all_qualifying_site_ids.csv",
+      "development_overlap_excluded_site_ids.csv",
+      "hek_main_4409_overlap_excluded_site_ids.csv"
+    ],
+    "hela_group_ids": "results/tables/09c_hela_transfer_predictions.csv::joint_group"
+  },
+  "estimands": {
+    "outcome": "combined_ratio",
+    "primary_error": "site_weighted_MAE_in_proportion_units",
+    "gain": "MAE_baseline_minus_MAE_augmented",
+    "gain_positive_means": "lower_error_after_augmentation",
+    "percentage_points": "100_times_proportion_unit_gain",
+    "secondary_metrics": ["RMSE", "Spearman", "R2", "mean_signed_error", "prediction_clip_fraction", "prediction_distribution", "development_binned_calibration"]
+  },
+  "comparisons": [
+    {
+      "id": "D0_frozen_M0_to_M4",
+      "kind": "diagnostic_no_refit",
+      "models": ["M0", "M1", "M2", "M3", "M4"],
+      "internal_and_external_cohorts": "fixed_inputs",
+      "required_check": "reproduce_existing_HEK_and_HeLa_metrics_before_new_training"
+    },
+    {
+      "id": "D1_HEK_development_median",
+      "kind": "constant_diagnostic_no_model_fit",
+      "constant_source": "HEK293T_development_labels_only",
+      "HeLa_label_median": "oracle_diagnostic_only_never_deployable_baseline"
+    },
+    {
+      "id": "C1_M0_plus_experimental_structure",
+      "kind": "new_post_hoc_model_fit",
+      "baseline": "M0_common_covariates",
+      "augmented": "M0_plus_reactivity_mean_flank10",
+      "training": "frozen_HEK_development_only",
+      "cv_and_preprocessing": "all_fit_discovery_scaling_and_alpha_selection_within_training_folds"
+    },
+    {
+      "id": "C2_remove_icSHAPE_abundance",
+      "kind": "new_post_hoc_model_fits",
+      "models": ["M0", "M0_plus_experimental_structure", "M1", "M3"],
+      "feature_rule": "delete_abundance_before_training_and_retune_all_models_not_HeLa_zero_fill",
+      "training": "frozen_HEK_development_only",
+      "cv_and_preprocessing": "all_fit_discovery_scaling_and_alpha_selection_within_training_folds"
+    },
+    {
+      "id": "C3_matched_Ridge_HGB_3mer",
+      "kind": "new_post_hoc_learner_comparison",
+      "models": ["M0", "M1", "M2", "M3", "M4"],
+      "sequence": "normalized_3mer_frequencies_only_no_positional_one_hot",
+      "training": "same_frozen_3271_site_HEK_development_scope_for_both_learners",
+      "cv": "same_five_frozen_GroupKFold_splits_for_both_learners",
+      "Ridge_candidates": [0.01, 0.1, 1.0, 10.0, 30.0, 100.0, 300.0, 1000.0, 3000.0],
+      "HGB_candidates_source": "config/17_nonlinear_models.yaml",
+      "preprocessing": "fit_within_each_training_fold",
+      "no_HeLa_tuning_or_model_selection": true
+    }
+  ],
+  "reporting": {
+    "all_predefined_candidates_saved": true,
+    "all_three_HeLa_cohorts_reported_for_each_evaluable_contrast": true,
+    "all_new_external_results_labeled_post_hoc": true,
+    "no_favorable_subset_search": true,
+    "no_original_test_status_reset": true
+  },
+  "paired_bootstrap": {
+    "sampling_unit": "frozen_HeLa_joint_group",
+    "replicates": 2000,
+    "seed": 20260912,
+    "same_sampled_group_indices_within_cohort_across_all_predefined_contrasts": true,
+    "different_cohorts_have_separate_group_index_spaces": true,
+    "interval": "2.5_and_97.5_percentiles",
+    "CI_scope": "fixed_fitted_models",
+    "excluded_uncertainty": ["training_site_resampling", "hyperparameter_reselection", "feature_representation_changes"]
+  }
+}

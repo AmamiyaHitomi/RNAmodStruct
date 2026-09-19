@@ -1,0 +1,75 @@
+{
+  "created_utc": "2026-09-18T08:42:33.366778+00:00",
+  "scope": "Phase 0 local presubmission freeze; new HEK-main exclusion is post hoc",
+  "hash_rule": "Sort site_id lexicographically; hash UTF-8 IDs, each followed by LF, including the final LF",
+  "source_sha256": {
+    "hek_main": "f19d76638529fdf1133d8d74f5499edcca6b838891935def3348bae8d1a371e9",
+    "hela_main": "92c01fc2f9e8f7af7ba1d54a8e0f68da6c4aa58a907b2c94992ffcc340aac958",
+    "hek_assignments": "623be0341667985d3fe7daaf1004a5f6858cb813f5425cb2fe76cdfc5d4d2c4b",
+    "hela_predictions": "c63436c5ba302866b9c74bfef908c0a1aba4f29e158cd31fb54f4002d1bfa867",
+    "hek_config": "84a58664061e569e2c59de33239d0df3abd7e6fab2cfa20db46a1fb6478571f2",
+    "hela_config": "727b6ec45acc9c7bdff81ea21e4208f7ba5255eb84c5ad744860ad3e802531d4",
+    "nonlinear_config": "2471c6626f3a082e475c7ec4e8a88653fa6cb856f1dbf1e89e2525a83997f535"
+  },
+  "source_paths": {
+    "hek_main": "data/final/06_hek293t_main_analysis_dataset.csv.gz",
+    "hela_main": "data/final/09_hela_main_analysis_dataset.csv.gz",
+    "hek_assignments": "results/tables/08_hek293t_group_assignments.csv",
+    "hela_predictions": "results/tables/09c_hela_transfer_predictions.csv",
+    "hek_config": "config/08_prediction_modeling.yaml",
+    "hela_config": "config/09c_hela_model_transfer.yaml",
+    "nonlinear_config": "config/17_nonlinear_models.yaml"
+  },
+  "flags_csv_sha256": "bd1a1b69fc996836f5915adb33529e420eeec2bd4772f24a2ffa46b5e5f83512",
+  "cohorts": {
+    "all_qualifying": {
+      "site_count": 24960,
+      "joint_group_count": 4685,
+      "site_ids_sha256": "41ed5d879b88ca206428ed7f9f83afac9749eb77e716023def6acd2d8e6def5f",
+      "csv_sha256": "9ea6443460176c8edab4f81769897dd78ba0a618834c2fae4ebafc9b563024bf",
+      "csv_path": "metadata/manifests/presubmission_phase0/all_qualifying_site_ids.csv"
+    },
+    "development_overlap_excluded": {
+      "site_count": 22256,
+      "joint_group_count": 4046,
+      "site_ids_sha256": "93cd7a430eeb3b385009e6ecf5baba226df1e2d31db8ee06634f79230168b018",
+      "csv_sha256": "3fdfd4842acdf4c8ddb78ede51f08aad2a07abaf95700001e383ce03e52ac00f",
+      "csv_path": "metadata/manifests/presubmission_phase0/development_overlap_excluded_site_ids.csv"
+    },
+    "hek_main_4409_overlap_excluded": {
+      "site_count": 21351,
+      "joint_group_count": 3816,
+      "site_ids_sha256": "dce8e7d3a29cbfb705fb8a6821e799ee7f46fcf2054707e8973e3bbc7bf909b3",
+      "csv_sha256": "f6ce5a13355530f2a70734f18d4374b5bb00716b6abae50bc72123f7aca14eb9",
+      "csv_path": "metadata/manifests/presubmission_phase0/hek_main_4409_overlap_excluded_site_ids.csv"
+    }
+  },
+  "overlap_summary": {
+    "dev": {
+      "gene": 2704,
+      "identical_201nt_sequence": 1542,
+      "both": 1542,
+      "union_excluded": 2704
+    },
+    "hek_model": {
+      "gene": 3496,
+      "identical_201nt_sequence": 1951,
+      "both": 1951,
+      "union_excluded": 3496
+    },
+    "hek_main": {
+      "gene": 3609,
+      "identical_201nt_sequence": 1951,
+      "both": 1951,
+      "union_excluded": 3609
+    }
+  },
+  "bootstrap_plan": {
+    "unit": "HeLa joint_group from the frozen all-qualifying transfer table",
+    "resamples": 2000,
+    "seed": 20260912,
+    "pairing": "Within a cohort, use the same sampled group-index vectors for every prespecified contrast",
+    "interval": "percentile 95%",
+    "CI_scope": "fixed_fitted_models"
+  }
+}

@@ -1,0 +1,17 @@
+scenario,learner,model,candidate_id,parameters,cv_mean_mae,candidate_boundary,key,features,HEK_reused_test_mae,HeLa_all_mae
+C1_M0_plus_R,Ridge,M0,1,{'alpha': 0.1},0.20332025067417375,False,C1_M0_plus_R__Ridge__M0,31,0.20820325257304767,0.20515499061775924
+C1_M0_plus_R,Ridge,M0R,2,{'alpha': 1.0},0.20283997240677537,False,C1_M0_plus_R__Ridge__M0R,32,0.20744836952612236,0.20671106608037107
+C2_no_abundance,Ridge,M0,2,{'alpha': 1.0},0.20412864045684734,False,C2_no_abundance__Ridge__M0,30,0.20797362569893962,0.20502314193440332
+C2_no_abundance,Ridge,M0R,2,{'alpha': 1.0},0.20377350797138205,False,C2_no_abundance__Ridge__M0R,31,0.2072885175417365,0.20647144186984018
+C2_no_abundance,Ridge,M1,6,{'alpha': 300.0},0.2050171994333168,False,C2_no_abundance__Ridge__M1,898,0.20523276270543916,0.2170480653682094
+C2_no_abundance,Ridge,M3,6,{'alpha': 300.0},0.20508240877643863,False,C2_no_abundance__Ridge__M3,899,0.20522686111811217,0.21746935650747962
+C3_matched_3mer,Ridge,M0,1,{'alpha': 0.1},0.2033020023443867,False,C3_matched_3mer__Ridge__M0,31,0.20819769048434142,0.20515002085538764
+C3_matched_3mer,HGB,M0,0,"{'learning_rate': 0.05, 'max_iter': 150, 'max_leaf_nodes': 15, 'l2_regularization': 1.0}",0.18617546359957612,True,C3_matched_3mer__HGB__M0,31,0.19031763931205992,0.19084529052748295
+C3_matched_3mer,Ridge,M1,2,{'alpha': 1.0},0.19891028692296953,False,C3_matched_3mer__Ridge__M1,95,0.20382504143655328,0.21173355033255384
+C3_matched_3mer,HGB,M1,1,"{'learning_rate': 0.05, 'max_iter': 200, 'max_leaf_nodes': 31, 'l2_regularization': 10.0}",0.18499123940304268,True,C3_matched_3mer__HGB__M1,95,0.18653256020259923,0.1884116634972049
+C3_matched_3mer,Ridge,M2,2,{'alpha': 1.0},0.19915810858663804,False,C3_matched_3mer__Ridge__M2,103,0.20410458421572866,0.21152273457193302
+C3_matched_3mer,HGB,M2,1,"{'learning_rate': 0.05, 'max_iter': 200, 'max_leaf_nodes': 31, 'l2_regularization': 10.0}",0.1858525523004681,True,C3_matched_3mer__HGB__M2,103,0.18694127407714828,0.1891499939324014
+C3_matched_3mer,Ridge,M3,2,{'alpha': 1.0},0.19892851321804478,False,C3_matched_3mer__Ridge__M3,96,0.20373481056055404,0.21262977724127946
+C3_matched_3mer,HGB,M3,1,"{'learning_rate': 0.05, 'max_iter': 200, 'max_leaf_nodes': 31, 'l2_regularization': 10.0}",0.18313913291606634,True,C3_matched_3mer__HGB__M3,96,0.18745848969874873,0.19045952496228105
+C3_matched_3mer,Ridge,M4,2,{'alpha': 1.0},0.19918359920809178,False,C3_matched_3mer__Ridge__M4,104,0.20385213816641307,0.21244511863389418
+C3_matched_3mer,HGB,M4,1,"{'learning_rate': 0.05, 'max_iter': 200, 'max_leaf_nodes': 31, 'l2_regularization': 10.0}",0.1855227612288322,True,C3_matched_3mer__HGB__M4,104,0.18742752269130106,0.19106416515269004

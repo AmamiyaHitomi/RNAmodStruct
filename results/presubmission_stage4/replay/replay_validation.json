@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "level": "B_processed_input_to_matched_models_and_metrics",
+  "python": "E:\\ancd\\envs\\my_pytorch\\python.exe",
+  "elapsed_seconds": 64.74916499998653,
+  "inputs_sha256": {
+    "src/presubmission_stage2_matched_models.py": "102c97974e4473e8d9c972ff0de1131f5b5da5949a65f5375f012009ef3eb658",
+    "src/phase1_common.py": "7de717b9b6ba41cd7e6555d51014a73b5589c25284f91974a52cee70539a8831",
+    "src/08_run_prediction_modeling.py": "d5378ca53394f0ffef70ee24b43317a9729c351fc95c760cd266cd0d4ce08a39",
+    "config/17_nonlinear_models.yaml": "89cc8dbfabbd959c826bb9a5df892d1d1ef3fcaba1ef4b0b60f5b30abe93710b",
+    "data/final/06_hek293t_main_analysis_dataset.csv.gz": "f19d76638529fdf1133d8d74f5499edcca6b838891935def3348bae8d1a371e9",
+    "data/final/09_hela_main_analysis_dataset.csv.gz": "92c01fc2f9e8f7af7ba1d54a8e0f68da6c4aa58a907b2c94992ffcc340aac958",
+    "data/final/08a_hek293t_predicted_structure_features.csv.gz": "ed09630820cbe41855da9e519bf3bda1ad4e6834c6e2b396cae812d148e1e932",
+    "data/final/09a_hela_predicted_structure_features.csv.gz": "eff0a3205dedddab31a2a2be5f7107e52eb4864b0ac7103963445835a3743b74",
+    "results/tables/08_hek293t_group_assignments.csv": "623be0341667985d3fe7daaf1004a5f6858cb813f5425cb2fe76cdfc5d4d2c4b",
+    "results/tables/08_hek293t_test_predictions.csv": "d723b7006b58a6c5fee16e6c06ef84f5289159cbcd3d8f7538a1eb7258b041b4",
+    "results/tables/09c_hela_transfer_predictions.csv": "c63436c5ba302866b9c74bfef908c0a1aba4f29e158cd31fb54f4002d1bfa867",
+    "metadata/manifests/presubmission_phase0/analysis_spec.json": "ecf209310f8a00bb97e00d8d25cb74c84735e199dcfd5521e0b34fbcf3807b8f",
+    "metadata/manifests/presubmission_phase0/freeze_manifest.json": "38f92932ce8a9ab3c0d31e680575045eb5477e3bcb46d9e4c8d88faddcaa6703",
+    "metadata/manifests/presubmission_phase0/hela_site_cohort_flags.csv": "bd1a1b69fc996836f5915adb33529e420eeec2bd4772f24a2ffa46b5e5f83512"
+  },
+  "tables": [
+    {
+      "table": "development_cv_candidates.csv",
+      "rows": 654,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "b1bc520dfed07c7a33a18f7122e93cdb8db8af1db0737ab2a8d9851178c74991",
+      "replay_sha256": "b1bc520dfed07c7a33a18f7122e93cdb8db8af1db0737ab2a8d9851178c74991"
+    },
+    {
+      "table": "selected_models.csv",
+      "rows": 16,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "c08e5a2d6c060e49b81ec0c04b865b20c12aee5cdb8a0570ed6915a449d807f0",
+      "replay_sha256": "c08e5a2d6c060e49b81ec0c04b865b20c12aee5cdb8a0570ed6915a449d807f0"
+    },
+    {
+      "table": "evaluation_metrics.csv",
+      "rows": 64,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "b3bb305af417cc63741fb6b192ab019f19ba8457db4ac6de5fffb0c8a255c6af",
+      "replay_sha256": "b3bb305af417cc63741fb6b192ab019f19ba8457db4ac6de5fffb0c8a255c6af"
+    },
+    {
+      "table": "paired_contrasts.csv",
+      "rows": 64,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "c36b9c5dd28396e8120233afe37f27c01cecebc18df04bf220237dd494145749",
+      "replay_sha256": "c36b9c5dd28396e8120233afe37f27c01cecebc18df04bf220237dd494145749"
+    },
+    {
+      "table": "HEK_reused_test_predictions.csv",
+      "rows": 825,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "c589b4397ad20c442368978d9519ccc3d18d58df01ea779559b8fc3f4b496dc5",
+      "replay_sha256": "c589b4397ad20c442368978d9519ccc3d18d58df01ea779559b8fc3f4b496dc5"
+    },
+    {
+      "table": "HeLa_predictions.csv",
+      "rows": 24960,
+      "max_abs_numeric_difference": 0.0,
+      "reference_sha256": "cfa6ab2b1b4a5d9cc51d1fa4dca34930d2bd7efd92039c58e47c551139ab679c",
+      "replay_sha256": "cfa6ab2b1b4a5d9cc51d1fa4dca34930d2bd7efd92039c58e47c551139ab679c"
+    }
+  ],
+  "saved_model_count": 16,
+  "replay_stdout": "CV scenario C1_M0_plus_R\n  fold 1 complete\n  fold 2 complete\n  fold 3 complete\n  fold 4 complete\n  fold 5 complete\nCV scenario C2_no_abundance\n  fold 1 complete\n  fold 2 complete\n  fold 3 complete\n  fold 4 complete\n  fold 5 complete\nCV scenario C3_matched_3mer\n  fold 1 complete\n  fold 2 complete\n  fold 3 complete\n  fold 4 complete\n  fold 5 complete\nFinal fit scenario C1_M0_plus_R\n  fitted C1_M0_plus_R__Ridge__M0 CV MAE 0.20332\n  fitted C1_M0_plus_R__Ridge__M0R CV MAE 0.20284\nFinal fit scenario C2_no_abundance\n  fitted C2_no_abundance__Ridge__M0 CV MAE 0.204129\n  fitted C2_no_abundance__Ridge__M0R CV MAE 0.203774\n  fitted C2_no_abundance__Ridge__M1 CV MAE 0.205017\n  fitted C2_no_abundance__Ridge__M3 CV MAE 0.205082\nFinal fit scenario C3_matched_3mer\n  fitted C3_matched_3mer__Ridge__M0 CV MAE 0.203302\n  fitted C3_matched_3mer__HGB__M0 CV MAE 0.186175\n  fitted C3_matched_3mer__Ridge__M1 CV MAE 0.19891\n  fitted C3_matched_3mer__HGB__M1 CV MAE 0.184991\n  fitted C3_matched_3mer__Ridge__M2 CV MAE 0.199158\n  fitted C3_matched_3mer__HGB__M2 CV MAE 0.185853\n  fitted C3_matched_3mer__Ridge__M3 CV MAE 0.198929\n  fitted C3_matched_3mer__HGB__M3 CV MAE 0.183139\n  fitted C3_matched_3mer__Ridge__M4 CV MAE 0.199184\n  fitted C3_matched_3mer__HGB__M4 CV MAE 0.185523\nBootstrap complete HeLa_all_qualifying groups 4685\nBootstrap complete HeLa_development_overlap_excluded groups 4046\nBootstrap complete HeLa_hek_main_4409_overlap_excluded groups 3816\n{\n  \"status\": \"PASS_post_hoc_sensitivity\",\n  \"models\": 16,\n  \"cv_rows\": 654,\n  \"metric_rows\": 64,\n  \"contrast_rows\": 64,\n  \"anchor_max_abs\": 2.8697204612626592e-08,\n  \"output\": \"E:\\\\my_python\\\\RNAmodStruct\\\\results\\\\presubmission_stage4\\\\replay\\\\results\\\\presubmission_stage2\"\n}"
+}

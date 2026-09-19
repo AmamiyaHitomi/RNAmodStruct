@@ -1,0 +1,20 @@
+{
+  "analysis_role": "posthoc_presubmission_stage3",
+  "inputs_sha256": {
+    "data/final/09_hela_main_analysis_dataset.csv.gz": "92c01fc2f9e8f7af7ba1d54a8e0f68da6c4aa58a907b2c94992ffcc340aac958",
+    "data/final/09_hela_site_level_dataset.csv.gz": "d95f061053dc849a97139014090272899c600f502f94bb00a0c311fd1ae41d70",
+    "data/final/19_hek293t_invivo_invitro_paired.csv.gz": "ce0bf391f2d0c2d0e8f99a164656b7e43c37003c88c36eacb167f84810c3b015",
+    "results/tables/19_paired_condition_associations.csv": "ab454b27ed525ebb1474259fa30b8f708d8efad0ff33a78f1af67754a7b91e31",
+    "results/tables/09b_hela_primary_association.csv": "1dfd759a5dbe95a56639f9b6bfb830c731d201302e4bae3be12f25349fd64051",
+    "src/09b_run_hela_association.py": "a428a8396e7744bc0bb5dd14e55b156a9df09d502bedbfcc09aa0fd37dd4fa7e"
+  },
+  "script_sha256": "8bd0cbc829b12361debd342227202596d77be2a0c573fc5adbd327ce32ec84b7",
+  "sites": {
+    "hela_primary": 25996,
+    "hela_both_replicates": 65050,
+    "stage19_paired": 3705
+  },
+  "model": "stage09b_frozen_covariate_design_gene_cluster_CR1",
+  "spline": "stage09b_3df_natural_cubic_centered_knots_reused",
+  "normalization": "replicates_analyzed_separately_no_average_or_pooling"
+}

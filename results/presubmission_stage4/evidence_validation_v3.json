@@ -1,0 +1,238 @@
+{
+  "status": "PASS",
+  "level_A": "frozen_tables_to_figures_tables_and_PDF",
+  "level_B": "processed_sites_to_split_then_processed_input_to_models_and_metrics",
+  "check_count": 44,
+  "checks": [
+    {
+      "name": "Main bibliography keys resolve",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "SMART-m6A continuous regression acknowledged",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Fig 4 conclusion narrowed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Development-only exclusion disclosed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Post hoc matching disclosed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Normalized replicate labels disclosed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Stage-19 distinct estimands disclosed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "No obsolete broad Fig 4 claim",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 06_hek293t_attrition_summary.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09_hela_attrition_summary.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 12_meta_analysis.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 07_hek293t_sensitivity_associations.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09b_hela_sensitivity_associations.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 19_paired_condition_associations.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 08_hek293t_test_metrics.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 08_hek293t_primary_model_comparison.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09c_hela_transfer_metrics.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09c_hela_transfer_model_comparison.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 16_window_401_external_metrics.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 17_nonlinear_external_metrics.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 07_hek293t_primary_association.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09b_hela_primary_association.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 08_hek293t_split_audit.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09c_hela_unseen_categorical_levels.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 09c_hela_transfer_strict_subset_summary.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 16_window_401_attrition.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 17_retraining_ablation.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 08_hek293t_feature_manifest.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 08_hek293t_development_cv.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Frozen source hash: 17_nonlinear_development_cv.csv",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Four rendered figure PDFs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Five rebuilt LaTeX tables",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "60 frozen prediction metrics reproduced",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "HeLa primary coefficient reproduced",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Two normalized-label sensitivities retained",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Three frozen HeLa cohorts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "B split replay",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "B model replay",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "main_v3 page count and text bounds",
+      "pass": true,
+      "detail": "pages=10, outside=[]"
+    },
+    {
+      "name": "main_v3 no unresolved references",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "supplement_v3 page count and text bounds",
+      "pass": true,
+      "detail": "pages=5, outside=[]"
+    },
+    {
+      "name": "supplement_v3 no unresolved references",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "main_v3 no LaTeX error or overfull box",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "supplement_v3 no LaTeX error or overfull box",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "pdf": {
+    "main_v3": {
+      "pages": 10,
+      "sha256": "26e9a0dbded1feb6895113c66024c2df4ebb3d9cfced11c9f52189e13b31aa82"
+    },
+    "supplement_v3": {
+      "pages": 5,
+      "sha256": "0f1db0b664478b78b7f560ab01916305a96161de9e8c063adf717b174571dd4c"
+    }
+  }
+}
