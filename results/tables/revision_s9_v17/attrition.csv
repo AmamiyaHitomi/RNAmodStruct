@@ -1,0 +1,9 @@
+step,stage,sites,rule,fraction_from_initial,fraction_from_previous,cell_line
+1,GLORI union,253087,Exact genomic-site union,1.0,,HEK293T
+2,Matched to icSHAPE transcript,20559,At least one exact transcript-oriented A mapping,0.08123293570985471,0.08123293570985471,HEK293T
+3,Detected in both GLORI replicates,16161,Primary replicate rule,0.0638555121361429,0.7860790894498759,HEK293T
+4,Main structure dataset,4409,Representative isoform has ≥70% valid values on each ±10 side,0.01742088688869835,0.27281727615865353,HEK293T
+1,GLORI union,164761,Exact genomic-site union,1.0,,HeLa
+2,Matched to HeLa icSHAPE transcript,86932,At least one exact transcript-oriented A mapping,0.5276248626798817,0.5276248626798817,HeLa
+3,Detected in both GLORI replicates,65050,Primary replicate rule,0.39481430678376556,0.7482860166566971,HeLa
+4,Main structure dataset,25996,Representative isoform has ≥70% valid values on each ±10 side,0.15778005717372437,0.39963105303612606,HeLa
