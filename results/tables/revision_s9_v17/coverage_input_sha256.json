@@ -1,0 +1,12 @@
+{
+  "HEK293T": {
+    "06_hek293t_main_analysis_dataset.csv.gz": "f19d76638529fdf1133d8d74f5499edcca6b838891935def3348bae8d1a371e9",
+    "06_hek293t_site_level_dataset.csv.gz": "8bc08ab683efef3ffe3686162479432c634d0f4b095637098c8042701fdeeebd",
+    "07_association_analysis.yaml": "166328024566849ac5c4559cfa0ae2596047b08af201260ac35c16bff3697809"
+  },
+  "HeLa": {
+    "09_hela_main_analysis_dataset.csv.gz": "92c01fc2f9e8f7af7ba1d54a8e0f68da6c4aa58a907b2c94992ffcc340aac958",
+    "09_hela_site_level_dataset.csv.gz": "d95f061053dc849a97139014090272899c600f502f94bb00a0c311fd1ae41d70",
+    "09b_hela_association.yaml": "780a1e2335cf1d07fa679cae0cb19d49a0fdb6e2116eae83f560f753a1f2f549"
+  }
+}
